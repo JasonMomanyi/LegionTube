@@ -1,0 +1,6 @@
+﻿C:\Users\Administrator\Documents\Coding Projects\LS-TUBE\app\src\main\res\drawable\ic_launcher_lockscreen.xml
+C:\Users\Administrator\Documents\Coding Projects\LS-TUBE\app\src\main\res\mipmap-hdpi\ic_launcher_foreground.webp
+C:\Users\Administrator\Documents\Coding Projects\LS-TUBE\app\src\main\res\mipmap-mdpi\ic_launcher_foreground.webp
+C:\Users\Administrator\Documents\Coding Projects\LS-TUBE\app\src\main\res\mipmap-xhdpi\ic_launcher_foreground.webp
+C:\Users\Administrator\Documents\Coding Projects\LS-TUBE\app\src\main\res\mipmap-xxhdpi\ic_launcher_foreground.webp
+C:\Users\Administrator\Documents\Coding Projects\LS-TUBE\app\src\main\res\mipmap-xxxhdpi\ic_launcher_foreground.webp

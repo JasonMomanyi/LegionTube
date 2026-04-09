@@ -1,0 +1,16 @@
+<!-- Instagram Icon -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M7.75,2h8.5A5.75,5.75 0,0 1,22 7.75v8.5A5.75,5.75 0,0 1,16.25 22h-8.5A5.75,5.75 0,0 1,2 16.25v-8.5A5.75,5.75 0,0 1,7.75 2zM7.75,3.5A4.25,4.25 0,0 0,3.5 7.75v8.5A4.25,4.25 0,0 0,7.75 20.5h8.5A4.25,4.25 0,0 0,20.5 16.25v-8.5A4.25,4.25 0,0 0,16.25 3.5h-8.5z"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M12,7.5A4.5,4.5 0,1 1,12 16.5A4.5,4.5 0,0 1,12 7.5zM12,9A3,3 0,1 0,12 15A3,3 0,0 0,12 9z"/>
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M17.5,6.5A1,1 0,1 1,17.5 8.5A1,1 0,0 1,17.5 6.5z"/>
+</vector>

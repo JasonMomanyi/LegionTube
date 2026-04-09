@@ -1,0 +1,55 @@
+﻿.\gradlew : e: file:///C:/
+Users/Administrator/Docume
+nts/Coding%20Projects/LS-T
+UBE/app/src/main/java/com/
+github/legiontube/ui/fragm
+ents/AudioPlayerFragment.k
+t:366:59 Unresolved 
+reference 
+'ic_launcher_monochrome'.
+At line:1 char:1
++ .\gradlew assembleDebug 
+2> build_error3.txt > 
+build_out3.txt; Get-Con 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (e  
+  : file:///C:/U...er_m   
+ onochrome'.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+FAILURE: Build failed 
+with an exception.
+
+* What went wrong:
+Execution failed for task 
+':app:compileDebugKotlin'.
+> A failure occurred 
+while executing org.jetbra
+ins.kotlin.compilerRunner.
+GradleCompilerRunnerWithWo
+rkers$GradleKotlinCompiler
+WorkAction
+   > Compilation error. 
+See log for more details
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or 
+--debug option to get 
+more log output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 25s

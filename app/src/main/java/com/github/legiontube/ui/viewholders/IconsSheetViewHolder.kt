@@ -1,0 +1,8 @@
+package com.github.legiontube.ui.viewholders
+
+import androidx.recyclerview.widget.RecyclerView
+import com.github.legiontube.databinding.AppIconItemBinding
+
+class IconsSheetViewHolder(
+    val binding: AppIconItemBinding
+) : RecyclerView.ViewHolder(binding.root)
