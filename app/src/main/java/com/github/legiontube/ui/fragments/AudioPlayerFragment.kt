@@ -267,6 +267,16 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        PlayerHelper.globalAudioOnlyMode = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        PlayerHelper.globalAudioOnlyMode = false
+    }
+
     fun switchToVideoMode(videoId: String) {
         playerController?.sendCustomCommand(
             AbstractPlayerService.runPlayerActionCommand,

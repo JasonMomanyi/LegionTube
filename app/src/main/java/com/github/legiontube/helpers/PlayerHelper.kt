@@ -64,6 +64,11 @@ object PlayerHelper {
     const val WATCH_POSITION_TIMER_DELAY_MS = 1000L
 
     /**
+     * Dedicated Architecture Flag to force Audio-Only playback globally when within Music Tab context
+     */
+    var globalAudioOnlyMode: Boolean = false
+
+    /**
      * Playback speed while the fast forward action is active (triggered by a long press on the player)
      *
      * Should be kept in sync with `fast_forward_view.xml`
@@ -349,7 +354,7 @@ object PlayerHelper {
     val fullLocalMode: Boolean
         get() = PreferenceHelper.getBoolean(
             PreferenceKeys.FULL_LOCAL_MODE,
-            false
+            true
         )
 
     val localStreamExtraction: Boolean

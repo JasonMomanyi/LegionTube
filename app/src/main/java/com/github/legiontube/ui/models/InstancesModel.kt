@@ -61,7 +61,15 @@ class InstancesModel : ViewModel() {
                     CustomInstance("nosebs.ru", "https://pipedapi.nosebs.ru", "https://piped.nosebs.ru"),
                     CustomInstance("adminforge.de", "https://pipedapi.adminforge.de", "https://piped.adminforge.de"),
                     CustomInstance("piped.yt", "https://api.piped.yt", "https://piped.yt"),
-                    CustomInstance("drgns.space", "https://pipedapi.drgns.space", "https://piped.drgns.space")
+                    CustomInstance("drgns.space", "https://pipedapi.drgns.space", "https://piped.drgns.space"),
+                    CustomInstance("kavin.rocks libre (Official)", "https://pipedapi-libre.kavin.rocks", "https://piped-libre.kavin.rocks"),
+                    CustomInstance("privacy.com.de", "https://piped-api.privacy.com.de", "https://piped.privacy.com.de"),
+                    CustomInstance("owo.si", "https://pipedapi.owo.si", "https://piped.owo.si"),
+                    CustomInstance("ducks.party", "https://pipedapi.ducks.party", "https://piped.ducks.party"),
+                    CustomInstance("codespace.cz", "https://piped-api.codespace.cz", "https://piped.codespace.cz"),
+                    CustomInstance("reallyaweso.me", "https://pipedapi.reallyaweso.me", "https://piped.reallyaweso.me"),
+                    CustomInstance("darkness.services", "https://pipedapi.darkness.services", "https://piped.darkness.services"),
+                    CustomInstance("orangenet.cc", "https://pipedapi.orangenet.cc", "https://piped.orangenet.cc")
                 )
                 Database.customInstanceDao().insertAll(preferred)
 

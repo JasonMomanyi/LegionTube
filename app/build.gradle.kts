@@ -121,6 +121,15 @@ android {
     namespace = "com.github.legiontube" // Keep namespace to avoid source refactor
 }
 
+androidComponents {
+    beforeVariants(selector().all()) { variantBuilder ->
+        // Bypass KSP provider(?) lazy evaluation bug on benchmark variant
+        if (variantBuilder.name.contains("benchmark", ignoreCase = true)) {
+            variantBuilder.enable = false
+        }
+    }
+}
+
 dependencies {
     /* Android Core */
     implementation(libs.androidx.activity)

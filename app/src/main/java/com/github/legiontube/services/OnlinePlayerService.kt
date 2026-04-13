@@ -117,6 +117,13 @@ open class OnlinePlayerService : AbstractPlayerService() {
     override suspend fun startPlayback() {
         super.startPlayback()
 
+        if (PlayerHelper.globalAudioOnlyMode) {
+            isAudioOnlyPlayer = true
+            trackSelector?.updateParameters {
+                setTrackTypeDisabled(C.TRACK_TYPE_VIDEO, true)
+            }
+        }
+
         val timestampMs = startTimestampSeconds?.times(1000) ?: 0L
         startTimestampSeconds = null
 
@@ -133,7 +140,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
                     }
                 }  catch (e: Exception) {
                     Log.e(TAG(), e.stackTraceToString())
-                    toastFromMainDispatcher(e.localizedMessage.orEmpty())
+                    toastFromMainDispatcher("Connection failed. Please change your instance in Settings.\n(${e.localizedMessage.orEmpty()})")
                     return@withContext null
                 }
             } ?: return@launch

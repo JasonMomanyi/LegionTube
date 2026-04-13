@@ -230,16 +230,30 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
 
         sponsorBlockSegments = emptyList()
 
-        updatePlaylistMetadata {
-            setExtras(bundleOf(IntentData.videoId to videoId))
-        }
+        try {
+            updatePlaylistMetadata {
+                val nextItem = PlayingQueue.items.find { it.videoId == videoId }
+                if (nextItem != null) {
+                    setTitle(nextItem.title)
+                    setArtist(nextItem.uploaderName)
+                } else {
+                    setTitle("Buffering next track...")
+                    setArtist("Please wait")
+                }
+                setExtras(bundleOf(IntentData.videoId to videoId))
+            }
 
-        exoPlayer?.clearMediaItems()
+            // Stop instead of clearMediaItems to preserve the MediaSession notification structure during transitions!
+            exoPlayer?.stop()
 
-        this.videoId = videoId
+            this.videoId = videoId
 
-        CoroutineScope(Dispatchers.IO).launch {
-            startPlayback()
+            CoroutineScope(Dispatchers.IO).launch {
+                startPlayback()
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("LegionTube::PlayerService", "Error during navigation", e)
+            toastFromMainThread("Transition error: ${e.message}")
         }
     }
 

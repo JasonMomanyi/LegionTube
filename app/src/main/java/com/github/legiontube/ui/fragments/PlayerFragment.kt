@@ -440,9 +440,9 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
             setFullscreen()
         }
 
-        chaptersViewModel.chaptersLiveData.observe(viewLifecycleOwner) {
+        chaptersViewModel.chaptersLiveData.observe(viewLifecycleOwner) { chapters ->
             binding.player.setCurrentChapterName()
-            playerControlsBinding.exoProgress.setChapters(it)
+            playerControlsBinding.exoProgress.setChapters(chapters.orEmpty())
         }
 
         viewModel.segments.observe(viewLifecycleOwner) { segments ->
