@@ -853,6 +853,10 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
     /**
      * Enter/exit fullscreen or toggle it depending on the current state
      */
+    override fun toggleAudioOnlyMode() {
+        switchToAudioMode()
+    }
+
     override fun toggleFullscreen() {
         binding.player.hideController()
 

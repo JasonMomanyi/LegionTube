@@ -219,6 +219,7 @@ class CustomExoPlayerView(
         controllerAutoShow = false
 
         binding.fullscreen.setOnClickListener { playerCallback.toggleFullscreen() }
+        binding.toggleAudioOnly.setOnClickListener { playerCallback.toggleAudioOnlyMode() }
         // locking the player
         binding.lockPlayer.setOnClickListener {
             // change the locked/unlocked icon

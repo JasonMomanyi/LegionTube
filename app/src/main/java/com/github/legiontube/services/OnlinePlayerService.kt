@@ -143,7 +143,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
                 PlayingQueue.updateCurrent(it)
 
                 if (!PlayingQueue.hasNext()) {
-                    PlayingQueue.updateQueue(it, playlistId, channelId, streams!!.relatedStreams)
+                    PlayingQueue.updateQueue(it, playlistId, channelId, streams!!.relatedStreams, streams!!.category)
                 }
 
                 // update feed item with newer information, e.g. more up-to-date views

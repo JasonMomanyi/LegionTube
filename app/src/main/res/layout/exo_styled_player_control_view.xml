@@ -296,6 +296,14 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
+                    android:id="@+id/toggle_audio_only"
+                    style="@style/PlayerControlBottom"
+                    android:src="@drawable/ic_headphones"
+                    android:tooltipText="Audio Only"
+                    android:contentDescription="Toggle audio only mode"
+                    app:tint="@android:color/white" />
+
+                <ImageButton
                     android:id="@+id/fullscreen"
                     style="@style/PlayerControlBottom"
                     android:src="@drawable/ic_fullscreen"

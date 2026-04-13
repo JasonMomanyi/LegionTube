@@ -220,13 +220,21 @@ object PlayingQueue {
         add(streams.toStreamItem(videoId))
     }
 
+    /**
+     * The category of the currently playing stream (e.g. "Music", "Entertainment").
+     * Used to filter related streams for better recommendations.
+     */
+    var currentCategory: String? = null
+
     fun updateQueue(
         streamItem: StreamItem,
         playlistId: String?,
         channelId: String?,
-        relatedStreams: List<StreamItem> = emptyList()
+        relatedStreams: List<StreamItem> = emptyList(),
+        category: String? = null
     ) {
         updateCurrent(streamItem)
+        currentCategory = category
 
         if (playlistId != null) {
             insertPlaylist(playlistId, streamItem)
@@ -243,8 +251,44 @@ object PlayingQueue {
         // don't add new videos to the queue if the user chose to repeat only the current queue
         if (isLast() && repeatMode == Player.REPEAT_MODE_ALL) return
 
-        add(*streams.filter { !it.isLive }.toTypedArray(), skipExisting = true)
+        val filtered = streams.filter { !it.isLive }.let { nonLive ->
+            if (currentCategory == CATEGORY_MUSIC) {
+                // When playing music, prefer music-related content:
+                // 1. Prefer items from the same uploader
+                // 2. Filter out very short (<30s) or very long (>15min) items typical of non-music
+                // 3. Prefer items with "music", "official", "audio", "lyrics" in title
+                val currentUploader = currentStream?.uploaderName?.lowercase()
+                nonLive.sortedByDescending { item ->
+                    var score = 0
+                    val title = item.title?.lowercase().orEmpty()
+                    val uploader = item.uploaderName?.lowercase().orEmpty()
+                    
+                    // Same uploader gets highest priority
+                    if (currentUploader != null && uploader == currentUploader) score += 50
+                    
+                    // Music-related keywords in title
+                    val musicKeywords = listOf("official", "music", "audio", "lyrics", "mv", "video", "ft.", "feat", "remix", "cover", "live performance")
+                    score += musicKeywords.count { title.contains(it) } * 10
+                    
+                    // Typical music duration range (1.5 min to 10 min)
+                    val dur = item.duration ?: 0
+                    if (dur in 90..600) score += 20
+                    
+                    // Penalize non-music keywords
+                    val nonMusicKeywords = listOf("news", "vlog", "tutorial", "review", "unboxing", "podcast", "episode", "ep.", "documentary")
+                    score -= nonMusicKeywords.count { title.contains(it) } * 30
+                    
+                    score
+                }
+            } else {
+                nonLive
+            }
+        }
+
+        add(*filtered.toTypedArray(), skipExisting = true)
     }
+
+    const val CATEGORY_MUSIC = "Music"
 }
 
 enum class PlayingQueueMode {

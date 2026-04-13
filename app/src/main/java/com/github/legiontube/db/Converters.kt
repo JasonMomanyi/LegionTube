@@ -9,20 +9,20 @@ import kotlin.io.path.Path
 
 object Converters {
     @TypeConverter
-    fun localDateToString(localDate: LocalDate?) = localDate?.toString()
+    fun localDateToString(localDate: LocalDate?): String? = localDate?.toString()
 
     @TypeConverter
-    fun stringToLocalDate(string: String?) = string?.let { LocalDate.parse(it) }
+    fun stringToLocalDate(string: String?): LocalDate? = string?.let { LocalDate.parse(it) }
 
     @TypeConverter
-    fun pathToString(path: Path?) = path?.toString()
+    fun pathToString(path: Path?): String? = path?.toString()
 
     @TypeConverter
-    fun stringToPath(string: String?) = string?.let { Path(it) }
+    fun stringToPath(string: String?): Path? = string?.let { Path(it) }
 
     @TypeConverter
-    fun stringListToJson(value: List<String>) = JsonHelper.json.encodeToString(value)
+    fun stringListToJson(value: List<String>): String = JsonHelper.json.encodeToString(value)
 
     @TypeConverter
-    fun jsonToStringList(value: String) = JsonHelper.json.decodeFromString<List<String>>(value)
+    fun jsonToStringList(value: String): List<String> = JsonHelper.json.decodeFromString<List<String>>(value)
 }

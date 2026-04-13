@@ -2,10 +2,10 @@
 appcompat = "1.7.1"
 core = "1.17.0"
 documentfile = "1.1.0"
-gradle = "8.12.0"
+agp = "8.13.2"
 junit = "4.13.2"
-kotlin = "2.3.10"
-ksp = "2.3.5"
+kotlin = "2.3.0"
+ksp = "2.3.6"
 lifecycle = "2.10.0"
 constraintlayout = "2.2.1"
 loggingInterceptor = "5.3.2"
@@ -19,7 +19,7 @@ workRuntime = "2.11.1"
 retrofit = "3.0.0"
 desugaring = "2.1.5"
 coil = "3.3.0"
-room = "2.8.4"
+room = "2.7.0-alpha13"
 kotlinxSerialization = "1.10.0"
 kotlinxDatetime = "0.7.1"
 media = "1.7.1"
@@ -80,9 +80,9 @@ androidx-collection = { group = "androidx.collection", name = "collection", vers
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 
 [plugins]
-androidTest = { id = "com.android.test", version.ref = "gradle" }
+androidTest = { id = "com.android.test", version.ref = "agp" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
-androidApplication = { id = "com.android.application", version.ref = "gradle" }
+androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation"}
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

@@ -18,6 +18,11 @@
         android:title="@string/subscriptions" />
 
     <item
+        android:id="@+id/audioPlayerFragment"
+        android:icon="@drawable/ic_headphones"
+        android:title="Music" />
+
+    <item
         android:id="@+id/libraryFragment"
         android:icon="@drawable/ic_library"
         android:title="@string/library" />
