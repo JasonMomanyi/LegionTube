@@ -59,30 +59,15 @@ jobs:
         continue-on-error: true
         with:
           releaseDir: app/build/outputs/apk/debug
-          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
-          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
-      - name: Prepare & Upload to Nightly Archive
-        continue-on-error: true
-        run: |
-          # Clone NightlyBuilds repo from LibreTube (for consistent upload logic)
-          git clone --filter=blob:none https://github.com/libre-tube/NightlyBuilds.git nightly
-          
-          # Move built APK
-          mkdir -p nightly
-          mv app/build/outputs/apk/debug/*.apk nightly/ 2>/dev/null || true
-          
-          # Run uploader script
-          mv .github/uploader.py nightly/uploader.py || true
-          cd nightly
-          python uploader.py
+          signingKey: ${{ secrets.ANDROID_RELEASE_SIGNING_KEY }}
+          keyAlias: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_RELEASE_KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
 
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v6
         with:
           name: Legion-Tube-Debug
-          path: nightly/*.apk
+          path: app/build/outputs/apk/debug/*.apk
           retention-days: 30
           if-no-files-found: warn
