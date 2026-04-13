@@ -36,6 +36,7 @@ import com.github.legiontube.enums.SbSkipOptions
 import com.github.legiontube.enums.NotificationId
 import com.github.legiontube.LegionTubeApp
 import com.github.legiontube.extensions.parcelableExtra
+import com.github.legiontube.extensions.toID
 import com.github.legiontube.extensions.toastFromMainThread
 import com.github.legiontube.extensions.updateParameters
 import com.github.legiontube.helpers.PlayerHelper
@@ -232,7 +233,7 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
 
         try {
             updatePlaylistMetadata {
-                val nextItem = PlayingQueue.items.find { it.videoId == videoId }
+                val nextItem = PlayingQueue.getStreams().find { it.url?.toID() == videoId }
                 if (nextItem != null) {
                     setTitle(nextItem.title)
                     setArtist(nextItem.uploaderName)
