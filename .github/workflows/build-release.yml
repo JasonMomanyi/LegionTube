@@ -23,7 +23,9 @@ jobs:
           cache: "gradle"
 
       - name: Build APK
-        run: ./gradlew assembleRelease --no-daemon
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease --no-daemon
 
       - name: Sign APK
         uses: ilharp/sign-android-release@v2

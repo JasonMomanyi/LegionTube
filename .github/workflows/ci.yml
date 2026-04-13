@@ -49,7 +49,9 @@ jobs:
           echo "https://legion-tube-bot:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --stacktrace
 
       - name: Sign APK
         id: sign_apk
