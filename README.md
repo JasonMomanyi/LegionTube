@@ -1,6 +1,6 @@
 <div align="center">
 
-# LegionTube
+<img src="assets/banners/gh-banner.jpg" alt="LegionTube" width="600">
 
 ### A Private YouTube Client for Android
 
@@ -8,6 +8,7 @@
 
 [![GPL-v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![GitHub](https://img.shields.io/badge/GitHub-JasonMomanyi-red.svg)](https://github.com/JasonMomanyi)
+[![Download](https://img.shields.io/badge/⬇_Download-Latest_APK-brightgreen.svg)](https://github.com/JasonMomanyi/LegionTube/releases/latest)
 
 </div>
 
@@ -15,7 +16,7 @@
 
 ## About
 
-**LegionTube** is a privacy-focused YouTube client for Android, built by **Lord Stunnis**. It is based on the open-source [LegionTube](https://github.com/libre-tube/LegionTube) project and uses the [Piped API](https://github.com/TeamPiped/Piped) to proxy requests away from Google's data collection infrastructure.
+**LegionTube** is a privacy-focused YouTube client for Android, built by **Lord Stunnis**. It is based on the open-source [LibreTube](https://github.com/libre-tube/LibreTube) project and uses the [Piped API](https://github.com/TeamPiped/Piped) to proxy requests away from Google's data collection infrastructure.
 
 LegionTube features a custom **Red, Black, and Blue Glow** themed interface, providing a premium viewing experience while protecting your privacy.
 
@@ -38,7 +39,7 @@ LegionTube features a custom **Red, Black, and Blue Glow** themed interface, pro
 
 ## Installation
 
-Download the latest APK from the [Releases](https://github.com/JasonMomanyi/LegionTube) page.
+Download the latest APK from the [Releases](https://github.com/JasonMomanyi/LegionTube/releases) page.
 
 ### Build from Source
 
@@ -53,7 +54,7 @@ The debug APK will be generated at `app/build/outputs/apk/debug/`.
 ## Tech Stack
 
 | Component | Technology |
-|-----------|-----------|
+|-----------|------------|
 | Language | Kotlin |
 | UI Framework | Material 3 (Material You) |
 | Video Player | ExoPlayer / Media3 |
@@ -76,7 +77,7 @@ LegionTube uses a custom branded color palette:
 ## Credits
 
 - **Developer**: Lord Stunnis ([@JasonMomanyi](https://github.com/JasonMomanyi))
-- **Based on**: [LegionTube](https://github.com/libre-tube/LegionTube) by the LegionTube team
+- **Based on**: [LibreTube](https://github.com/libre-tube/LibreTube) by the LibreTube team
 - **API**: [Piped](https://github.com/TeamPiped/Piped) by TeamPiped
 
 ## License
@@ -87,55 +88,32 @@ LegionTube is [Free Software](https://en.wikipedia.org/wiki/Free_software): You 
 [GNU General Public License version 3 or later](https://www.gnu.org/licenses/gpl.html) published by the
 [Free Software Foundation](https://www.fsf.org/).
 
-This project is a fork of LegionTube and maintains full GPL compliance with attribution to the original authors.
-
-
-# LEGION TUBE
-
-**A YouTube clone with zero restrictions** — built for freedom, privacy, and power users.
-
-![LEGION TUBE Banner](assets/banners/gh-banner.jpg)
-
-## About
-
-**LEGION TUBE** is an unrestricted Android client for YouTube, heavily inspired by and based on [LibreTube](https://github.com/libre-tube/LibreTube).  
-No ads. No tracking. No censorship. Just pure video consumption.
-
-Whether you want to watch, listen, download, or manage your own media library — Legion Tube gives you full control.
+This project is a fork of LibreTube and maintains full GPL compliance with attribution to the original authors.
 
 ---
 
-## ✨ Features
+## ⬇️ Download Sources
 
-- **No Ads or Tracking** — Clean experience by default
-- **Subscriptions** with notifications
-- **Subscription Groups** — Organize channels your way
-- **User Playlists** & **Playlist Bookmarks**
-- **Watch & Search History**
-- **Downloads** (video + audio)
-- **Background Playback** & Picture-in-Picture
-- **User Accounts** via Piped (optional)
-- **SponsorBlock** — Automatically skip sponsors, intros, and filler
-- **Return YouTube Dislike** — Real dislike counts
-- **DeArrow** — Better titles and thumbnails
-- **Local Audio Music Player** — Play your own music files directly in the app
-- Dark mode, Material You theming, and highly customizable UI
+### Recommended
+- **GitHub Releases** → [Download Here](https://github.com/JasonMomanyi/LegionTube/releases)
+- **F-Droid** *(coming soon)*
+
+### Other Sources
+- **Obtainium** — for automatic updates
+- **IzzyOnDroid** repo — F-Droid compatible
+- APKPure / APKMirror *(use at your own risk)*
 
 ---
 
+## ✨ Extra Features
 
+Beyond the core feature set, LegionTube also includes:
 
-### Recommended Sources
-
-- **F-Droid** (coming soon)  
-- **GitHub Releases** → [Releases](https://github.com/JasonMomanyi/LegionTube/releases)
-
-### Other Recommended Sources
-- Obtainium (for automatic updates)
-- IzzyOnDroid repo (F-Droid compatible)
-- APKPure / APKMirror (use at your own risk)
-
-**[⬇️ Download Latest Version](https://github.com/yourusername/legion-tube/releases/latest)**
+- 🎶 **Local Audio Music Player** — Play your own music files directly in the app
+- 📌 **Watch & Search History** — Pick up where you left off
+- 🖼️ **Picture-in-Picture** — Multitask while watching
+- 👤 **User Accounts** — Optional cloud sync via Piped
+- 🎨 Dark mode, Material You theming, and highly customizable UI
 
 ---
 
@@ -145,16 +123,6 @@ Whether you want to watch, listen, download, or manage your own media library �
 
 - **Discord**: [Add me on Discord](https://discord.gg/users/1092210946547654730)
 - **Instagram**: [@lord_stunnis](https://instagram.com/lord_stunnis)
-
----
-
-## Based on
-
-- [LibreTube](https://github.com/libre-tube/LibreTube) — The foundation this project is built upon
-- Piped API
-- SponsorBlock
-- Return YouTube Dislike
-- DeArrow
 
 ---
 
@@ -169,11 +137,8 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ---
 
-## License
+<div align="center">
 
-This project is licensed under the **GNU GPL v3.0**
+**Made for the Legion of Stunnis.** 🔥
 
----
-
-**Made  for the Legion of stunnis.**
-
+</div>
