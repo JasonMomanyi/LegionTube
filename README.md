@@ -38,7 +38,7 @@ LegionTube features a custom **Red, Black, and Blue Glow** themed interface, pro
 
 ## Installation
 
-Download the latest APK from the [Releases](https://github.com/JasonMomanyi) page.
+Download the latest APK from the [Releases](https://github.com/JasonMomanyi/LegionTube) page.
 
 ### Build from Source
 
@@ -94,8 +94,7 @@ This project is a fork of LegionTube and maintains full GPL compliance with attr
 
 **A YouTube clone with zero restrictions** — built for freedom, privacy, and power users.
 
-![LEGION TUBE Banner](https://via.placeholder.com/1280x400/0A0A0A/FFFFFF?text=LEGION+TUBE)  
-*(Replace with actual banner when ready)*
+![LEGION TUBE Banner](assets/banners/gh-banner.jpg)
 
 ## About
 
