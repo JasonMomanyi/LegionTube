@@ -38,7 +38,7 @@ LegionTube features a custom **Red, Black, and Blue Glow** themed interface, pro
 
 ## Installation
 
-Download the latest APK from the [Releases](https://github.com/JasonMomanyi) page.
+Download the latest APK from the [Releases](https://github.com/JasonMomanyi/LegionTube) page.
 
 ### Build from Source
 
