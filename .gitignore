@@ -31,3 +31,28 @@ google-services.json
 # Android Profiling
 *.hprof
 .DS_Store
+
+# Signing keys (never commit these)
+legiontube-release
+*.p12
+*.pfx
+
+# Build logs and debug output
+build_*.txt
+build_*.log
+build_output.log
+aapt*.log
+debug.log
+error.log
+dump_icons.txt
+mipmap_contents*.txt
+all_launcher_files*.txt
+recent_files*.txt
+
+# Rebrand scripts (one-time use)
+rebrand.py
+rebrand_output.txt
+
+# IDE / Editor
+.vscode/
+.kotlin/
