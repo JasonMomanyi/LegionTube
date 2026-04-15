@@ -1,9 +1,0 @@
-﻿
-Name                      
-----                      
-ic_launcher.webp          
-ic_launcher_background....
-ic_launcher_foreground....
-ic_launcher_round.webp    
-
-
