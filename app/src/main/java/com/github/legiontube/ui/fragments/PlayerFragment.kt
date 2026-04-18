@@ -441,8 +441,10 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
         }
 
         chaptersViewModel.chaptersLiveData.observe(viewLifecycleOwner) { chapters ->
-            binding.player.setCurrentChapterName()
-            playerControlsBinding.exoProgress.setChapters(chapters.orEmpty())
+            chapters?.let {
+                binding.player.setCurrentChapterName()
+                playerControlsBinding.exoProgress.setChapters(it)
+            }
         }
 
         viewModel.segments.observe(viewLifecycleOwner) { segments ->
@@ -790,6 +792,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
     }
 
     fun switchToAudioMode() {
+        if (!::playerController.isInitialized) return
+
         playerController.sendCustomCommand(
             AbstractPlayerService.runPlayerActionCommand,
             bundleOf(PlayerCommand.TOGGLE_AUDIO_ONLY_MODE.name to true)
