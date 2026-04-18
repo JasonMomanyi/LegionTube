@@ -62,11 +62,81 @@ open class OnlinePlayerService : AbstractPlayerService() {
      */
     private var fetchVideoInfoJob: Job? = null
 
+    private val streamCache = mutableMapOf<String, Streams>()
+    private var isPrefetching = false
+    private var prefetchVideoId: String? = null
+
     private val playerListener = object : Player.Listener {
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            if (mediaItem != null && mediaItem.mediaId != videoId) {
+                // We transitioned to a new track in the queue!
+                videoId = mediaItem.mediaId
+                streams = streamCache[videoId]
+
+                streams?.toStreamItem(videoId)?.let {
+                    PlayingQueue.updateCurrent(it)
+                    if (!PlayingQueue.hasNext()) {
+                        PlayingQueue.updateQueue(it, playlistId, channelId, streams!!.relatedStreams, streams!!.category)
+                    }
+                    scope.launch {
+                        SubscriptionHelper.submitFeedItemChange(it.toFeedItem())
+                    }
+                }
+
+                scope.launch {
+                    val segments = getSponsorBlockSegments()
+                    withContext(Dispatchers.Main) { setSponsorBlockSegments(segments) }
+                }
+            }
+
+            // Phase 2: N+1 Fetch Logic
+            if (mediaItem != null && exoPlayer != null && !exoPlayer!!.hasNextMediaItem()) {
+                val nextId = PlayingQueue.getNext() ?: return
+                scope.launch {
+                    var prefetchedStreams: Streams? = null
+                    var retries = 0
+                    while (prefetchedStreams == null && retries < 3) {
+                        prefetchedStreams = kotlinx.coroutines.withContext(Dispatchers.IO) {
+                            try {
+                                MediaServiceRepository.instance.getStreams(nextId).let {
+                                    DeArrowUtil.deArrowStreams(it, nextId)
+                                }
+                            } catch (e: Exception) {
+                                null
+                            }
+                        }
+                        if (prefetchedStreams == null) {
+                            retries++
+                            kotlinx.coroutines.delay(5000L)
+                        }
+                    }
+                    
+                    if (prefetchedStreams != null) {
+                        streamCache[nextId] = prefetchedStreams
+                        val mediaSource = getMediaSource(prefetchedStreams, nextId)
+                        kotlinx.coroutines.withContext(Dispatchers.Main) {
+                            if (mediaSource != null) {
+                                // Phase 1: Clear Duplicate Track Logic
+                                val lastItem = if (exoPlayer!!.mediaItemCount > 0) exoPlayer!!.getMediaItemAt(exoPlayer!!.mediaItemCount - 1) else null
+                                if (lastItem?.mediaId != nextId) {
+                                    exoPlayer?.addMediaSource(mediaSource)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         override fun onPlaybackStateChanged(playbackState: Int) {
             when (playbackState) {
                 Player.STATE_ENDED -> {
-                    if (!isTransitioning) playNextVideo()
+                    if (exoPlayer!!.hasNextMediaItem()) {
+                        exoPlayer?.seekToNextMediaItem()
+                        exoPlayer?.play()
+                    } else if (!isTransitioning) {
+                        toastFromMainThread("Loading next track...")
+                    }
                 }
 
                 Player.STATE_IDLE -> {
@@ -145,6 +215,8 @@ open class OnlinePlayerService : AbstractPlayerService() {
                 }
             } ?: return@launch
 
+            streams?.let { streamCache[videoId] = it }
+
             streams?.toStreamItem(videoId)?.let {
                 // save the current stream to the queue
                 PlayingQueue.updateCurrent(it)
@@ -183,6 +255,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
         }
 
         exoPlayer?.apply {
+            repeatMode = Player.REPEAT_MODE_OFF
             playWhenReady = PlayerHelper.playAutomatically
             prepare()
         }
@@ -219,31 +292,24 @@ open class OnlinePlayerService : AbstractPlayerService() {
 
     override fun navigateVideo(videoId: String) {
         this.streams = null
+        isPrefetching = false
 
         super.navigateVideo(videoId)
     }
 
-    /**
-     * Sets the [MediaItem] with the [streams] into the [exoPlayer]
-     */
-    private fun setStreamSource() {
-        val streams = streams ?: return
-
+    private fun getMediaSource(streams: Streams, vid: String): androidx.media3.exoplayer.source.MediaSource? {
         when {
             // DASH
             streams.videoStreams.isNotEmpty() -> {
-                // only use the dash manifest generated by YT if either it's a livestream or no other source is available
                 val dashUri =
                     if (streams.isLive && streams.dash != null) {
-                        ProxyHelper.rewriteUrlUsingProxyPreference(
-                            streams.dash
-                        ).toUri()
+                        ProxyHelper.rewriteUrlUsingProxyPreference(streams.dash).toUri()
                     } else {
                         PlayerHelper.createDashSource(streams, this)
                     }
 
-                val mediaItem = createMediaItem(dashUri, MimeTypes.APPLICATION_MPD, streams)
-                exoPlayer?.setMediaItem(mediaItem)
+                val mediaItem = createMediaItem(dashUri, MimeTypes.APPLICATION_MPD, streams, vid)
+                return androidx.media3.exoplayer.source.DefaultMediaSourceFactory(this).createMediaSource(mediaItem)
             }
             // HLS as last fallback
             streams.hls != null -> {
@@ -253,22 +319,33 @@ open class OnlinePlayerService : AbstractPlayerService() {
                 val mediaItem = createMediaItem(
                     ProxyHelper.rewriteUrlUsingProxyPreference(streams.hls).toUri(),
                     MimeTypes.APPLICATION_M3U8,
-                    streams
+                    streams, vid
                 )
-                val mediaSource = hlsMediaSourceFactory.createMediaSource(mediaItem)
-
-                exoPlayer?.setMediaSource(mediaSource)
-                return
+                return hlsMediaSourceFactory.createMediaSource(mediaItem)
             }
-            // NO STREAM FOUND
-            else -> {
-                toastFromMainThread(R.string.unknown_error)
-                return
-            }
+            else -> return null
         }
     }
 
-    private fun getSubtitleConfigs(): List<SubtitleConfiguration> = streams?.subtitles?.map {
+    /**
+     * Sets the [MediaItem] with the [streams] into the [exoPlayer]
+     */
+    private fun setStreamSource() {
+        val streams = streams ?: return
+        
+        val mediaSource = getMediaSource(streams, videoId)
+        if (mediaSource != null) {
+            exoPlayer?.setMediaSource(mediaSource)
+        } else {
+            toastFromMainThread(R.string.unknown_error)
+        }
+    }
+
+    override fun checkPrefetch() {
+        // Disabled timer-based prefetch in favor of onMediaItemTransition event-driven prefetch
+    }
+
+    private fun getSubtitleConfigs(streams: Streams?): List<SubtitleConfiguration> = streams?.subtitles?.map {
         val roleFlags = getSubtitleRoleFlags(it)
         SubtitleConfiguration.Builder(it.url!!.toUri())
             .setRoleFlags(roleFlags)
@@ -276,11 +353,12 @@ open class OnlinePlayerService : AbstractPlayerService() {
             .setMimeType(it.mimeType).build()
     }.orEmpty()
 
-    private fun createMediaItem(uri: Uri, mimeType: String, streams: Streams) =
+    private fun createMediaItem(uri: Uri, mimeType: String, streams: Streams, vid: String) =
         MediaItem.Builder()
             .setUri(uri)
+            .setMediaId(vid)
             .setMimeType(mimeType)
-            .setSubtitleConfigurations(getSubtitleConfigs())
-            .setMetadata(streams, videoId)
+            .setSubtitleConfigurations(getSubtitleConfigs(streams))
+            .setMetadata(streams, vid)
             .build()
 }

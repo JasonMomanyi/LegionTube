@@ -597,6 +597,23 @@ class MainActivity : AbstractPlayerHostActivity() {
             binding.bottomNav.removeBadge(R.id.subscriptionsFragment)
         }
 
+        if (item.itemId == R.id.audioPlayerFragment) {
+            val isAudioPlayerRunning = runOnAudioPlayerFragment {
+                binding.playerMotionLayout.transitionToStart()
+                true
+            }
+            if (!isAudioPlayerRunning) {
+                val switched = runOnPlayerFragment {
+                    switchToAudioMode()
+                    true
+                }
+                if (!switched) {
+                    NavigationHelper.openAudioPlayerFragment(this, offlinePlayer = false, minimizeByDefault = false)
+                }
+            }
+            return false // Return false to prevent changing the active tab visually
+        }
+
         // Remove focus from search view when navigating to bottom view.
         searchItem.collapseActionView()
 

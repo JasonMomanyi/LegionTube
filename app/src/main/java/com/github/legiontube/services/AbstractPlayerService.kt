@@ -69,7 +69,10 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
     val handler = Handler(Looper.getMainLooper())
 
     private val watchPositionTimer = PauseableTimer(
-        onTick = ::saveWatchPosition,
+        onTick = {
+            saveWatchPosition()
+            checkPrefetch()
+        },
         delayMillis = PlayerHelper.WATCH_POSITION_TIMER_DELAY_MS
     )
 
@@ -245,8 +248,21 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
             }
 
             // Stop instead of clearMediaItems to preserve the MediaSession notification structure during transitions!
-            exoPlayer?.stop()
-
+            // Actually, we remove exoPlayer?.stop() here so that transitioning works without dropping the notification
+            exoPlayer?.clearMediaItems()
+            val placeholder = androidx.media3.common.MediaItem.Builder()
+                .setMediaId(videoId)
+                .setUri("asset:///empty.mp3")
+                .setMediaMetadata(
+                    androidx.media3.common.MediaMetadata.Builder()
+                        .setTitle("Buffering next track...")
+                        .setArtist("Please wait")
+                        .build()
+                )
+                .build()
+            exoPlayer?.setMediaItem(placeholder)
+            exoPlayer?.prepare()
+            
             this.videoId = videoId
 
             CoroutineScope(Dispatchers.IO).launch {
@@ -356,14 +372,18 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
             .setContentTitle(getString(R.string.app_name))
             .setContentText("Loading...")
             .build()
-        ServiceCompat.startForeground(
-            this,
-            NotificationId.PLAYER_PLAYBACK.id,
-            loadingNotification,
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
-            } else 0
-        )
+        try {
+            ServiceCompat.startForeground(
+                this,
+                NotificationId.PLAYER_PLAYBACK.id,
+                loadingNotification,
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+                } else 0
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         notificationProvider = NowPlayingNotification(this)
         setMediaNotificationProvider(notificationProvider!!)
@@ -436,6 +456,10 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
         if (isTransitioning || !watchPositionsEnabled || !::videoId.isInitialized) return
 
         exoPlayer?.let { PlayerHelper.saveWatchPosition(it, videoId) }
+    }
+
+    protected open fun checkPrefetch() {
+        // To be implemented by subclasses
     }
 
     override fun onMediaButtonEvent(
