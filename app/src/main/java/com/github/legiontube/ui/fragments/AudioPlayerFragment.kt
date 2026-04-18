@@ -93,6 +93,8 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
     var isOffline: Boolean = false
         private set
     private var playerController: MediaController? = null
+    
+    private var queueListener: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,6 +164,21 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
             binding.playbackControlsContainer.visibility = View.GONE
             binding.queueBottomSheet.visibility = View.GONE
             binding.emptyStateSearchContainer.visibility = View.VISIBLE
+        }
+        
+        queueListener = {
+            queueAdapter.notifyDataSetChanged()
+            if (PlayingQueue.getStreams().isEmpty()) {
+                binding.playbackControlsContainer.visibility = View.GONE
+                binding.queueBottomSheet.visibility = View.GONE
+                binding.emptyStateSearchContainer.visibility = View.VISIBLE
+            } else {
+                binding.playbackControlsContainer.visibility = View.VISIBLE
+                binding.queueBottomSheet.visibility = View.VISIBLE
+                binding.emptyStateSearchContainer.visibility = View.GONE
+            }
+        }
+        PlayingQueue.listeners.add(queueListener!!)
             
             val searchAdapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 var items = emptyList<ContentItem>()
@@ -212,7 +229,6 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
                     true
                 } else false
             }
-        }
 
         // manually apply additional padding for edge-to-edge compatibility
         activity.getSystemInsets()?.let { systemBars ->
@@ -580,6 +596,8 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
 
     override fun onDestroyView() {
         super.onDestroyView()
+        queueListener?.let { PlayingQueue.listeners.remove(it) }
+        queueListener = null
         _binding = null
     }
 

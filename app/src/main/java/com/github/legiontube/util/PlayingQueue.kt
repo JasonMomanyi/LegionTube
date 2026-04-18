@@ -10,6 +10,7 @@ import com.github.legiontube.extensions.toID
 import com.github.legiontube.helpers.PlayerHelper
 import com.github.legiontube.util.PlayingQueue.queueMode
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.Collections
 
 object PlayingQueue {
@@ -18,6 +19,14 @@ object PlayingQueue {
     private var currentStream: StreamItem? = null
 
     private val queueJobs = mutableListOf<Job>()
+    
+    val listeners = mutableListOf<() -> Unit>()
+
+    private fun notifyListeners() {
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main).launch {
+            listeners.forEach { it.invoke() }
+        }
+    }
 
     /**
      * Current use case of the queue. Do NOT add any offline videos while the [queueMode] is online
@@ -43,6 +52,7 @@ object PlayingQueue {
         clearJobs()
         queue.clear()
         currentStream = null
+        notifyListeners()
     }
 
     /**
@@ -62,18 +72,22 @@ object PlayingQueue {
      * @param skipExisting Whether to skip the [streamItem] if it's already part of the queue
      */
     fun add(vararg streamItem: StreamItem, skipExisting: Boolean = false) = synchronized(queue) {
+        var changed = false
         for (stream in streamItem) {
             if ((skipExisting && contains(stream)) || stream.title.isNullOrBlank()) continue
 
             queue.remove(stream)
             queue.add(stream)
+            changed = true
         }
+        if (changed) notifyListeners()
     }
 
     fun addAsNext(streamItem: StreamItem) = synchronized(queue) {
         if (currentStream == streamItem) return
         if (queue.contains(streamItem)) queue.remove(streamItem)
         queue.add(currentIndex() + 1, streamItem)
+        notifyListeners()
     }
 
     // return the next item, or if repeating enabled and no video left, the first one of the queue
@@ -131,17 +145,19 @@ object PlayingQueue {
 
     fun setStreams(streams: List<StreamItem>) = synchronized(queue) {
         queue.clear()
-
         queue.addAll(streams)
+        notifyListeners()
     }
 
     fun remove(index: Int) = synchronized(queue) {
         queue.removeAt(index)
+        notifyListeners()
         return@synchronized
     }
 
     fun move(from: Int, to: Int) = synchronized(queue) {
         queue.move(from, to)
+        notifyListeners()
     }
 
     /**
@@ -246,7 +262,7 @@ object PlayingQueue {
     }
 
     fun insertRelatedStreams(streams: List<StreamItem>) {
-        if (!PlayerHelper.autoInsertRelatedVideos) return
+        if (!PlayerHelper.autoInsertRelatedVideos && currentCategory != CATEGORY_MUSIC) return
 
         // don't add new videos to the queue if the user chose to repeat only the current queue
         if (isLast() && repeatMode == Player.REPEAT_MODE_ALL) return
