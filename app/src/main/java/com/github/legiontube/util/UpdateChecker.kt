@@ -18,16 +18,21 @@ import java.util.Locale
 
 class UpdateChecker(private val context: Context) {
     suspend fun checkUpdate(isManualCheck: Boolean = false) {
-        val currentAppVersion = BuildConfig.VERSION_NAME.filter { it.isDigit() }.toInt()
+        if (BuildConfig.DEBUG) {
+            if (isManualCheck) {
+                context.toastFromMainDispatcher("Updates are disabled for debug builds")
+            }
+            return
+        }
 
         try {
             val response = RetrofitInstance.externalApi.getLatestRelease()
-            // version would be in the format "0.21.1"
-            val update = response.name.filter { it.isDigit() }.toInt()
+            val hasUpdate = compareVersions(BuildConfig.VERSION_NAME, response.name)
 
-            if (currentAppVersion != update) {
+            if (hasUpdate) {
+                val downloadUrl = response.assets.firstOrNull { it.name.endsWith(".apk") }?.browserDownloadUrl ?: response.htmlUrl
                 withContext(Dispatchers.Main) {
-                    showUpdateAvailableDialog(response.body, response.htmlUrl)
+                    showUpdateAvailableDialog(response.body, downloadUrl, response.name)
                 }
                 Log.i(TAG(), response.toString())
             } else if (isManualCheck) {
@@ -40,19 +45,36 @@ class UpdateChecker(private val context: Context) {
 
     private fun showUpdateAvailableDialog(
         changelog: String,
-        url: String
+        url: String,
+        versionName: String
     ) {
         val dialog = UpdateAvailableDialog()
         val args =
             Bundle().apply {
                 putString(appUpdateChangelog, sanitizeChangelog(changelog))
                 putString(appUpdateURL, url)
+                putString("appUpdateVersionName", versionName)
             }
         dialog.arguments = args
         val fragmentManager = (context as? FragmentActivity)?.supportFragmentManager
         fragmentManager?.let {
             dialog.show(it, UpdateAvailableDialog::class.java.simpleName)
         }
+    }
+
+    private fun compareVersions(current: String, latest: String): Boolean {
+        // Returns true if latest > current
+        val currentParts = current.replace(Regex("[^0-9.]"), "").split(".").map { it.toIntOrNull() ?: 0 }
+        val latestParts = latest.replace(Regex("[^0-9.]"), "").split(".").map { it.toIntOrNull() ?: 0 }
+
+        val length = maxOf(currentParts.size, latestParts.size)
+        for (i in 0 until length) {
+            val curr = currentParts.getOrElse(i) { 0 }
+            val lat = latestParts.getOrElse(i) { 0 }
+            if (lat > curr) return true
+            if (lat < curr) return false
+        }
+        return false
     }
 
     private fun sanitizeChangelog(changelog: String): String {

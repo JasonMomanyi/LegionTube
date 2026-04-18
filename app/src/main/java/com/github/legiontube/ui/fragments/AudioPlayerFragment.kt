@@ -8,6 +8,9 @@ import android.os.Handler
 import android.os.Looper
 import android.text.format.DateUtils
 import android.view.View
+import android.view.ViewGroup
+import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
 import androidx.activity.BackEventCompat
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -36,6 +39,13 @@ import com.github.legiontube.extensions.seekBy
 import com.github.legiontube.extensions.toID
 import com.github.legiontube.extensions.togglePlayPauseState
 import com.github.legiontube.extensions.updateIfChanged
+import com.github.legiontube.extensions.setActionListener
+import com.github.legiontube.api.MediaServiceRepository
+import com.github.legiontube.api.obj.ContentItem
+import com.github.legiontube.databinding.VideoRowBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.github.legiontube.helpers.AudioHelper
 import com.github.legiontube.helpers.BackgroundHelper
 import com.github.legiontube.helpers.ClipboardHelper
@@ -106,10 +116,103 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentAudioPlayerBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
+        // Queue UI Setup
+        val queueAdapter = com.github.legiontube.ui.adapters.PlayingQueueAdapter { videoId ->
+            playerController?.navigateVideo(videoId)
+        }
+        binding.queueRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.queueRecyclerView.adapter = queueAdapter
+        
+        binding.queueRecyclerView.setActionListener(
+            allowSwipe = true,
+            allowDrag = true,
+            onDismissedListener = { position: Int ->
+                if (position == PlayingQueue.currentIndex()) {
+                    queueAdapter.notifyItemChanged(position)
+                } else {
+                    PlayingQueue.remove(position)
+                    queueAdapter.notifyItemRemoved(position)
+                    queueAdapter.notifyItemRangeChanged(position, queueAdapter.itemCount)
+                }
+            },
+            onDragListener = { from: Int, to: Int ->
+                PlayingQueue.move(from, to)
+                queueAdapter.notifyItemMoved(from, to)
+            }
+        )
+        
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.queueBottomSheet)
+        val clickListener = View.OnClickListener {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+        binding.openQueue.setOnClickListener(clickListener)
+        binding.queueBottomSheetHeader.setOnClickListener(clickListener)
+        
+        // Empty State Setup
+        if (PlayingQueue.getStreams().isEmpty()) {
+            binding.playbackControlsContainer.visibility = View.GONE
+            binding.queueBottomSheet.visibility = View.GONE
+            binding.emptyStateSearchContainer.visibility = View.VISIBLE
+            
+            val searchAdapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                var items = emptyList<ContentItem>()
+                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+                    val v = VideoRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    return object : RecyclerView.ViewHolder(v.root) {}
+                }
+                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                    val item = items[position]
+                    val b = VideoRowBinding.bind(holder.itemView)
+                    ImageHelper.loadImage(item.thumbnail, b.thumbnail)
+                    b.videoTitle.text = item.title
+                    b.videoInfo.text = item.uploaderName
+                    b.channelContainer.visibility = View.GONE
+                    b.root.setOnClickListener {
+                        PlayingQueue.clear()
+                        playerController?.navigateVideo(item.url ?: return@setOnClickListener)
+                        binding.playbackControlsContainer.visibility = View.VISIBLE
+                        binding.queueBottomSheet.visibility = View.VISIBLE
+                        binding.emptyStateSearchContainer.visibility = View.GONE
+                    }
+                }
+                override fun getItemCount() = items.size
+            }
+            binding.searchMusicResults.layoutManager = LinearLayoutManager(requireContext())
+            binding.searchMusicResults.adapter = searchAdapter
+            
+            binding.searchMusicInput.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val query = binding.searchMusicInput.text.toString()
+                    if (query.isNotEmpty()) {
+                        binding.searchMusicProgress.visibility = View.VISIBLE
+                        lifecycleScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                            try {
+                                val result = MediaServiceRepository.instance.getSearchResults(query, "music_songs")
+                                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                                    searchAdapter.items = result.items
+                                    searchAdapter.notifyDataSetChanged()
+                                    binding.searchMusicProgress.visibility = View.GONE
+                                }
+                            } catch (e: Exception) {
+                                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                                    binding.searchMusicProgress.visibility = View.GONE
+                                }
+                            }
+                        }
+                    }
+                    true
+                } else false
+            }
+        }
 
         // manually apply additional padding for edge-to-edge compatibility
         activity.getSystemInsets()?.let { systemBars ->
@@ -167,9 +270,7 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
                 args.getString(IntentData.videoId) ?: return@setFragmentResultListener
             )
         }
-        binding.openQueue.setOnClickListener {
-            PlayingQueueSheet().show(childFragmentManager)
-        }
+
 
         binding.playbackOptions.setOnClickListener {
             playerController?.let {
