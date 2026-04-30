@@ -516,10 +516,10 @@ object PlayerHelper {
             // cache the last three minutes
             .setBackBuffer(1000 * 60 * 3, true)
             .setBufferDurationsMs(
-                MINIMUM_BUFFER_DURATION,
-                max(bufferingGoal, MINIMUM_BUFFER_DURATION),
-                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
-                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
+                1500,
+                50000,
+                500,
+                1000
             )
             .build()
     }

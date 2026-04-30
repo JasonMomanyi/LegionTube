@@ -195,6 +195,7 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
                     b.channelContainer.visibility = View.GONE
                     b.root.setOnClickListener {
                         PlayingQueue.clear()
+                        playerController?.clearMediaItems()
                         playerController?.navigateVideo(item.url ?: return@setOnClickListener)
                         binding.playbackControlsContainer.visibility = View.VISIBLE
                         binding.queueBottomSheet.visibility = View.VISIBLE
@@ -570,6 +571,17 @@ class AudioPlayerFragment : Fragment(R.layout.fragment_audio_player), AudioPlaye
 
                 updatePlayPauseButton()
                 isPaused = !isPlaying
+            }
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+                if (playbackState == Player.STATE_ENDED) {
+                    if (playerController?.hasNextMediaItem() == true) {
+                        playerController?.seekToNextMediaItem()
+                        playerController?.playWhenReady = true
+                        playerController?.prepare()
+                    }
+                }
             }
 
             override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
