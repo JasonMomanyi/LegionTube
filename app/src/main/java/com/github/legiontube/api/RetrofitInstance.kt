@@ -43,6 +43,8 @@ object RetrofitInstance {
 
     private fun buildClient(): OkHttpClient {
         val httpClient = OkHttpClient().newBuilder()
+            .connectTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(5, java.util.concurrent.TimeUnit.SECONDS)
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor().apply {

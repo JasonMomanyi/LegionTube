@@ -249,6 +249,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
         }
 
         override fun onPlaybackStateChanged(playbackState: Int) {
+            if (!::streams.isInitialized || !::playerController.isInitialized) return
+
             // set the playback speed to one if having reached the end of a livestream
             if (playbackState == Player.STATE_BUFFERING && streams.isLive &&
                 playerController.duration - playerController.currentPosition < 700
@@ -266,6 +268,11 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
                     showAutoPlayCountdown()
                 } else {
                     binding.player.showControllerPermanently()
+                    if (playerController.hasNextMediaItem()) {
+                        playerController.seekToNextMediaItem()
+                        playerController.playWhenReady = true
+                        playerController.prepare()
+                    }
                 }
             }
 
