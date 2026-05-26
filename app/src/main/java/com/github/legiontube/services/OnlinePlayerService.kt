@@ -136,6 +136,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
                         exoPlayer?.play()
                     } else if (!isTransitioning) {
                         toastFromMainThread("Loading next track...")
+                        playNextVideo()
                     }
                 }
 
@@ -271,7 +272,8 @@ open class OnlinePlayerService : AbstractPlayerService() {
                 return
             }
 
-            if (!PlayerHelper.isAutoPlayEnabled(playlistId != null) || !shouldHandleAutoplay) return
+            // In audio only mode, behave like a music player and always auto-play the queue
+            if (!isAudioOnlyPlayer && (!PlayerHelper.isAutoPlayEnabled(playlistId != null) || !shouldHandleAutoplay)) return
         }
 
         val nextVideo = nextId ?: PlayingQueue.getNext() ?: return
