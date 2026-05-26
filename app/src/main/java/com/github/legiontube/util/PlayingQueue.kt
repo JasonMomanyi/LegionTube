@@ -282,6 +282,9 @@ object PlayingQueue {
                     // Same uploader gets highest priority
                     if (currentUploader != null && uploader == currentUploader) score += 50
                     
+                    // Massive boost for official audio explicitly
+                    if (title.contains("official audio") || title.contains("topic - ")) score += 200
+
                     // Music-related keywords in title
                     val musicKeywords = listOf("official", "music", "audio", "lyrics", "mv", "video", "ft.", "feat", "remix", "cover", "live performance")
                     score += musicKeywords.count { title.contains(it) } * 10

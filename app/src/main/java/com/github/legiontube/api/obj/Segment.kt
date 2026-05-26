@@ -26,7 +26,10 @@ data class Segment(
 ): Parcelable {
     @Transient
     @IgnoredOnParcel
-    val segmentStartAndEnd = FloatFloatPair(segment[0], segment[1])
+    val segmentStartAndEnd = FloatFloatPair(
+        segment.getOrElse(0) { 0f },
+        segment.getOrElse(1) { 0f }
+    )
 
     fun toDownloadSegment(videoId: String): DownloadSponsorBlockSegment = DownloadSponsorBlockSegment(
         uuid = uuid,
