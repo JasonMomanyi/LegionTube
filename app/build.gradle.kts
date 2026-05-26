@@ -1,195 +1,283 @@
 import java.util.Properties
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.androidx.navigation.safeargs)
-    alias(libs.plugins.baselineprofile)
-    alias(libs.plugins.ksp)
-}
-
-/*
-'keystore.properties' should look like the following:
-
-storeFile=my.keystore
-storePassword=my_store_password
-keyAlias=my_key_alias
-keyPassword=my_key_password
- */
-
-val keystoreProperties = Properties()
-val keystoreFileExists = rootProject.file("keystore.properties").exists();
-if (keystoreFileExists) {
-    keystoreProperties.load(rootProject.file("keystore.properties").inputStream())
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
-    compileSdk = 36
+    namespace = "io.github.aedev.flow"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.github.legiontube"
-        minSdk = 26
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resValue("string", "app_name", "LegionTube")
-    }
+        applicationId = "io.github.aedev.flow"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 15
+        versionName = "2.1.0"
 
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("exportSchema", "true")
-    }
+        testInstrumentationRunner = "io.github.aedev.flow.HiltTestRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+        
+        // Support all architectures for maximum device compatibility
+        ndk {
+            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
+        }
+        
+        // Enable multidex for older devices
+        multiDexEnabled = true
 
-    viewBinding {
-        enable = true
-    }
-
-    signingConfigs {
-        if (keystoreFileExists) {
-            create("release") {
-                storeFile = keystoreProperties["storeFile"]?.let { file(it as String) }
-                storePassword = keystoreProperties["storePassword"] as String
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-            }
+        dependenciesInfo {
+            // Disables dependency metadata when building APKs (for IzzyOnDroid/F-Droid)
+            includeInApk = false
+            // Disables dependency metadata when building Android App Bundles (for Google Play)
+            includeInBundle = false
         }
     }
 
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            signingConfig = signingConfigs.findByName("release")?.takeIf { it.storeFile != null }
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+    flavorDimensions += "version"
+    productFlavors {
+        create("github") {
+            dimension = "version"
+            isDefault = true
+            buildConfigField("Boolean", "UPDATER_ENABLED", "true")
         }
-
-        getByName("debug") {
-            isDebuggable = true
-            applicationIdSuffix = ".debug"
-            resValue("string", "app_name", "LegionTube Debug")
+        create("foss") {
+            dimension = "version"
+            buildConfigField("Boolean", "UPDATER_ENABLED", "false")
         }
-    }
-
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-            javaParameters = true
-        }
-    }
-
-    packaging {
-        jniLibs.excludes.add("lib/armeabi-v7a/*_neon.so")
-    }
-
-    tasks.register("testClasses")
-
-    lint {
-        abortOnError = false
-        checkReleaseBuilds = false
     }
 
     buildFeatures {
         buildConfig = true
-        resValues = true
+        compose = true
     }
 
-    dependenciesInfo {
-        // Disables dependency metadata when building APKs.
-        includeInApk = false
-        // Disables dependency metadata when building Android App Bundles.
-        includeInBundle = false
-    }
+    signingConfigs {
+        create("release") {
+            val localProperties = Properties()
+            val localPropertiesFile = rootProject.file("local.properties")
+            if (localPropertiesFile.exists()) {
+                localPropertiesFile.inputStream().use { localProperties.load(it) }
+            }
 
-    // language preference for Android 13 and above
-    androidResources {
-        generateLocaleConfig = true
-    }
-
-    namespace = "com.github.legiontube" // Keep namespace to avoid source refactor
-}
-
-androidComponents {
-    beforeVariants(selector().all()) { variantBuilder ->
-        // Bypass KSP provider(?) lazy evaluation bug on benchmark variant
-        if (variantBuilder.name.contains("benchmark", ignoreCase = true)) {
-            variantBuilder.enable = false
+            storeFile = rootProject.file("release.keystore")
+            storePassword = (project.findProperty("storePassword") as? String)
+                ?: localProperties.getProperty("storePassword") 
+                ?: System.getenv("STORE_PASSWORD") 
+                ?: ""
+            keyAlias = (project.findProperty("keyAlias") as? String)
+                ?: localProperties.getProperty("keyAlias") 
+                ?: System.getenv("KEY_ALIAS") 
+                ?: ""
+            keyPassword = (project.findProperty("keyPassword") as? String)
+                ?: localProperties.getProperty("keyPassword") 
+                ?: System.getenv("KEY_PASSWORD") 
+                ?: ""
         }
     }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
+        // Nightly: release-level performance + debug signing so it's easy to
+        // sideload. Fixes the laggy-nightly issue reported in #66.
+        create("nightly") {
+            initWith(getByName("release"))
+            applicationIdSuffix = ".nightly"
+            versionNameSuffix = "-nightly"
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        release {
+            isDebuggable = false
+            // Follow NewPipe approach: minify but don't shrink resources
+            isMinifyEnabled = true
+            isShrinkResources = false // disabled for reproducible builds
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                "proguard-rules.pro"
+            )
+            // Use release signing if configured, otherwise fallback to debug
+            val releaseKeystore = try { signingConfigs.getByName("release").storeFile } catch (e: Exception) { null }
+            if (releaseKeystore?.exists() == true) {
+                signingConfig = signingConfigs.getByName("release")
+                println("Using RELEASE signing config with keystore: ${releaseKeystore.absolutePath}")
+            } else {
+                signingConfig = null // Let Gradle build an unsigned APK for IzzyOnDroid/F-Droid
+                println("WARNING: Release keystore not found. Building UNSIGNED release APK.")
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true  // Enable desugaring
+
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
+    }
+
 }
 
 dependencies {
-    /* Android Core */
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core)
+    // --- Core Android ---
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
-    implementation(libs.androidx.preference)
-    implementation(libs.androidx.documentfile)
-    implementation(libs.androidx.work.runtime)
-    implementation(libs.androidx.collection)
-    implementation(libs.androidx.media)
-    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.activity.compose)
+    
+    // --- Compose (Using BOM is best practice) ---
+    implementation(platform(libs.androidx.compose.bom)) 
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material) 
+    implementation(libs.androidx.material.icons.extended)
 
-    /* Android Lifecycle */
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.runtime)
-    implementation(libs.lifecycle.livedata)
-    implementation(libs.lifecycle.service)
+    // --- Navigation ---
+    implementation(libs.androidx.navigation.compose) 
 
-    /* Design */
-    implementation(libs.material)
+    // --- Lifecycle & Architecture ---
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    /* ExoPlayer */
+    // --- Layouts ---
+    implementation(libs.androidx.constraintlayout.compose)
+
+    // --- Image Loading ---
+    implementation(libs.coil.compose) 
+    implementation(libs.picasso)
+    implementation("androidx.palette:palette-ktx:1.0.0")
+
+    // --- Dependency Injection ---
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    // --- Data & Network ---
+    implementation(libs.newpipe.extractor) 
+    
+    // Networking
+    implementation(libs.okhttp)
+    
+    // Ktor (Managed in libs.versions.toml)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.encoding)
+
+    // Serialization & JSON
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.gson)
+
+    //conscrypt for OkHttp TLS support on older Android versions
+    implementation(libs.conscrypt.android)
+
+    // --- Media Playback ---
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.session)
     implementation(libs.androidx.media3.exoplayer.hls)
     implementation(libs.androidx.media3.exoplayer.dash)
-    implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.media3.datasource)
+    implementation(libs.androidx.media3.datasource.okhttp)
+    implementation(libs.androidx.media)
 
-    /* Retrofit and Kotlinx Serialization */
-    implementation(libs.square.retrofit)
-    implementation(libs.logging.interceptor)
-    implementation(libs.kotlinx.serialization)
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.converter.kotlinx.serialization)
+    // --- Database & Storage ---
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    
+    implementation(libs.androidx.datastore.preferences)
+    // implementation(libs.androidx.datastore) // In TOML if needed
 
-    /* NewPipe Extractor */
-    implementation(libs.newpipeextractor)
+    // --- Async & Utils ---
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+    
+    // RxJava (Required for NewPipeExtractor)
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
 
+    implementation(libs.androidx.work.runtime.ktx)
+    "githubImplementation"(libs.apkupdater)
+    implementation(libs.androidx.multidex)
 
-    /* Coil */
-    coreLibraryDesugaring(libs.desugaring)
-    implementation(libs.coil)
-    implementation(libs.coil.network.okhttp)
+    implementation(libs.brotli) 
+    implementation(libs.re2j)
 
-    /* Room */
-    ksp(libs.room.compiler)
-    implementation(libs.room)
+    // Desugaring for older Android versions
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs_nio:2.0.4")
 
-    /* Baseline profile generation */
-    implementation(libs.androidx.profileinstaller)
-    baselineProfile(project(":baselineprofile"))
-
-    /* AndroidX Paging */
-    implementation(libs.androidx.paging)
-
-    /* Testing */
+    // --- Testing ---
     testImplementation(libs.junit)
+    // Add missing test libs to TOML or keep hardcoded for now if not in catalog
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    testImplementation("io.mockk:mockk:1.13.12")
+    testImplementation("com.google.truth:truth:1.1.5")
+    testImplementation("app.cash.turbine:turbine:1.1.0")
+    testImplementation("com.google.dagger:hilt-android-testing:2.51.1")
+    kspTest("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.09.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.51.1")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.51.1")
+    
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+// Allow references to generated code
+ksp {
+    arg("dagger.fastInit", "enabled")
+}
+
+hilt {
+    enableTransformForLocalTests = false
 }

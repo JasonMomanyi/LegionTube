@@ -1,138 +1,133 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.kts.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# SPDX-FileCopyrightText: 2025 Flow
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Based on NewPipe's ProGuard configuration
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# https://developer.android.com/build/shrink-code
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
--keepattributes SourceFile,LineNumberTable
-
-# prevents obfuscation in debug logs
+## Helps debug release versions - keeps class/method names readable
 -dontobfuscate
-
-# optimise protobuf classes
--shrinkunusedprotofields
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
-#uncomment for debug
-#-keepnames class **
-
-# Keep data classes used for Retrofit
--keep class com.github.legiontube.obj.** { *; }
--keep class com.github.legiontube.api.obj.** { *; }
--keep class com.github.legiontube.obj.update.** { *; }
-
-# Keep rules required by Kotlinx Serialization
--if @kotlinx.serialization.Serializable class **
--keepclassmembers class <1> {
-    static <1>$Companion Companion;
-}
-
--if @kotlinx.serialization.Serializable class ** {
-    static **$* *;
-}
--keepclassmembers class <2>$<3> {
-    kotlinx.serialization.KSerializer serializer(...);
-}
-
--if @kotlinx.serialization.Serializable class ** {
-    public static ** INSTANCE;
-}
--keepclassmembers class <1> {
-    public static <1> INSTANCE;
-    kotlinx.serialization.KSerializer serializer(...);
-}
-
--keepattributes RuntimeVisibleAnnotations,AnnotationDefault
-
-# -- Retrofit keep rules, obtained from https://github.com/square/retrofit/blob/master/retrofit/src/main/resources/META-INF/proguard/retrofit2.pro
-
-# Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
-# EnclosingMethod is required to use InnerClasses.
--keepattributes Signature, InnerClasses, EnclosingMethod
-
-# Retrofit does reflection on method and parameter annotations.
--keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
-
-# Keep annotation default values (e.g., retrofit2.http.Field.encoded).
--keepattributes AnnotationDefault
-
-# Retain service method parameters when optimizing.
--keepclassmembers,allowshrinking,allowobfuscation interface * {
-    @retrofit2.http.* <methods>;
-}
-
-# Ignore annotation used for build tooling.
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
-# Ignore JSR 305 annotations for embedding nullability information.
--dontwarn javax.annotation.**
-
-# Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
--dontwarn kotlin.Unit
-
-# Top-level functions that can only be used by Kotlin.
--dontwarn retrofit2.KotlinExtensions
--dontwarn retrofit2.KotlinExtensions$*
-
-# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
-# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface <1>
-
-# Keep inherited services.
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface * extends <1>
-
-# Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
--keep,allowobfuscation,allowshrinking interface retrofit2.Call
--keep,allowobfuscation,allowshrinking class retrofit2.Response
-
-# With R8 full mode generic signatures are stripped for classes that are not
-# kept. Suspend functions are wrapped in continuations where the type argument
-# is used.
--keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
-
-# -- End of Retrofit keep rules
-
--dontwarn org.conscrypt.**
--dontwarn org.bouncycastle.**
--dontwarn org.openjsse.**
-
-# Fix for miniplayer placing issue in release build
--keep class androidx.constraintlayout.motion.widget.** { *; }
--keepclassmembers class androidx.constraintlayout.motion.widget.** { *; }
-
-# Settings fragments are loaded through reflection
--keep class com.github.legiontube.ui.preferences.** { *; }
+-ignorewarnings
 
 ## Rules for NewPipeExtractor
 -keep class org.schabi.newpipe.extractor.timeago.patterns.** { *; }
+-keep class org.schabi.newpipe.extractor.** { *; }
+
+## Rules for Rhino and Rhino Engine (JavaScript engine used by NewPipe)
+-keep class org.mozilla.javascript.* { *; }
 -keep class org.mozilla.javascript.** { *; }
 -keep class org.mozilla.javascript.engine.** { *; }
+-keep class org.mozilla.classfile.ClassFileWriter
 -dontwarn org.mozilla.javascript.JavaToJSONConverters
 -dontwarn org.mozilla.javascript.tools.**
 -keep class javax.script.** { *; }
 -dontwarn javax.script.**
 -keep class jdk.dynalink.** { *; }
 -dontwarn jdk.dynalink.**
--dontwarn com.google.re2j.**
 
-# This is generated automatically by the Android Gradle plugin.
--dontwarn java.beans.BeanDescriptor
--dontwarn java.beans.BeanInfo
--dontwarn java.beans.IntrospectionException
--dontwarn java.beans.Introspector
--dontwarn java.beans.PropertyDescriptor
+## Rules for ExoPlayer / Media3
+-keep class com.google.android.exoplayer2.** { *; }
+-keep class androidx.media3.** { *; }
+-dontwarn com.google.android.exoplayer2.**
+-dontwarn androidx.media3.**
+
+## Keep application classes
+-keep class io.github.aedev.flow.** { *; }
+-keep class io.github.aedev.flow.FlowApplication { *; }
+
+## Rules for Jetpack Compose
+-keep class androidx.compose.** { *; }
+-dontwarn androidx.compose.**
+
+## Rules for Gson serialization
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-keep class * implements com.google.gson.TypeAdapter
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+## Keep data model classes
+-keep class io.github.aedev.flow.**.models.** { *; }
+-keep class io.github.aedev.flow.**.data.** { *; }
+
+## Rules for Kotlin
+-keep class kotlin.Metadata { *; }
+-keepattributes RuntimeVisibleAnnotations,RuntimeVisibleParameterAnnotations
+-keep class kotlinx.coroutines.** { *; }
+-dontwarn kotlinx.coroutines.**
+
+## Rules for DataStore
+-keep class androidx.datastore.** { *; }
+-dontwarn androidx.datastore.**
+
+## Rules for Coil image loading
+-keep class coil.** { *; }
+-dontwarn coil.**
+
+## Rules for Navigation
+-keep class androidx.navigation.** { *; }
+-dontwarn androidx.navigation.**
+
+## Standard Android rules
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+    **[] $VALUES;
+    public *;
+}
+
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+## Rules for OkHttp (used internally by NewPipe)
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+
+## Rules for SLF4J
+-dontwarn org.slf4j.**
+
+## Rules for Ktor
+-dontwarn io.ktor.**
+-keep class io.ktor.** { *; }
+
+## Rules for Brotli
+-dontwarn org.brotli.**
+-keep class org.brotli.** { *; }
+-dontwarn org.conscrypt.**
+
+## Java Beans (not available on Android)
+-dontwarn java.beans.**
+
+
+
+## Additional rules for NewPipeExtractor stability
+-keep class com.grack.nanojson.** { *; }
+-keep class org.schabi.newpipe.extractor.services.** { *; }
+-keep class org.schabi.newpipe.extractor.services.youtube.** { *; }
+-keep class org.schabi.newpipe.extractor.services.soundcloud.** { *; }
+-keep class * extends org.schabi.newpipe.extractor.Extractor { *; }
+-keep class * implements org.schabi.newpipe.extractor.Service { *; }
+-keepattributes Exceptions, InnerClasses
+
+## Rules for re2j (Required by Jsoup/NewPipeExtractor)
+-dontwarn com.google.re2j.**
+-keep class com.google.re2j.** { *; }
+-dontwarn org.jsoup.helper.Re2jRegex
+-dontwarn org.jsoup.helper.Re2jRegex$Re2jMatcher

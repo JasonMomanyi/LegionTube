@@ -1,58 +1,30 @@
-# Gradle files
-.gradle/
-build/
 
-# Local configuration file (sdk path, etc)
 local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output.json
-app/release/
-
-# IntelliJ
 *.iml
-.idea/
-
-# Keystore files
-*.jks
+.gradle
+.idea
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+takeout
+/notes
+/legacy
+algo.md
+newpipe-dev
+# Signing keystore - NEVER COMMIT THIS FILE!
+release.keystore
+generate_key.ps1
+generate_key.bat
+flow-website
+svglogo
+metro*
+release.ps1
+release.bat
+build_result.md
+LibreTube-master
+# Secrets and Local configuration
+local.properties
 *.keystore
-keystore.properties
-
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Android Profiling
-*.hprof
-.DS_Store
-
-# Signing keys (never commit these)
-legiontube-release
-*.p12
-*.pfx
-
-# Build logs and debug output
-build_*.txt
-build_*.log
-build_output.log
-aapt*.log
-debug.log
-error.log
-dump_icons.txt
-mipmap_contents*.txt
-all_launcher_files*.txt
-recent_files*.txt
-
-# Rebrand scripts (one-time use)
-rebrand.py
-rebrand_output.txt
-
-# IDE / Editor
-.vscode/
-.kotlin/
+*.jks
+key.properties

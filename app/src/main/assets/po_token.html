@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html lang="en"><head><title></title><script>
     /**
-     * Factory method to create and load a BotGuardClient instance.
-     * @param options - Configuration options for the BotGuardClient.
-     * @returns A promise that resolves to a loaded BotGuardClient instance.
-     */
-    function loadBotGuard(challengeData) {
-      this.vm = this[challengeData.globalName];
-      this.program = challengeData.program;
-      this.vmFunctions = {};
-      this.syncSnapshotFunction = null;
+     * This is based and ported from Metrolist, see https://github.com/MetrolistGroup/Metrolist for the original code and license.
 
-      if (!this.vm)
+     * BotGuard client for generating poTokens.
+     * Updated to fix JavaScript 'this' binding issues and match BgUtils v3.2.0 patterns.
+     */
+
+    // Global state for BotGuard
+    var bgVmFunctions = null;
+    var bgVm = null;
+    var bgProgram = null;
+    var poTokenMinter = null;  // Minter callback - created ONCE during init, reused for all tokens
+
+    function loadBotGuard(challengeData) {
+      bgVm = window[challengeData.globalName];
+      bgProgram = challengeData.program;
+      bgVmFunctions = null;
+
+      if (!bgVm)
         throw new Error('[BotGuardClient]: VM not found in the global object');
 
-      if (!this.vm.a)
+      if (!bgVm.a)
         throw new Error('[BotGuardClient]: Could not load program');
 
-      const vmFunctionsCallback = function (
+      // Use explicit variable capture instead of 'this' to avoid binding issues
+      var vmFunctionsCallback = function (
         asyncSnapshotFunction,
         shutdownFunction,
         passEventFunction,
         checkCameraFunction
       ) {
-        this.vmFunctions = {
+        bgVmFunctions = {
           asyncSnapshotFunction: asyncSnapshotFunction,
           shutdownFunction: shutdownFunction,
           passEventFunction: passEventFunction,
@@ -31,96 +39,177 @@
         };
       };
 
-      this.syncSnapshotFunction = this.vm.a(this.program, vmFunctionsCallback, true, this.userInteractionElement, function () {/** no-op */ }, [ [], [] ])[0]
+      // Execute the BotGuard program
+      try {
+        bgVm.a(bgProgram, vmFunctionsCallback, true, undefined, function () {/** no-op */ }, [ [], [] ]);
+      } catch (e) {
+        throw new Error('[BotGuardClient]: Failed to execute program: ' + e.message);
+      }
 
-      // an asynchronous function runs in the background and it will eventually call
-      // `vmFunctionsCallback`, however we need to manually tell JavaScript to pass
-      // control to the things running in the background by interrupting this async
-      // function in any way, e.g. with a delay of 1ms. The loop is most probably not
-      // needed but is there just because.
+      // Wait for vmFunctions to be populated (async callback)
       return new Promise(function (resolve, reject) {
-        i = 0
-        refreshIntervalId = setInterval(function () {
-          if (!!this.vmFunctions.asyncSnapshotFunction) {
-            resolve(this)
-            clearInterval(refreshIntervalId);
+        var attempts = 0;
+        var maxAttempts = 10000; // 10 seconds at 1ms intervals
+        var checkInterval = setInterval(function () {
+          if (bgVmFunctions && bgVmFunctions.asyncSnapshotFunction) {
+            clearInterval(checkInterval);
+            resolve({
+              vmFunctions: bgVmFunctions,
+              vm: bgVm,
+              program: bgProgram
+            });
+          } else if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            reject(new Error('[BotGuardClient]: Timeout waiting for asyncSnapshotFunction'));
           }
-          if (i >= 10000) {
-            reject("asyncSnapshotFunction is null even after 10 seconds")
-            clearInterval(refreshIntervalId);
-          }
-          i += 1;
+          attempts++;
         }, 1);
-      })
+      });
     }
 
     /**
-     * Takes a snapshot asynchronously.
-     * @returns The snapshot result.
-     * @example
-     * ```ts
-     * const result = await botguard.snapshot({
-     *   contentBinding: {
-     *     c: "a=6&a2=10&b=SZWDwKVIuixOp7Y4euGTgwckbJA&c=1729143849&d=1&t=7200&c1a=1&c6a=1&c6b=1&hh=HrMb5mRWTyxGJphDr0nW2Oxonh0_wl2BDqWuLHyeKLo",
-     *     e: "ENGAGEMENT_TYPE_VIDEO_LIKE",
-     *     encryptedVideoId: "P-vC09ZJcnM"
-     *    }
-     * });
-     *
-     * console.log(result);
-     * ```
+     * Takes a snapshot asynchronously using the loaded BotGuard.
      */
-    function snapshot(args) {
+    function snapshot(botguard, args) {
       return new Promise(function (resolve, reject) {
-        if (!this.vmFunctions.asyncSnapshotFunction)
+        if (!botguard.vmFunctions || !botguard.vmFunctions.asyncSnapshotFunction) {
           return reject(new Error('[BotGuardClient]: Async snapshot function not found'));
+        }
 
-        this.vmFunctions.asyncSnapshotFunction(function (response) { resolve(response) }, [
-          args.contentBinding,
-          args.signedTimestamp,
-          args.webPoSignalOutput,
-          args.skipPrivacyBuffer
-        ]);
+        try {
+          botguard.vmFunctions.asyncSnapshotFunction(
+            function (response) { resolve(response); },
+            [
+              args.contentBinding,
+              args.signedTimestamp,
+              args.webPoSignalOutput,
+              args.skipPrivacyBuffer
+            ]
+          );
+        } catch (e) {
+          reject(new Error('[BotGuardClient]: Snapshot failed: ' + e.message));
+        }
       });
     }
 
     function runBotGuard(challengeData) {
-      const interpreterJavascript = challengeData.interpreterJavascript.privateDoNotAccessOrElseSafeScriptWrappedValue;
+      var interpreterJavascript = challengeData.interpreterJavascript.privateDoNotAccessOrElseSafeScriptWrappedValue;
 
       if (interpreterJavascript) {
         new Function(interpreterJavascript)();
-      } else throw new Error('Could not load VM');
+      } else {
+        throw new Error('[BotGuardClient]: Could not load VM - no interpreter JavaScript');
+      }
 
-      const webPoSignalOutput = [];
+      var webPoSignalOutput = [];
+
       return loadBotGuard({
         globalName: challengeData.globalName,
-        globalObj: this,
         program: challengeData.program
       }).then(function (botguard) {
-        return botguard.snapshot({ webPoSignalOutput: webPoSignalOutput })
+        return snapshot(botguard, { webPoSignalOutput: webPoSignalOutput });
       }).then(function (botguardResponse) {
-        return { webPoSignalOutput: webPoSignalOutput, botguardResponse: botguardResponse }
-      })
+        return { webPoSignalOutput: webPoSignalOutput, botguardResponse: botguardResponse };
+      });
     }
 
-    function obtainPoToken(webPoSignalOutput, integrityToken, identifier) {
-      const getMinter = webPoSignalOutput[0];
+    /**
+     * Creates the poToken minter callback. MUST be called exactly ONCE during initialization,
+     * right after runBotGuard completes. The minter is stored globally and reused for all tokens.
+     * NOTE: getMinter() may return a Promise, so this function is async.
+     * @param webPoSignalOutput - Array from BotGuard containing the minter factory function
+     * @param integrityToken - The integrity token (as bytes/Uint8Array)
+     * @returns Promise that resolves when minter is ready
+     */
+    async function createPoTokenMinter(webPoSignalOutput, integrityToken) {
+      console.log('[createPoTokenMinter] ENTER - webPoSignalOutput type: ' + typeof webPoSignalOutput + ', length: ' + (webPoSignalOutput ? webPoSignalOutput.length : 'null'));
+      console.log('[createPoTokenMinter] integrityToken type: ' + typeof integrityToken + ', is array: ' + Array.isArray(integrityToken));
 
-      if (!getMinter)
-        throw new Error('PMD:Undefined');
+      // Get the minter factory function from webPoSignalOutput
+      var getMinter = webPoSignalOutput[0];
+      console.log('[createPoTokenMinter] getMinter type: ' + typeof getMinter);
 
-      const mintCallback = getMinter(integrityToken);
+      if (!getMinter) {
+        throw new Error('PMD:Undefined - webPoSignalOutput[0] is not defined');
+      }
 
-      if (!(mintCallback instanceof Function))
-        throw new Error('APF:Failed');
+      if (typeof getMinter !== 'function') {
+        throw new Error('PMD:NotFunction - webPoSignalOutput[0] is not a function, got: ' + typeof getMinter);
+      }
 
-      const result = mintCallback(identifier);
+      // Create the mint callback by passing the integrity token - THIS MUST ONLY HAPPEN ONCE!
+      // NOTE: getMinter() may return a Promise, so we await it
+      console.log('[createPoTokenMinter] Calling getMinter(integrityToken)...');
+      var mintCallback;
+      try {
+        var minterResult = getMinter(integrityToken);
+        console.log('[createPoTokenMinter] getMinter returned type: ' + typeof minterResult + ', isPromise: ' + (minterResult && typeof minterResult.then === 'function'));
+        // Handle both sync and async getMinter
+        if (minterResult && typeof minterResult.then === 'function') {
+          console.log('[createPoTokenMinter] getMinter returned a Promise, awaiting...');
+          mintCallback = await minterResult;
+          console.log('[createPoTokenMinter] Promise resolved, mintCallback type: ' + typeof mintCallback);
+        } else {
+          mintCallback = minterResult;
+        }
+      } catch (e) {
+        console.log('[createPoTokenMinter] getMinter EXCEPTION: ' + e.message);
+        throw new Error('GMC:Failed - getMinter() threw: ' + e.message);
+      }
 
-      if (!result)
-        throw new Error('YNJ:Undefined');
+      if (!mintCallback) {
+        throw new Error('APF:Undefined - mintCallback is undefined');
+      }
 
-      if (!(result instanceof Uint8Array))
-        throw new Error('ODM:Invalid');
+      if (typeof mintCallback !== 'function') {
+        throw new Error('APF:NotFunction - mintCallback is not a function, got: ' + typeof mintCallback);
+      }
+
+      // Store the minter globally for reuse
+      poTokenMinter = mintCallback;
+      console.log('[createPoTokenMinter] SUCCESS - Minter created and stored globally (type: ' + typeof mintCallback + ')');
+    }
+
+    /**
+     * Mints a poToken using the pre-created minter callback.
+     * The minter MUST have been created during initialization via createPoTokenMinter().
+     * NOTE: mintCallback() may return a Promise, so this function is async.
+     * @param identifier - The identifier to bind the token to (as Uint8Array)
+     * @returns Promise<Uint8Array> containing the poToken
+     */
+    async function obtainPoToken(identifier) {
+      if (!poTokenMinter) {
+        throw new Error('MNT:NotInit - poTokenMinter was not initialized. Call createPoTokenMinter first.');
+      }
+
+      // Mint the token with the identifier
+      // NOTE: mintCallback() may return a Promise, so we await it
+      var result;
+      try {
+        var mintResult = poTokenMinter(identifier);
+        // Handle both sync and async mintCallback
+        if (mintResult && typeof mintResult.then === 'function') {
+          console.log('[obtainPoToken] mintCallback returned a Promise, awaiting...');
+          result = await mintResult;
+        } else {
+          result = mintResult;
+        }
+      } catch (e) {
+        throw new Error('MNT:Failed - mintCallback() threw: ' + e.message);
+      }
+
+      if (!result) {
+        throw new Error('YNJ:Undefined - mint result is undefined');
+      }
+
+      if (!(result instanceof Uint8Array)) {
+        throw new Error('ODM:Invalid - result is not Uint8Array, got: ' + Object.prototype.toString.call(result));
+      }
+
+      // Validate token size (expected 110-128 bytes per BgUtils documentation)
+      if (result.length < 100 || result.length > 140) {
+        console.warn('[obtainPoToken] Token size ' + result.length + ' bytes may be outside expected range (110-128)');
+      }
 
       return result;
     }
