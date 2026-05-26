@@ -95,6 +95,7 @@ class PlayerPreferences(context: Context) {
         val VOLUME_SWIPE_GESTURES_ENABLED = booleanPreferencesKey("volume_swipe_gestures_enabled")
         val CONTINUE_WATCHING_ENABLED = booleanPreferencesKey("continue_watching_enabled")
         val SHOW_RELATED_VIDEOS = booleanPreferencesKey("show_related_videos")
+        val AMBIENT_GLOW_ENABLED = booleanPreferencesKey("ambient_glow_enabled")
         val DOUBLE_TAP_SEEK_SECONDS = intPreferencesKey("double_tap_seek_seconds")
         val HOME_VIEW_MODE = stringPreferencesKey("home_view_mode")
         val HOME_FEED_ENABLED = booleanPreferencesKey("home_feed_enabled")
@@ -554,6 +555,17 @@ class PlayerPreferences(context: Context) {
     suspend fun setShowRelatedVideos(enabled: Boolean) {
         context.playerPreferencesDataStore.edit { preferences ->
             preferences[Keys.SHOW_RELATED_VIDEOS] = enabled
+        }
+    }
+
+    val ambientGlowEnabled: Flow<Boolean> = context.playerPreferencesDataStore.data
+        .map { preferences ->
+            preferences[Keys.AMBIENT_GLOW_ENABLED] ?: true
+        }
+
+    suspend fun setAmbientGlowEnabled(enabled: Boolean) {
+        context.playerPreferencesDataStore.edit { preferences ->
+            preferences[Keys.AMBIENT_GLOW_ENABLED] = enabled
         }
     }
 

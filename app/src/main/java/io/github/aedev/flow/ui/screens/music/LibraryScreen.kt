@@ -40,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun LibraryScreen(
     onBackClick: () -> Unit,
     onTrackClick: (MusicTrack, List<MusicTrack>) -> Unit,
+    onPlaylistClick: (String) -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -111,7 +112,7 @@ fun LibraryScreen(
                 when (tabIndex) {
                     0 -> PlaylistsTab(
                         playlists = uiState.playlists,
-                        onPlaylistClick = { /* TODO */ },
+                        onPlaylistClick = { onPlaylistClick(it.id.toString()) },
                         onCreatePlaylist = { viewModel.showCreatePlaylistDialog(true) }
                     )
                     1 -> FavoritesTab(

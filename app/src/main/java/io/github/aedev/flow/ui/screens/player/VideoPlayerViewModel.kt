@@ -1111,8 +1111,32 @@ class VideoPlayerViewModel @Inject constructor(
                             }
                         }
                     } else {
-                        // Offline fallback
-                        if (isOfflineAvailable) {
+                        // ── Piped API Network Fallback ──
+                        val pipedStream = io.github.aedev.flow.network.PipedFallbackClient.getStreamInfo(videoId)
+                        if (pipedStream != null) {
+                            Log.d("VideoPlayerViewModel", "Recovered using Piped API Fallback for $videoId")
+                            val savedPosition = viewHistory.getPlaybackPosition(videoId).first()
+                            
+                            if (isPlaybackLoadCurrent(loadToken)) {
+                                _uiState.update { 
+                                    it.copy(
+                                        isLoading = false,
+                                        error = null,
+                                        errorHint = null,
+                                        relatedVideos = relatedVideos,
+                                        hlsUrl = pipedStream.hlsUrl,
+                                        isUpcoming = false,
+                                        upcomingReleaseTimeMs = null
+                                    )
+                                }
+                                preparePipedMediaForPlayback(
+                                    videoId = videoId,
+                                    pipedStream = pipedStream,
+                                    savedPosition = savedPosition,
+                                    loadToken = loadToken
+                                )
+                            }
+                        } else if (isOfflineAvailable) {
                             Log.d("VideoPlayerViewModel", "Using offline video for $videoId (Network fetch failed)")
                             val sbJson = videoDownloadManager.getSponsorBlockData(videoId)
                             if (isPlaybackLoadCurrent(loadToken)) {
@@ -1293,6 +1317,46 @@ class VideoPlayerViewModel @Inject constructor(
             )
         }
         applyRememberedPlaybackSpeed(isLive = !hlsUrl.isNullOrEmpty(), manager = manager)
+
+        if (!isPlaybackLoadCurrent(loadToken)) return@withContext
+        manager.play()
+    }
+
+    private suspend fun preparePipedMediaForPlayback(
+        videoId: String,
+        pipedStream: io.github.aedev.flow.network.PipedFallbackClient.PipedStreamResponse,
+        savedPosition: Long,
+        loadToken: Long
+    ) = withContext(Dispatchers.Main) {
+        if (!isPlaybackLoadCurrent(loadToken)) return@withContext
+        val manager = EnhancedPlayerManager.getInstance()
+        if (manager.isPreparedForPlayback(videoId)) return@withContext
+
+        manager.initialize(context)
+        val queueSize = manager.playerState.value.queueSize
+        
+        val durationMs = pipedStream.duration * 1000L
+        val resumePosition = savedPosition
+            .takeIf { it > 500L }
+            ?.takeIf { queueSize <= 1 }
+            ?.takeUnless { shouldRestartCompletedPlayback(it, durationMs) }
+            ?: 0L
+            
+        manager.setStreams(
+            videoId = videoId,
+            videoStream = null,
+            audioStream = null,
+            videoStreams = emptyList(),
+            audioStreams = emptyList(),
+            subtitles = emptyList(),
+            durationSeconds = pipedStream.duration,
+            dashManifestUrl = pipedStream.dashUrl,
+            hlsUrl = pipedStream.hlsUrl ?: pipedStream.videoUrls.firstOrNull(),
+            streamType = org.schabi.newpipe.extractor.stream.StreamType.VIDEO_STREAM,
+            startPosition = resumePosition
+        )
+        
+        applyRememberedPlaybackSpeed(isLive = !pipedStream.hlsUrl.isNullOrEmpty(), manager = manager)
 
         if (!isPlaybackLoadCurrent(loadToken)) return@withContext
         manager.play()

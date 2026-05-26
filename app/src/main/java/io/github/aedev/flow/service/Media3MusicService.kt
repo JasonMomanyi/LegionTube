@@ -212,13 +212,6 @@ class Media3MusicService : MediaLibraryService() {
             }
             
             override fun onMediaItemTransition(mediaItem: androidx.media3.common.MediaItem?, reason: Int) {
-                if (
-                    reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO ||
-                    reason == Player.MEDIA_ITEM_TRANSITION_REASON_REPEAT
-                ) {
-                    player.seekTo(0L)
-                }
-
                 if (reason != Player.MEDIA_ITEM_TRANSITION_REASON_SEEK) {
                     retryCountMap.clear()
                     lastPlaybackErrorAtMap.clear()

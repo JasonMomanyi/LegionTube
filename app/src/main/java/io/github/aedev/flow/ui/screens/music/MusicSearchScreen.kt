@@ -84,7 +84,11 @@ fun MusicSearchScreen(
                     onArtistClick(selectedTrack!!.channelId)
                 }
             },
-            onViewAlbum = { /* TODO: Implement view album */ },
+            onViewAlbum = { 
+                if (!selectedTrack!!.albumId.isNullOrEmpty()) {
+                    onAlbumClick(selectedTrack!!.albumId!!)
+                }
+            },
             onShare = { 
                 val shareIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"

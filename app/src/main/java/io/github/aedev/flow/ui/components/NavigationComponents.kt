@@ -88,7 +88,7 @@ fun FloatingBottomNavBar(
 
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f),
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp
     ) {
@@ -219,8 +219,8 @@ fun TopAppBarWithActions(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 2.dp
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+        tonalElevation = 0.dp
     ) {
         Row(
             modifier = Modifier
@@ -239,8 +239,8 @@ fun TopAppBarWithActions(
                     text = title.uppercase(), 
                     style = MaterialTheme.typography.headlineMedium, 
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 2.sp 
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = (-1).sp 
                 )
             }
 

@@ -131,7 +131,7 @@ class PlayerFactory {
      * Skip-silence is handled via ExoPlayer.skipSilenceEnabled
      */
     fun createRenderersFactory(context: Context): DefaultRenderersFactory {
-        return CustomRenderersFactory(context)
+        return DefaultRenderersFactory(context)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
             .setEnableDecoderFallback(true)
     }

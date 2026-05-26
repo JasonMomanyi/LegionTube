@@ -239,7 +239,7 @@ fun FlowDescriptionBottomSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(with(density) { sheetHeightPx.value.toDp() }),
-            color = MaterialTheme.colorScheme.surface,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
             tonalElevation = 0.dp
         ) {
             Column(

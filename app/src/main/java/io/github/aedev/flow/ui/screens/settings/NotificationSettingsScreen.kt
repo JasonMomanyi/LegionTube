@@ -212,6 +212,26 @@ fun NotificationSettingsScreen(
                             context.startActivity(intent)
                         }
                     )
+                    HorizontalDivider(
+                        Modifier.padding(start = 56.dp),
+                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    )
+                    SettingsItem(
+                        icon = Icons.Outlined.BatteryAlert,
+                        title = "Bypass Battery Optimization",
+                        subtitle = "Ensure background tasks run precisely",
+                        onClick = {
+                            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                data = android.net.Uri.parse("package:${context.packageName}")
+                            }
+                            try {
+                                context.startActivity(intent)
+                            } catch (e: Exception) {
+                                val fallbackIntent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                                context.startActivity(fallbackIntent)
+                            }
+                        }
+                    )
                 }
             }
         }
