@@ -193,14 +193,19 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         if (showAppLogoIcon) {
-                            FlowHeaderLogoIcon(
-                                isDeepFlowActive = deepFlowActive,
-                                onToggleDeepFlow = {
-                                    coroutineScope.launch {
-                                        DeepFlowManager.toggle(context)
-                                    }
-                                },
-                                modifier = Modifier.size(32.dp)
+                            androidx.compose.foundation.Image(
+                                painter = androidx.compose.ui.res.painterResource(id = R.mipmap.ic_launcher_foreground),
+                                contentDescription = "App Logo",
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .combinedClickable(
+                                        onClick = {},
+                                        onLongClick = {
+                                            coroutineScope.launch {
+                                                DeepFlowManager.toggle(context)
+                                            }
+                                        }
+                                    )
                             )
                         }
                         Text(

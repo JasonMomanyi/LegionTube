@@ -143,10 +143,10 @@ fun AboutScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_notification_logo),
+                        painter = painterResource(id = R.mipmap.ic_launcher_foreground),
                         contentDescription = null,
-                        modifier = Modifier.size(72.dp),
-                        tint = MaterialTheme.colorScheme.onBackground
+                        modifier = Modifier.size(96.dp),
+                        tint = Color.Unspecified
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
@@ -192,8 +192,8 @@ fun AboutScreen(
                 AboutRow(
                     icon = Icons.Outlined.Public,
                     title = stringResource(R.string.about_website),
-                    subtitle = "flow.aedev.me",
-                    onClick = { openUrl(context, "https://flow.aedev.me") }
+                    subtitle = "jasonmomanyi.co.ke",
+                    onClick = { openUrl(context, "https://jasonmomanyi.co.ke") }
                 )
             }
             item { AboutRowDivider() }
@@ -201,8 +201,17 @@ fun AboutScreen(
                 AboutRowWithPainter(
                     iconPainter = painterResource(id = R.drawable.ic_github),
                     title = stringResource(R.string.github_label),
-                    subtitle = stringResource(R.string.github_subtitle),
-                    onClick = { openUrl(context, "https://github.com/A-EDev/flow") }
+                    subtitle = "JasonMomanyi",
+                    onClick = { openUrl(context, "https://github.com/JasonMomanyi/LegionTube") }
+                )
+            }
+            item { AboutRowDivider() }
+            item {
+                AboutRow(
+                    icon = Icons.Outlined.Chat,
+                    title = "Discord",
+                    subtitle = "ID: 1092210946547654730",
+                    onClick = { openUrl(context, "https://discord.com/users/1092210946547654730") }
                 )
             }
             item { AboutRowDivider() }
@@ -210,8 +219,8 @@ fun AboutScreen(
                 AboutRowWithVector(
                     iconVector = IconReddit,
                     title = "Reddit",
-                    subtitle = "r/Flow_Official",
-                    onClick = { openUrl(context, "https://www.reddit.com/r/Flow_Official/") }
+                    subtitle = "u/dramatic-speaker",
+                    onClick = { openUrl(context, "https://www.reddit.com/user/dramatic-speaker/") }
                 )
             }
             item { AboutRowDivider() }
@@ -219,8 +228,8 @@ fun AboutScreen(
                 AboutRow(
                     icon = Icons.Outlined.Person,
                     title = stringResource(R.string.about_creator),
-                    subtitle = "A-EDev",
-                    onClick = { openUrl(context, "https://github.com/A-EDev") }
+                    subtitle = "Lord Stunnis",
+                    onClick = { openUrl(context, "https://github.com/JasonMomanyi") }
                 )
             }
             item { HorizontalDivider(modifier = Modifier.padding(top = 8.dp)) }
