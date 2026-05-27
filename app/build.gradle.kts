@@ -281,6 +281,3 @@ ksp {
     arg("dagger.fastInit", "enabled")
 }
 
-hilt {
-    enableTransformForLocalTests = false
-}

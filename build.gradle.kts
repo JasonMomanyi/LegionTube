@@ -7,6 +7,6 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
     id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
     id("com.android.test") version "8.7.2" apply false
-    id("androidx.baselineprofile") version "1.2.4" apply false
+    id("androidx.baselineprofile") version "1.3.3" apply false
 }
 
