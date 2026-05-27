@@ -107,7 +107,7 @@ private fun rememberHomeLayoutConfig(maxWidth: Dp): HomeLayoutConfig {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     onVideoClick: (Video) -> Unit,
