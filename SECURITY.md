@@ -2,20 +2,20 @@
 
 ## Supported Versions
 
-The following versions of Flow are currently being supported with security updates.
+The following versions of LegionTube are currently being supported with security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.2.x   | ✅ |
-| < 1.2.0 | ❌                |
+| 2.x.x   | ✅ |
+| < 2.0.0 | ❌                |
 
 ## Reporting a Vulnerability
 
-We take the security of Flow seriously. If you believe you have found a security vulnerability, please report it to us privately.
+We take the security of LegionTube seriously. If you believe you have found a security vulnerability, please report it to us privately.
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, please send an email to flow.aedev@gmail.com.
+Instead, please contact Lord Stunnis directly via Discord or Instagram (as listed in the README), or email if an address is provided.
 
 Please include the following information in your report:
 

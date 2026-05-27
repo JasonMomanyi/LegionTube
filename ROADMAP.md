@@ -6,10 +6,11 @@ This represents the larger, bigger impact features and enhancements we have plan
 Feel free to help us if you have any knowledge concerning the following planned features or anything else you imagine.
 
 ## Planned
-- Currently only various smaller features
+- Custom UI themes and enhanced visual tweaks
+- Enhanced local privacy-respecting recommendations (LEGION Engine)
+- Complete UI overhaul for standard and immersive viewing modes
 
 ## Not planned
-- Google/MicroG Login
-- Support for anything else than Android on mobile devices (like iOS, Linux, Android TV)
-- Downloading and muxing media for playback outside of LegionTube
-- Intelligent recommendation algorithm to pull users into a rabbit hole
+- Google/MicroG Login (LegionTube uses Piped API for completely anonymous proxying)
+- Telemetry, user tracking, or data harvesting of any kind
+- Proprietary or closed-source tracking

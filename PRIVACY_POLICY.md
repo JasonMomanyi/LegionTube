@@ -27,10 +27,10 @@ LegionTube offers two methods for receiving data from YouTube. You can either us
 No matter which option you choose, LegionTube always only does the minimum amount of network requests needed to provide the functionality you see on your screen - nothing more and nothing less.
 
 ### Disclaimer
-The LegionTube project is **not affiliated, authorized, or endorsed by YouTube, Google LLC, or any of its affiliates or subsidiaries**. Any intellectual property used is owned by the respective owners. LegionTube is a fork of [LegionTube](https://github.com/libre-tube/LegionTube), developed by Lord Stunnis.
+The LegionTube project is **not affiliated, authorized, or endorsed by YouTube, Google LLC, or any of its affiliates or subsidiaries**. Any intellectual property used is owned by the respective owners. LegionTube is a fork of [LibreTube](https://github.com/libre-tube/LibreTube), developed by Lord Stunnis.
 
 ### Open Source Software
-LegionTube is an **open source software** licensed under GNU GPL v3. It is built on the LegionTube project. We welcome and encourage collaboration and contributions from the community to help improve the app.
+LegionTube is an **open source software** licensed under GNU GPL v3. It is built on the LibreTube project. We welcome and encourage collaboration and contributions from the community to help improve the app.
 
 ### Developer
 LegionTube is developed by **Lord Stunnis** ([@JasonMomanyi](https://github.com/JasonMomanyi)).

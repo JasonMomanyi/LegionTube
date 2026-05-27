@@ -1,30 +1,62 @@
+# Gradle and build
+.gradle/
+build/
+*/build/
+/app/build/
+/baselineprofile/build/
 
-local.properties
+# IntelliJ IDEA / Android Studio
+.idea/
+.kotlin/
 *.iml
-.gradle
-.idea
-/app/build
-/captures
-.externalNativeBuild
-.cxx
-takeout
-/notes
-/legacy
-algo.md
-newpipe-dev
-# Signing keystore - NEVER COMMIT THIS FILE!
-release.keystore
-generate_key.ps1
-generate_key.bat
-flow-website
-svglogo
-metro*
-release.ps1
-release.bat
-build_result.md
-LibreTube-master
-# Secrets and Local configuration
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+
+# Local configuration and Secrets - NEVER COMMIT!
 local.properties
+key.properties
 *.keystore
 *.jks
-key.properties
+release.keystore
+
+# Native build and captures
+.externalNativeBuild
+.cxx
+/captures
+
+# macOS / Windows OS files
+.DS_Store
+Thumbs.db
+
+# Workspace Temporary / Downloaded Files
+*.zip
+*.log
+jdk17.0.19_10/
+Flow-main/
+LibreTube-master/
+legacy/
+legiontube-release/
+newpipe-dev/
+flow-website/
+svglogo/
+metro*/
+takeout/
+/notes/
+
+# Temporary Scripts
+generate_key.ps1
+generate_key.bat
+release.ps1
+release.bat
+run_gradle.bat
+build_result.md
+algo.md
+
+# Ignored Documentation Files
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+ROADMAP.md
+RELEASE.md

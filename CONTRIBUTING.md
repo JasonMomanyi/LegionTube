@@ -1,6 +1,6 @@
-# Contributing to Flow
+# Contributing to LegionTube
 
-Thank you for your interest in contributing to Flow! We welcome contributions from the community.
+Thank you for your interest in contributing to LegionTube! We welcome contributions from the community to make this privacy-focused YouTube client even better.
 
 ## 🐛 Reporting Bugs
 
@@ -27,18 +27,18 @@ Feature suggestions are welcome! Please:
 ### Before You Start
 
 1. Fork the repository
-2. Create a new branch from `main` or `develop`
-3. Make sure you can build the project
+2. Create a new branch from `main`
+3. Make sure you can build the project using `./gradlew assembleDebug`
 
 ### Development Setup
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/Flow.git
-cd Flow
+git clone https://github.com/YOUR_USERNAME/LegionTube.git
+cd LegionTube
 
 # Add upstream remote
-git remote add upstream https://github.com/A-EDev/Flow.git
+git remote add upstream https://github.com/JasonMomanyi/LegionTube.git
 
 # Create a feature branch
 git checkout -b feature/your-feature-name
@@ -131,11 +131,11 @@ If you have questions, feel free to:
 
 - Open a discussion on GitHub
 - Comment on existing issues
-- Reach out to maintainers
+- Reach out to Lord Stunnis
 
 ## 🙏 Thank You!
 
-Every contribution helps make Flow better. Thank you for being part of the community!
+Every contribution helps make LegionTube better. Thank you for being part of the community!
 
 ---
 
