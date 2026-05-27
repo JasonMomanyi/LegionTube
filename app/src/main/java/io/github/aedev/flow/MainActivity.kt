@@ -557,7 +557,7 @@ class MainActivity : ComponentActivity() {
 
                 val client = AppProxyManager.applyTo(OkHttpClient.Builder()).build()
                 val request = Request.Builder()
-                    .url("https://api.github.com/repos/A-EDev/Flow/releases/latest")
+                    .url("https://api.github.com/repos/JasonMomanyi/LegionTube/releases/latest")
                     .header("Accept", "application/vnd.github.v3+json")
                     .build()
                 
@@ -580,7 +580,7 @@ class MainActivity : ComponentActivity() {
                                     .setTitle("Update Available")
                                     .setMessage("A new version of Flow is available ($latestTag). Download the latest APK?")
                                     .setPositiveButton("Download") { _, _ ->
-                                        ApkUpdateHelper.requestDownload(this@MainActivity, "https://github.com/A-EDev/Flow/releases/latest")
+                                        ApkUpdateHelper.requestDownload(this@MainActivity, "https://github.com/JasonMomanyi/LegionTube/releases/latest")
                                     }
                                     .setNegativeButton("Later", null)
                                     .show()

@@ -23,7 +23,7 @@ object UpdateManager {
         get() = AppProxyManager.applyTo(OkHttpClient.Builder()).build()
     
     // 🔥 CHANGE THIS TO YOUR REPO: "owner/repo"
-    private const val GITHUB_REPO = "A-EDev/Flow" 
+    private const val GITHUB_REPO = "JasonMomanyi/LegionTube" 
     private const val API_URL = "https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 
     suspend fun checkForUpdate(currentVersionName: String): UpdateInfo? = withContext(Dispatchers.IO) {
@@ -95,14 +95,33 @@ object UpdateManager {
         return false
     }
 
-    // Helper to open browser
+    // Helper to extract Activity from Context (for Compose)
+    private fun Context.getActivity(): android.app.Activity? {
+        var currentContext = this
+        while (currentContext is android.content.ContextWrapper) {
+            if (currentContext is android.app.Activity) {
+                return currentContext
+            }
+            currentContext = currentContext.baseContext
+        }
+        return null
+    }
+
+    // Helper to open browser or trigger auto download
     fun triggerDownload(context: Context, url: String) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
+            val activity = context.getActivity()
+            if (activity != null) {
+                // Trigger auto in-app download using ApkUpdater
+                io.github.aedev.flow.updater.ApkUpdateHelper.requestDownload(activity, url)
+            } else {
+                // Fallback to browser if no activity context
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
         } catch (e: Exception) {
-            Log.e("UpdateManager", "Could not open browser", e)
+            Log.e("UpdateManager", "Could not trigger download", e)
         }
     }
 }

@@ -159,7 +159,7 @@ fun SettingsScreen(
                 try {
                     val client = AppProxyManager.applyTo(OkHttpClient.Builder()).build()
                     val request = Request.Builder()
-                        .url("https://api.github.com/repos/A-EDev/Flow/releases/latest")
+                        .url("https://api.github.com/repos/JasonMomanyi/LegionTube/releases/latest")
                         .header("Accept", "application/vnd.github.v3+json")
                         .build()
                     val response = client.newCall(request).execute()
@@ -980,8 +980,7 @@ item {
                 confirmButton = {
                     Button(onClick = {
                         updateAvailableTag = null
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/A-EDev/Flow/releases/latest"))
-                        context.startActivity(intent)
+                        io.github.aedev.flow.utils.UpdateManager.triggerDownload(context, "https://github.com/JasonMomanyi/LegionTube/releases/latest")
                     }) {
                         Text(androidx.compose.ui.res.stringResource(io.github.aedev.flow.R.string.download))
                     }

@@ -266,7 +266,7 @@ fun ContentSettingsScreen(
                         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                     )
                     SettingsSwitchItem(
-                        icon = androidx.compose.ui.graphics.vector.ImageVector.vectorResource(id = R.drawable.ic_notification_logo),
+                        icon = androidx.compose.ui.res.painterResource(id = R.mipmap.ic_launcher_foreground),
                         title = stringResource(R.string.content_settings_show_app_logo_title),
                         subtitle = stringResource(R.string.content_settings_show_app_logo_subtitle),
                         checked = showAppLogoIcon,
