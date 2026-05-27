@@ -194,7 +194,7 @@ fun DownloadSettingsScreen(
         try {
             File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
-                "Flow"
+                "LegionTube"
             ).absolutePath
         } catch (e: Exception) {
             "Internal App Storage"
@@ -567,11 +567,11 @@ fun DownloadSettingsScreen(
 
     if (showLocationDialog) {
         val downloadsPath = remember {
-            try { File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Flow").absolutePath } 
+            try { File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "LegionTube").absolutePath } 
             catch (_: Exception) { null }
         }
         val moviesPath = remember {
-            try { File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "Flow").absolutePath } 
+            try { File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "LegionTube").absolutePath } 
             catch (_: Exception) { null }
         }
         val internalPath = remember { File(context.filesDir, "downloads").absolutePath }

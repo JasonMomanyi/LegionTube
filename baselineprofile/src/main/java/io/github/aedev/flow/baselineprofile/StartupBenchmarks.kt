@@ -1,4 +1,4 @@
-package com.github.legiontube.baselineprofile
+package io.github.aedev.flow.baselineprofile
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode

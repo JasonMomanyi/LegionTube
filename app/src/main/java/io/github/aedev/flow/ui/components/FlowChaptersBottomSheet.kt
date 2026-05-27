@@ -54,7 +54,7 @@ import org.schabi.newpipe.extractor.stream.StreamSegment
 @Composable
 fun FlowChaptersBottomSheet(
     chapters: List<StreamSegment>,
-    currentPosition: Long,
+    currentPositionProvider: () -> Long,
     durationMs: Long = 0L,
     onChapterClick: (Long) -> Unit,
     onDismiss: () -> Unit,
@@ -73,8 +73,9 @@ fun FlowChaptersBottomSheet(
     val sheetHeightPx = remember { Animatable(0f) }
     var isAnimatingOut by remember { mutableStateOf(false) }
     val initialActiveChapterIndex = remember(chapters) {
+        val pos = currentPositionProvider()
         chapters
-            .indexOfLast { currentPosition >= it.startTimeSeconds.toLong() * 1000L }
+            .indexOfLast { pos >= it.startTimeSeconds.toLong() * 1000L }
             .coerceAtLeast(0)
     }
     val chaptersListState = rememberLazyListState(
@@ -237,13 +238,14 @@ fun FlowChaptersBottomSheet(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     itemsIndexed(chapters, key = { _, chapter -> chapter.title + chapter.startTimeSeconds }) { index, chapter ->
+                        val pos = currentPositionProvider()
                         val startTimeMs = chapter.startTimeSeconds.toLong() * 1000L
                         val nextChapter = chapters.getOrNull(index + 1)
                         val endTimeMs = nextChapter?.startTimeSeconds?.let { it.toLong() * 1000L }
                             ?: durationMs.takeIf { it > startTimeMs }
-                        val isCurrent = currentPosition >= startTimeMs && (endTimeMs == null || currentPosition < endTimeMs)
+                        val isCurrent = pos >= startTimeMs && (endTimeMs == null || pos < endTimeMs)
                         val progress = if (isCurrent && endTimeMs != null && endTimeMs > startTimeMs) {
-                            ((currentPosition - startTimeMs).toFloat() / (endTimeMs - startTimeMs).toFloat()).coerceIn(0f, 1f)
+                            ((pos - startTimeMs).toFloat() / (endTimeMs - startTimeMs).toFloat()).coerceIn(0f, 1f)
                         } else {
                             0f
                         }

@@ -155,7 +155,7 @@ fun FlowSplashScreen(
 
                 // 2. The Text (Optional)
                 Text(
-                    text = "Flow",
+                    text = "LEGION",
                     color = textColor,
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
@@ -166,7 +166,7 @@ fun FlowSplashScreen(
                 Spacer(modifier = Modifier.height(48.dp))
             }
 
-            // 3. The "Flow" Loading Line
+            // 3. The "Legion" Loading Line
             // Positioned slightly below center
             Box(
                 modifier = Modifier

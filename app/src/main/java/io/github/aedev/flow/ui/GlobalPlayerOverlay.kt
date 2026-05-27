@@ -1196,7 +1196,7 @@ fun GlobalPlayerOverlay(
                 } else if (screenState.showChaptersSheet) {
                     FlowChaptersBottomSheet(
                         chapters = playerUiState.chapters,
-                        currentPosition = screenState.currentPosition,
+                        currentPositionProvider = { screenState.currentPosition },
                         durationMs = screenState.duration,
                         onChapterClick = { newPosition ->
                             EnhancedPlayerManager.getInstance().seekTo(newPosition)

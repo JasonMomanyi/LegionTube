@@ -18,6 +18,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Flow"
+rootProject.name = "LegionTube"
 include(":app")
+include(":baselineprofile")
 

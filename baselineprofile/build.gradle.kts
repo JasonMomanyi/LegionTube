@@ -7,8 +7,8 @@ plugins {
 }
 
 android {
-    namespace = "com.github.legiontube.baselineprofile"
-    compileSdk = 36
+    namespace = "io.github.aedev.flow.baselineprofile"
+    compileSdk = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -23,9 +23,11 @@ android {
 
     defaultConfig {
         minSdk = 28
-        targetSdk = 36
+        targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        missingDimensionStrategy("version", "github")
     }
 
     targetProjectPath = ":app"
@@ -39,8 +41,8 @@ baselineProfile {
 }
 
 dependencies {
-    implementation(libs.androidx.test.junit)
-    implementation(libs.androidx.test.espressoCore)
+    implementation(libs.androidx.test.ext.junit)
+    implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.uiautomator)
     implementation(libs.androidx.benchmark.macro.junit4)
 }

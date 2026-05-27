@@ -19,7 +19,6 @@ import androidx.media3.exoplayer.upstream.DefaultAllocator
 import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter
 import io.github.aedev.flow.data.local.PlayerPreferences
 import io.github.aedev.flow.player.config.PlayerConfig
-import io.github.aedev.flow.player.renderer.CustomRenderersFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 

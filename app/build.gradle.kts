@@ -6,6 +6,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -271,6 +272,8 @@ dependencies {
     
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    baselineProfile(project(":baselineprofile"))
 }
 
 // Allow references to generated code
