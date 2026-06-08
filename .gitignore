@@ -34,6 +34,7 @@ Thumbs.db
 # Workspace Temporary / Downloaded Files
 *.zip
 *.log
+*.hprof
 jdk17.0.19_10/
 Flow-main/
 LibreTube-master/
