@@ -10,17 +10,17 @@ plugins {
 }
 
 android {
-    namespace = "io.github.aedev.flow"
+    namespace = "io.github.jasonmomanyi.legiontube"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.github.aedev.flow"
+        applicationId = "io.github.jasonmomanyi.legiontube"
         minSdk = 21
         targetSdk = 34
         versionCode = 15
         versionName = "2.1.0"
 
-        testInstrumentationRunner = "io.github.aedev.flow.HiltTestRunner"
+        testInstrumentationRunner = "io.github.jasonmomanyi.legiontube.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }

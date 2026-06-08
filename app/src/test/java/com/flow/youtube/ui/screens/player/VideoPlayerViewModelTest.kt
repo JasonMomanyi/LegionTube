@@ -1,13 +1,13 @@
-package io.github.aedev.flow.ui.screens.player
+package io.github.jasonmomanyi.legiontube.ui.screens.player
 
 import android.content.Context
 import android.util.Log
-import io.github.aedev.flow.data.local.*
-import io.github.aedev.flow.data.model.Video
-import io.github.aedev.flow.data.recommendation.FlowNeuroEngine
-import io.github.aedev.flow.data.recommendation.InterestProfile
-import io.github.aedev.flow.data.repository.YouTubeRepository
-import io.github.aedev.flow.data.video.VideoDownloadManager
+import io.github.jasonmomanyi.legiontube.data.local.*
+import io.github.jasonmomanyi.legiontube.data.model.Video
+import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubeNeuroEngine
+import io.github.jasonmomanyi.legiontube.data.recommendation.InterestProfile
+import io.github.jasonmomanyi.legiontube.data.repository.YouTubeRepository
+import io.github.jasonmomanyi.legiontube.data.video.VideoDownloadManager
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +46,7 @@ class VideoPlayerViewModelTest {
         every { Log.e(any(), any()) } returns 0
         every { Log.e(any(), any(), any()) } returns 0
 
-        mockkObject(FlowNeuroEngine)
+        mockkObject(LegionTubeNeuroEngine)
         
         // Default mocks for preferences
         every { playerPreferences.defaultQualityWifi } returns flowOf(VideoQuality.Q_720p)

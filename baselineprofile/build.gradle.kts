@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "io.github.aedev.flow.baselineprofile"
+    namespace = "io.github.jasonmomanyi.legiontube.baselineprofile"
     compileSdk = 34
 
     compileOptions {

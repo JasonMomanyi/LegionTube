@@ -1,0 +1,435 @@
+package io.github.jasonmomanyi.legiontube.ui.components
+
+import android.content.Context
+import android.widget.Toast
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import io.github.jasonmomanyi.legiontube.data.local.ChannelSubscription
+import io.github.jasonmomanyi.legiontube.data.local.PlaylistRepository
+import io.github.jasonmomanyi.legiontube.data.local.SubscriptionRepository
+import io.github.jasonmomanyi.legiontube.data.model.Video
+import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubeNeuroEngine
+import io.github.jasonmomanyi.legiontube.data.recommendation.InteractionType
+import io.github.jasonmomanyi.legiontube.data.repository.YouTubeRepository
+import io.github.jasonmomanyi.legiontube.player.quality.QualityManager
+import io.github.jasonmomanyi.legiontube.player.stream.AudioStreamSelector
+import io.github.jasonmomanyi.legiontube.player.stream.VideoCodecUtils
+import io.github.jasonmomanyi.legiontube.utils.ThumbnailUrlResolver
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import io.github.jasonmomanyi.legiontube.data.video.VideoDownloadManager
+import io.github.jasonmomanyi.legiontube.data.local.entity.DownloadItemStatus
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+/**
+ * Lightweight singleton event bus for feed-visible state changes.
+ * Emitted by QuickActionsViewModel, observed by HomeViewModel / ShortsViewModel
+ * to instantly strip blocked/disliked content from the cached feed.
+ */
+object FeedInvalidationBus {
+    sealed class Event {
+        data class ChannelBlocked(val channelId: String) : Event()
+        data class NotInterested(val videoId: String, val channelId: String) : Event()
+        data class MarkedWatched(val videoId: String) : Event()
+    }
+
+    private val _events = MutableSharedFlow<Event>(extraBufferCapacity = 8)
+    val events: SharedFlow<Event> = _events.asSharedFlow()
+
+    fun emit(event: Event) { _events.tryEmit(event) }
+}
+
+@HiltViewModel
+class QuickActionsViewModel @Inject constructor(
+    private val repository: YouTubeRepository,
+    private val playlistRepository: PlaylistRepository,
+    private val playerPreferences: io.github.jasonmomanyi.legiontube.data.local.PlayerPreferences,
+    private val videoDownloadManager: VideoDownloadManager,
+    @ApplicationContext private val context: Context
+) : ViewModel() {
+
+    private val subscriptionRepository = SubscriptionRepository.getInstance(context)
+
+    val watchLaterIds = playlistRepository.getWatchLaterIdsFlow()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
+
+    /** In-memory set of video IDs manually marked as watched this session */
+    private val _watchedVideoIds = MutableStateFlow<Set<String>>(emptySet())
+    val watchedVideoIds = _watchedVideoIds.asStateFlow()
+
+    /** Per-video subscription state cache: channelId -> Boolean */
+    private val _subscribedChannelIds = MutableStateFlow<Set<String>>(emptySet())
+    val subscribedChannelIds = _subscribedChannelIds.asStateFlow()
+
+    val downloadedVideoIds = videoDownloadManager.allDownloads
+        .map { list ->
+            list.filter { it.overallStatus == DownloadItemStatus.COMPLETED && it.items.isNotEmpty() }
+                .map { it.download.videoId }
+                .toSet()
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
+
+    fun loadSubscriptionState(channelId: String) {
+        viewModelScope.launch {
+            subscriptionRepository.isSubscribed(channelId).collect { subscribed ->
+                if (subscribed) {
+                    _subscribedChannelIds.update { it + channelId }
+                } else {
+                    _subscribedChannelIds.update { it - channelId }
+                }
+            }
+        }
+    }
+
+    fun toggleSubscription(channelId: String, channelName: String, channelThumbnail: String) {
+        viewModelScope.launch {
+            try {
+                val isCurrentlySubscribed = _subscribedChannelIds.value.contains(channelId)
+                if (isCurrentlySubscribed) {
+                    subscriptionRepository.unsubscribe(channelId)
+                    _subscribedChannelIds.update { it - channelId }
+                    Toast.makeText(context, "Unsubscribed from $channelName", Toast.LENGTH_SHORT).show()
+                } else {
+                    val resolvedThumbnail = channelThumbnail
+                        .takeUnless { ThumbnailUrlResolver.isYoutubeVideoThumbnail(it) }
+                        ?.takeIf { it.isNotBlank() }
+                        ?: withContext(Dispatchers.IO) {
+                            repository.fetchChannelAvatarById(channelId)
+                        }
+                    subscriptionRepository.subscribe(
+                        ChannelSubscription(
+                            channelId = channelId,
+                            channelName = channelName,
+                            channelThumbnail = resolvedThumbnail,
+                            subscribedAt = System.currentTimeMillis()
+                        )
+                    )
+                    _subscribedChannelIds.update { it + channelId }
+                    Toast.makeText(context, "Subscribed to $channelName", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun toggleWatchLater(video: Video) {
+        viewModelScope.launch {
+            try {
+                android.util.Log.d("QuickActionsViewModel", "Toggling Watch Later for video: ${video.id}")
+                val isInWatchLater = playlistRepository.isInWatchLater(video.id)
+                android.util.Log.d("QuickActionsViewModel", "Is currently in Watch Later: $isInWatchLater")
+                
+                if (isInWatchLater) {
+                    playlistRepository.removeFromWatchLater(video.id)
+                    android.util.Log.d("QuickActionsViewModel", "Removed from Watch Later")
+                    Toast.makeText(context, "Removed from Watch Later", Toast.LENGTH_SHORT).show()
+                } else {
+                    playlistRepository.addToWatchLater(video)
+                    android.util.Log.d("QuickActionsViewModel", "Added to Watch Later")
+                    Toast.makeText(context, "Added to Watch Later", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("QuickActionsViewModel", "Error toggling Watch Later", e)
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Block the channel of a video — the channel will never appear in the feed again.
+     * Uses LegionTubeNeuroEngine.blockChannel to persist the block and scrub any existing
+     * channel score, mirroring the "Blocked Channels" UI in User Preferences.
+     */
+    fun blockChannel(video: Video) {
+        if (video.channelId.isBlank()) return
+        viewModelScope.launch {
+            try {
+                LegionTubeNeuroEngine.blockChannel(context, video.channelId)
+                FeedInvalidationBus.emit(FeedInvalidationBus.Event.ChannelBlocked(video.channelId))
+                Toast.makeText(
+                    context,
+                    context.getString(io.github.jasonmomanyi.legiontube.R.string.channel_blocked_toast, video.channelName),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Mark a video as "Not Interested" - this strongly penalizes the video's topics
+     * and channel in the LegionTubeNeuroEngine, making similar content much less likely to appear.
+     */
+    fun markNotInterested(video: Video) {
+        viewModelScope.launch {
+            try {
+                LegionTubeNeuroEngine.markNotInterested(context, video)
+                FeedInvalidationBus.emit(
+                    FeedInvalidationBus.Event.NotInterested(video.id, video.channelId)
+                )
+                Toast.makeText(
+                    context,
+                    "Got it! You'll see less content like this.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Mark a video as "Watched" - signals a positive WATCHED interaction to LegionTubeNeuroEngine,
+     * boosting the video's topics and channel in recommendations. Useful for quick-starting
+     * the algorithm without replaying the whole video.
+     */
+    fun markAsWatched(video: Video) {
+        viewModelScope.launch {
+            try {
+                LegionTubeNeuroEngine.onVideoInteraction(
+                    context,
+                    video,
+                    InteractionType.WATCHED,
+                    percentWatched = 1.0f
+                )
+                
+                val durationMs = if (video.duration > 0) video.duration * 1000L else 1000L
+                val thumbnailUrl = video.thumbnailUrl.takeIf { it.isNotEmpty() }
+                    ?: "https://i.ytimg.com/vi/${video.id}/hq720.jpg"
+                io.github.jasonmomanyi.legiontube.data.local.ViewHistory.getInstance(context).savePlaybackPosition(
+                    videoId = video.id,
+                    position = durationMs,
+                    duration = durationMs,
+                    title = video.title,
+                    thumbnailUrl = thumbnailUrl,
+                    channelName = video.channelName,
+                    channelId = video.channelId,
+                    isMusic = false,
+                    isShort = video.isShort
+                )
+
+                _watchedVideoIds.update { it + video.id }
+                FeedInvalidationBus.emit(FeedInvalidationBus.Event.MarkedWatched(video.id))
+                Toast.makeText(
+                    context,
+                    context.getString(io.github.jasonmomanyi.legiontube.R.string.mark_as_watched_toast),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Mark a video as "I like this" - signals a positive LIKED interaction to LegionTubeNeuroEngine,
+     * boosting the video's topics and channel. Helps users seed the algorithm with content
+     * they enjoy without watching the full video in Flow.
+     */
+    fun markAsInteresting(video: Video) {
+        viewModelScope.launch {
+            try {
+                LegionTubeNeuroEngine.onVideoInteraction(
+                    context,
+                    video,
+                    InteractionType.LIKED,
+                    percentWatched = 0f
+                )
+                Toast.makeText(
+                    context,
+                    context.getString(io.github.jasonmomanyi.legiontube.R.string.i_like_this_toast),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Insert [video] immediately after the current position (Play Next).
+     */
+    fun playVideoNext(video: Video) {
+        io.github.jasonmomanyi.legiontube.player.EnhancedPlayerManager.getInstance().addVideoToQueueNext(video)
+    }
+
+    /**
+     * Append [video] to the end of the current queue.
+     */
+    fun addVideoToQueue(video: Video) {
+        io.github.jasonmomanyi.legiontube.player.EnhancedPlayerManager.getInstance().addVideoToQueue(video)
+    }
+
+    fun downloadVideo(video: Video) {
+        viewModelScope.launch {
+            try {
+                io.github.jasonmomanyi.legiontube.ui.screens.player.util.VideoPlayerUtils.promptStoragePermissionIfNeeded(context)
+
+                // Read the user's preferred download quality (with AUTO = best available)
+                val targetQuality = playerPreferences.defaultDownloadQuality.first()
+                val targetHeight = targetQuality.height 
+
+                Toast.makeText(context, "Fetching download links...", Toast.LENGTH_SHORT).show()
+                val streamInfo = withContext(Dispatchers.IO) {
+                    repository.getVideoStreamInfo(video.id)
+                }
+
+                if (streamInfo != null) {
+                    // ── Video-stream selection ────────────────────────────────────────────
+                    val combinedStreams = streamInfo.videoStreams
+                        ?.filterIsInstance<org.schabi.newpipe.extractor.stream.VideoStream>()
+                        ?: emptyList()
+                    val videoOnlyStreams = streamInfo.videoOnlyStreams
+                        ?.filterIsInstance<org.schabi.newpipe.extractor.stream.VideoStream>()
+                        ?: emptyList()
+
+                    fun isMp4Video(s: org.schabi.newpipe.extractor.stream.VideoStream): Boolean {
+                        val mime  = (s.format?.mimeType ?: "").lowercase()
+                        val fname = (s.format?.name ?: "").lowercase()
+                        return mime.contains("mp4") || fname.contains("mpeg") || fname.contains("mp4")
+                    }
+
+                    fun isVp9Video(s: org.schabi.newpipe.extractor.stream.VideoStream): Boolean {
+                        val mime  = (s.format?.mimeType ?: "").lowercase()
+                        val fname = (s.format?.name ?: "").lowercase()
+                        return mime.contains("vp9") || mime.contains("vp09") ||
+                               fname.contains("vp9") || fname.contains("webm")
+                    }
+
+                    fun qualityHeight(s: org.schabi.newpipe.extractor.stream.VideoStream): Int {
+                        return QualityManager.normalizeQualityHeight(VideoCodecUtils.qualityHeightFromStream(s))
+                    }
+
+                    fun List<org.schabi.newpipe.extractor.stream.VideoStream>.bestForTarget():
+                            org.schabi.newpipe.extractor.stream.VideoStream? {
+                        if (isEmpty()) return null
+                        if (targetHeight == 0) return maxByOrNull { qualityHeight(it) } // AUTO
+                        return filter { qualityHeight(it) <= targetHeight }.maxByOrNull { qualityHeight(it) }
+                            ?: minByOrNull { qualityHeight(it) } // fallback: lowest if nothing fits
+                    }
+
+                    val bestMp4VideoOnly  = videoOnlyStreams.filter { isMp4Video(it) }.bestForTarget()
+                    val bestVp9VideoOnly  = videoOnlyStreams.filter { isVp9Video(it) }.bestForTarget()
+                    val bestAnyVideoOnly  = videoOnlyStreams.bestForTarget()
+                    val bestCombined      = combinedStreams.bestForTarget()
+                    val preferredAudioLanguage = playerPreferences.preferredAudioLanguage.first()
+
+                    // ── Audio selection (codec-aware) ────────────────────────────────────
+                    val allAudio = streamInfo.audioStreams ?: emptyList()
+
+                    fun isAacCompatible(a: org.schabi.newpipe.extractor.stream.AudioStream): Boolean {
+                        val mime  = (a.format?.mimeType ?: "").lowercase()
+                        val fname = (a.format?.name ?: "").lowercase()
+                        if (fname.contains("opus") || fname.contains("vorbis") ||
+                            mime.contains("opus") || mime.contains("vorbis") ||
+                            fname.contains("webm") || mime.contains("webm")) return false
+                        return true
+                    }
+
+                    fun isOpusCompatible(a: org.schabi.newpipe.extractor.stream.AudioStream): Boolean {
+                        val mime  = (a.format?.mimeType ?: "").lowercase()
+                        val fname = (a.format?.name ?: "").lowercase()
+                        return fname.contains("webm") || mime.contains("audio/webm") ||
+                               fname.contains("opus") || mime.contains("opus")
+                    }
+
+                    val selectedStream: org.schabi.newpipe.extractor.stream.VideoStream?
+                    val audioUrl: String?
+                    val videoCodec: String?
+
+                    when {
+                        bestMp4VideoOnly != null &&
+                                qualityHeight(bestMp4VideoOnly) > (bestCombined?.let(::qualityHeight) ?: 0) -> {
+                            selectedStream = bestMp4VideoOnly
+                            val aacAudio = AudioStreamSelector.selectPreferredAudioStream(
+                                streams = allAudio,
+                                preferredAudioLanguage = preferredAudioLanguage,
+                                compatibilityFilter = ::isAacCompatible
+                            )
+                            audioUrl = aacAudio?.content ?: aacAudio?.url
+                            videoCodec = null
+                        }
+                        bestCombined != null -> {
+                            selectedStream = bestCombined
+                            audioUrl = null
+                            videoCodec = null
+                        }
+                        bestVp9VideoOnly != null &&
+                                (qualityHeight(bestVp9VideoOnly) > (bestMp4VideoOnly?.let(::qualityHeight) ?: 0)) -> {
+                            selectedStream = bestVp9VideoOnly
+                            val opusAudio = AudioStreamSelector.selectPreferredAudioStream(
+                                streams = allAudio,
+                                preferredAudioLanguage = preferredAudioLanguage,
+                                compatibilityFilter = ::isOpusCompatible
+                            )
+                            audioUrl = opusAudio?.content ?: opusAudio?.url
+                            videoCodec = "vp9"
+                        }
+                        bestMp4VideoOnly != null -> {
+                            selectedStream = bestMp4VideoOnly
+                            val aacAudio = AudioStreamSelector.selectPreferredAudioStream(
+                                streams = allAudio,
+                                preferredAudioLanguage = preferredAudioLanguage,
+                                compatibilityFilter = ::isAacCompatible
+                            )
+                            audioUrl = aacAudio?.content ?: aacAudio?.url
+                            videoCodec = null
+                        }
+                        else -> {
+                            selectedStream = null
+                            audioUrl = null
+                            videoCodec = null
+                        }
+                    }
+
+                    // NewPipe DASH VideoStreams store the real URL in .content; .url may be null.
+                    val videoUrl = selectedStream?.content ?: selectedStream?.url
+                    if (selectedStream != null && videoUrl != null) {
+                        val fullVideo = Video(
+                            id = video.id,
+                            title = video.title.ifBlank { streamInfo.name ?: "Unknown" },
+                            channelName = video.channelName.ifBlank { streamInfo.uploaderName ?: "" },
+                            channelId = video.channelId.ifBlank { streamInfo.uploaderUrl?.substringAfterLast("/") ?: "local" },
+                            thumbnailUrl = video.thumbnailUrl.ifBlank { streamInfo.thumbnails?.maxByOrNull { it.height }?.url ?: "" },
+                            duration = if (video.duration > 0) video.duration else streamInfo.duration.toInt(),
+                            viewCount = video.viewCount,
+                            uploadDate = video.uploadDate,
+                            description = video.description.ifBlank { streamInfo.description?.content ?: "" }
+                        )
+
+                        io.github.jasonmomanyi.legiontube.data.video.downloader.LegionTubeDownloadService.startDownload(
+                            context = context,
+                            video = fullVideo,
+                            url = videoUrl,
+                            quality = "${qualityHeight(selectedStream)}p",
+                            audioUrl = audioUrl,
+                            videoCodec = videoCodec
+                        )
+                        Toast.makeText(context, "Download started: ${fullVideo.title}", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "No suitable stream found", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Failed to fetch video info", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}

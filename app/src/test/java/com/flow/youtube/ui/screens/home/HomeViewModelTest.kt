@@ -1,11 +1,11 @@
-package io.github.aedev.flow.ui.screens.home
+package io.github.jasonmomanyi.legiontube.ui.screens.home
 
-import io.github.aedev.flow.data.local.PlayerPreferences
-import io.github.aedev.flow.data.local.SubscriptionRepository
-import io.github.aedev.flow.data.model.Video
-import io.github.aedev.flow.data.recommendation.FlowNeuroEngine
-import io.github.aedev.flow.data.repository.YouTubeRepository
-import io.github.aedev.flow.data.shorts.ShortsRepository
+import io.github.jasonmomanyi.legiontube.data.local.PlayerPreferences
+import io.github.jasonmomanyi.legiontube.data.local.SubscriptionRepository
+import io.github.jasonmomanyi.legiontube.data.model.Video
+import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubeNeuroEngine
+import io.github.jasonmomanyi.legiontube.data.repository.YouTubeRepository
+import io.github.jasonmomanyi.legiontube.data.shorts.ShortsRepository
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
@@ -34,11 +34,11 @@ class HomeViewModelTest {
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         
-        mockkObject(FlowNeuroEngine)
+        mockkObject(LegionTubeNeuroEngine)
         
         // Mock default behaviors
-        coEvery { FlowNeuroEngine.generateDiscoveryQueries() } returns listOf("test")
-        coEvery { FlowNeuroEngine.rank(any(), any(), any()) } answers { it.invocation.args[0] as List<Video> }
+        coEvery { LegionTubeNeuroEngine.generateDiscoveryQueries() } returns listOf("test")
+        coEvery { LegionTubeNeuroEngine.rank(any(), any(), any()) } answers { it.invocation.args[0] as List<Video> }
         
         coEvery { shortsRepository.getHomeFeedShorts() } returns emptyList()
         coEvery { subscriptionRepository.getAllSubscriptionIds() } returns emptySet()
@@ -95,7 +95,7 @@ class HomeViewModelTest {
             createVideo(id = "2", title = "Test 2", duration = 200)
         )
         
-        // Mock fallback trending since FlowNeuroEngine might not be easily mockable here without static mocking
+        // Mock fallback trending since LegionTubeNeuroEngine might not be easily mockable here without static mocking
         coEvery { repository.getTrendingVideos(any(), any()) } returns Pair(mockVideos, null)
         
         viewModel = HomeViewModel(repository, subscriptionRepository, shortsRepository, playerPreferences)

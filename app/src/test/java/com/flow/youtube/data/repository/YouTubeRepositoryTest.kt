@@ -1,6 +1,6 @@
-package io.github.aedev.flow.data.repository
+package io.github.jasonmomanyi.legiontube.data.repository
 
-import io.github.aedev.flow.data.model.Video
+import io.github.jasonmomanyi.legiontube.data.model.Video
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk

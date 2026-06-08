@@ -38,13 +38,13 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
-        android:name=".FlowApplication"
+        android:name=".LegionTubeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Flow"
+        android:theme="@style/Theme.LegionTube"
         android:usesCleartextTraffic="true"
         android:resizeableActivity="true"
         android:enableOnBackInvokedCallback="true">
@@ -76,7 +76,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="true"
             android:supportsPictureInPicture="true"
-            android:theme="@style/Theme.Flow.Starting"
+            android:theme="@style/Theme.LegionTube.Starting"
             android:windowSoftInputMode="adjustResize"
             android:windowLayoutInDisplayCutoutMode="shortEdges">
 
@@ -150,7 +150,7 @@
 
         <!-- Flow Parallel Download Service -->
         <service
-            android:name=".data.video.downloader.FlowDownloadService"
+            android:name=".data.video.downloader.LegionTubeDownloadService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync">
@@ -180,11 +180,11 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="io.github.aedev.flow.action.CANCEL_DOWNLOAD" />
-                <action android:name="io.github.aedev.flow.action.RETRY_DOWNLOAD" />
-                <action android:name="io.github.aedev.flow.action.PAUSE_DOWNLOAD" />
-                <action android:name="io.github.aedev.flow.action.RESUME_DOWNLOAD" />
-                <action android:name="io.github.aedev.flow.action.DISMISS_NOTIFICATION" />
+                <action android:name="io.github.jasonmomanyi.legiontube.action.CANCEL_DOWNLOAD" />
+                <action android:name="io.github.jasonmomanyi.legiontube.action.RETRY_DOWNLOAD" />
+                <action android:name="io.github.jasonmomanyi.legiontube.action.PAUSE_DOWNLOAD" />
+                <action android:name="io.github.jasonmomanyi.legiontube.action.RESUME_DOWNLOAD" />
+                <action android:name="io.github.jasonmomanyi.legiontube.action.DISMISS_NOTIFICATION" />
             </intent-filter>
         </receiver>
 
@@ -197,7 +197,7 @@
         <!-- App Icon Variants (via activity-alias)                          -->
         <!-- Default: Flow Red -->
         <activity-alias
-            android:name=".IconFlowRed"
+            android:name=".IconLegionTubeRed"
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
@@ -211,7 +211,7 @@
 
         <!-- Flow Light -->
         <activity-alias
-            android:name=".IconFlowLight"
+            android:name=".IconLegionTubeLight"
             android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_flow_light"

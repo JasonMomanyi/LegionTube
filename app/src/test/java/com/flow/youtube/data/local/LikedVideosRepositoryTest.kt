@@ -1,4 +1,4 @@
-package io.github.aedev.flow.data.local
+package io.github.jasonmomanyi.legiontube.data.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -30,7 +30,7 @@ class LikedVideosRepositoryTest {
         every { android.util.Log.e(any(), any()) } returns 0
         
         testFilesDir = File("build/tmp/liked_videos_tests").apply { mkdirs() }
-        mockkStatic("io.github.aedev.flow.data.local.LikedVideosRepositoryKt")
+        mockkStatic("io.github.jasonmomanyi.legiontube.data.local.LikedVideosRepositoryKt")
     }
 
     @After

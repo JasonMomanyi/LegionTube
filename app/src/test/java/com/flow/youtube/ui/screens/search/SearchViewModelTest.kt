@@ -1,10 +1,10 @@
-package io.github.aedev.flow.ui.screens.search
+package io.github.jasonmomanyi.legiontube.ui.screens.search
 
-import io.github.aedev.flow.data.local.Duration
-import io.github.aedev.flow.data.local.SearchFilter
-import io.github.aedev.flow.data.model.Video
-import io.github.aedev.flow.data.model.SearchResult
-import io.github.aedev.flow.data.repository.YouTubeRepository
+import io.github.jasonmomanyi.legiontube.data.local.Duration
+import io.github.jasonmomanyi.legiontube.data.local.SearchFilter
+import io.github.jasonmomanyi.legiontube.data.model.Video
+import io.github.jasonmomanyi.legiontube.data.model.SearchResult
+import io.github.jasonmomanyi.legiontube.data.repository.YouTubeRepository
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk

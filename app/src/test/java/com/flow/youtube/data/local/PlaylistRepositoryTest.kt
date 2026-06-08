@@ -1,10 +1,10 @@
-package io.github.aedev.flow.data.local
+package io.github.jasonmomanyi.legiontube.data.local
 
-import io.github.aedev.flow.data.local.dao.PlaylistDao
-import io.github.aedev.flow.data.local.dao.VideoDao
-import io.github.aedev.flow.data.local.entity.PlaylistEntity
-import io.github.aedev.flow.data.local.entity.VideoEntity
-import io.github.aedev.flow.data.model.Video
+import io.github.jasonmomanyi.legiontube.data.local.dao.PlaylistDao
+import io.github.jasonmomanyi.legiontube.data.local.dao.VideoDao
+import io.github.jasonmomanyi.legiontube.data.local.entity.PlaylistEntity
+import io.github.jasonmomanyi.legiontube.data.local.entity.VideoEntity
+import io.github.jasonmomanyi.legiontube.data.model.Video
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import kotlinx.coroutines.test.runTest
