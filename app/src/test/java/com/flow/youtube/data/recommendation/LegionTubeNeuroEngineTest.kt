@@ -71,7 +71,7 @@ class FlowNeuroEngineTest {
     fun `getPersona returns INITIATE for new users`() {
         val brain = UserBrain(totalInteractions = 5)
         val persona = LegionTubeNeuroEngine.getPersona(brain)
-        assertThat(persona).isEqualTo(FlowPersona.INITIATE)
+        assertThat(persona).isEqualTo(LegionTubePersona.INITIATE)
     }
 
     @Test
@@ -82,7 +82,7 @@ class FlowNeuroEngineTest {
             totalInteractions = 20
         )
         val persona = LegionTubeNeuroEngine.getPersona(brain)
-        assertThat(persona).isEqualTo(FlowPersona.AUDIOPHILE)
+        assertThat(persona).isEqualTo(LegionTubePersona.AUDIOPHILE)
     }
 
     @Test
@@ -93,7 +93,7 @@ class FlowNeuroEngineTest {
             totalInteractions = 20
         )
         val persona = LegionTubeNeuroEngine.getPersona(brain)
-        assertThat(persona).isEqualTo(FlowPersona.SCHOLAR)
+        assertThat(persona).isEqualTo(LegionTubePersona.SCHOLAR)
     }
 
     @Test
@@ -104,6 +104,6 @@ class FlowNeuroEngineTest {
             totalInteractions = 20
         )
         val persona = LegionTubeNeuroEngine.getPersona(brain)
-        assertThat(persona).isEqualTo(FlowPersona.DEEP_DIVER)
+        assertThat(persona).isEqualTo(LegionTubePersona.DEEP_DIVER)
     }
 }

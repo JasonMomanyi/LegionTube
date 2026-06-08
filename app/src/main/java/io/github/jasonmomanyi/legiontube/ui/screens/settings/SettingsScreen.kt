@@ -116,14 +116,14 @@ fun SettingsScreen(
     val currentAppLanguage by playerPreferences.appLanguage.collectAsState(initial = AppLanguageManager.SYSTEM_DEFAULT)
 
     // Deep Flow state
-    val deepFlowActive by playerPreferences.deepFlowActive.collectAsState(initial = false)
-    val deepFlowActivatedAt by playerPreferences.deepFlowActivatedAt.collectAsState(initial = 0L)
-    val deepFlowExpireHours by playerPreferences.deepFlowExpireHours.collectAsState(initial = 4)
+    val deepLegionTubeActive by playerPreferences.deepLegionTubeActive.collectAsState(initial = false)
+    val deepLegionTubeActivatedAt by playerPreferences.deepLegionTubeActivatedAt.collectAsState(initial = 0L)
+    val deepLegionTubeExpireHours by playerPreferences.deepLegionTubeExpireHours.collectAsState(initial = 4)
     var showDeepFlowDurationDialog by remember { mutableStateOf(false) }
 
-    val deepFlowRemainingLabel: String? = remember(deepFlowActive, deepFlowActivatedAt, deepFlowExpireHours) {
-        if (!deepFlowActive || deepFlowActivatedAt == 0L || deepFlowExpireHours == DEEP_FLOW_NEVER_EXPIRES_HOURS) return@remember null
-        val expiresAt = deepFlowActivatedAt + deepFlowExpireHours * 3_600_000L
+    val deepFlowRemainingLabel: String? = remember(deepLegionTubeActive, deepLegionTubeActivatedAt, deepLegionTubeExpireHours) {
+        if (!deepLegionTubeActive || deepLegionTubeActivatedAt == 0L || deepLegionTubeExpireHours == DEEP_FLOW_NEVER_EXPIRES_HOURS) return@remember null
+        val expiresAt = deepLegionTubeActivatedAt + deepLegionTubeExpireHours * 3_600_000L
         val remainingMs = expiresAt - System.currentTimeMillis()
         if (remainingMs <= 0) return@remember null
         val remainingMins = remainingMs / 60_000
@@ -548,7 +548,7 @@ item {
                         Icon(
                             imageVector = Icons.Outlined.VisibilityOff,
                             contentDescription = null,
-                            tint = if (deepFlowActive)
+                            tint = if (deepLegionTubeActive)
                                 MaterialTheme.colorScheme.primary
                             else
                                 MaterialTheme.colorScheme.onSurfaceVariant
@@ -560,7 +560,7 @@ item {
                                     text = androidx.compose.ui.res.stringResource(io.github.jasonmomanyi.legiontube.R.string.deep_flow_mode_title),
                                     style = MaterialTheme.typography.bodyLarge
                                 )
-                                if (deepFlowActive && deepFlowRemainingLabel != null) {
+                                if (deepLegionTubeActive && deepFlowRemainingLabel != null) {
                                     Spacer(Modifier.width(8.dp))
                                     Surface(
                                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
@@ -580,11 +580,11 @@ item {
                             }
                             Text(
                                 text = when {
-                                    deepFlowActive && deepFlowRemainingLabel != null -> androidx.compose.ui.res.stringResource(
+                                    deepLegionTubeActive && deepFlowRemainingLabel != null -> androidx.compose.ui.res.stringResource(
                                         io.github.jasonmomanyi.legiontube.R.string.deep_flow_expires_in,
                                         deepFlowRemainingLabel
                                     )
-                                    deepFlowActive && deepFlowExpireHours == DEEP_FLOW_NEVER_EXPIRES_HOURS -> androidx.compose.ui.res.stringResource(
+                                    deepLegionTubeActive && deepLegionTubeExpireHours == DEEP_FLOW_NEVER_EXPIRES_HOURS -> androidx.compose.ui.res.stringResource(
                                         io.github.jasonmomanyi.legiontube.R.string.deep_flow_active_until_disabled
                                     )
                                     else -> androidx.compose.ui.res.stringResource(io.github.jasonmomanyi.legiontube.R.string.deep_flow_mode_subtitle)
@@ -594,7 +594,7 @@ item {
                             )
                         }
                         Switch(
-                            checked = deepFlowActive,
+                            checked = deepLegionTubeActive,
                             onCheckedChange = { enabled ->
                                 coroutineScope.launch {
                                     DeepFlowManager.setEnabled(context, enabled)
@@ -628,7 +628,7 @@ item {
                             Text(
                                 text = androidx.compose.ui.res.stringResource(
                                     io.github.jasonmomanyi.legiontube.R.string.deep_flow_expire_duration_subtitle,
-                                    deepFlowExpireHours.let { hours ->
+                                    deepLegionTubeExpireHours.let { hours ->
                                         when (hours) {
                                             DEEP_FLOW_NEVER_EXPIRES_HOURS -> context.getString(io.github.jasonmomanyi.legiontube.R.string.deep_flow_duration_never)
                                             1 -> context.getString(io.github.jasonmomanyi.legiontube.R.string.deep_flow_duration_1h)
@@ -903,7 +903,7 @@ item {
                                 .fillMaxWidth()
                                 .clickable {
                                     coroutineScope.launch {
-                                        playerPreferences.setDeepFlowExpireHours(hours)
+                                        playerPreferences.setDeepLegionTubeExpireHours(hours)
                                     }
                                     showDeepFlowDurationDialog = false
                                 }
@@ -911,10 +911,10 @@ item {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = deepFlowExpireHours == hours,
+                                selected = deepLegionTubeExpireHours == hours,
                                 onClick = {
                                     coroutineScope.launch {
-                                        playerPreferences.setDeepFlowExpireHours(hours)
+                                        playerPreferences.setDeepLegionTubeExpireHours(hours)
                                     }
                                     showDeepFlowDurationDialog = false
                                 }

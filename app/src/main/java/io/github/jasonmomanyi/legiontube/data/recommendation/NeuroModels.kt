@@ -125,7 +125,7 @@ enum class InteractionType {
 
 // ── Persona ──
 
-enum class FlowPersona(
+enum class LegionTubePersona(
     val title: String,
     val description: String,
     val icon: String

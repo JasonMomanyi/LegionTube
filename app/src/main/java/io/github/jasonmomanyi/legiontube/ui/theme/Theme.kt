@@ -421,7 +421,7 @@ private fun customThemeColorScheme(colors: CustomThemeColors): ColorScheme {
 }
 
 @Composable
-fun FlowTheme(
+fun LegionTubeTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
     customThemeColors: CustomThemeColors = CustomThemeColors.default(),
     systemLightThemeMode: ThemeMode = ThemeMode.LIGHT,

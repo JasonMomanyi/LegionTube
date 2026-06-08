@@ -12,7 +12,7 @@ import java.util.Locale
  *
  * Reads logcat output for the current process (no special permissions required —
  * apps may always read their own PID's logs since API 18) and surfaces crash
- * reports that FlowCrashHandler persisted to disk.
+ * reports that LegionTubeCrashHandler persisted to disk.
  */
 object FlowDiagnostics {
 
@@ -48,15 +48,15 @@ object FlowDiagnostics {
     }
 
     /**
-     * Returns crash reports written to disk by [FlowCrashHandler].
+     * Returns crash reports written to disk by [LegionTubeCrashHandler].
      * Call on any thread — file I/O is minimal (single small text file).
      */
     fun getCrashLogs(context: Context): String =
-        FlowCrashHandler.getCrashLogs(context)
+        LegionTubeCrashHandler.getCrashLogs(context)
 
     /** Deletes the on-disk crash log file. */
     fun clearCrashLogs(context: Context) =
-        FlowCrashHandler.clearCrashLogs(context)
+        LegionTubeCrashHandler.clearCrashLogs(context)
 
     /**
      * Assembles a single shareable text report containing device metadata,

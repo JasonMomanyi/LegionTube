@@ -1801,16 +1801,16 @@ class PlayerPreferences(context: Context) {
 
     // DEEP FLOW (INCOGNITO / NO-ENGINE) MODE
 
-    val deepFlowActive: Flow<Boolean> = context.playerPreferencesDataStore.data
+    val deepLegionTubeActive: Flow<Boolean> = context.playerPreferencesDataStore.data
         .map { preferences -> preferences[Keys.DEEP_FLOW_ACTIVE] ?: false }
 
-    val deepFlowActivatedAt: Flow<Long> = context.playerPreferencesDataStore.data
+    val deepLegionTubeActivatedAt: Flow<Long> = context.playerPreferencesDataStore.data
         .map { preferences -> preferences[Keys.DEEP_FLOW_ACTIVATED_AT] ?: 0L }
 
-    val deepFlowExpireHours: Flow<Int> = context.playerPreferencesDataStore.data
+    val deepLegionTubeExpireHours: Flow<Int> = context.playerPreferencesDataStore.data
         .map { preferences -> preferences[Keys.DEEP_FLOW_EXPIRE_HOURS] ?: 4 }
 
-    suspend fun setDeepFlowActive(enabled: Boolean) {
+    suspend fun setDeepLegionTubeActive(enabled: Boolean) {
         context.playerPreferencesDataStore.edit { preferences ->
             preferences[Keys.DEEP_FLOW_ACTIVE] = enabled
             if (enabled) {
@@ -1821,7 +1821,7 @@ class PlayerPreferences(context: Context) {
         }
     }
 
-    suspend fun setDeepFlowExpireHours(hours: Int) {
+    suspend fun setDeepLegionTubeExpireHours(hours: Int) {
         context.playerPreferencesDataStore.edit { preferences ->
             preferences[Keys.DEEP_FLOW_EXPIRE_HOURS] = hours
         }
@@ -1869,7 +1869,7 @@ class PlayerPreferences(context: Context) {
     }
 
     
-    suspend fun isDeepFlowCurrentlyActive(): Boolean {
+    suspend fun isDeepLegionTubeCurrentlyActive(): Boolean {
         val prefs = context.playerPreferencesDataStore.data.first()
         val active = prefs[Keys.DEEP_FLOW_ACTIVE] ?: false
         if (!active) return false
@@ -1879,7 +1879,7 @@ class PlayerPreferences(context: Context) {
         val elapsedHours = (System.currentTimeMillis() - activatedAt) / 3_600_000.0
         val stillActive = elapsedHours < expireHours
         if (!stillActive) {
-            setDeepFlowActive(false)
+            setDeepLegionTubeActive(false)
         }
         return stillActive
     }

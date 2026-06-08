@@ -36,7 +36,7 @@ import okhttp3.Request
 import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubeNeuroEngine
 import com.google.gson.JsonParser
 import io.github.jasonmomanyi.legiontube.ui.screens.CrashReporterScreen
-import io.github.jasonmomanyi.legiontube.utils.FlowCrashHandler
+import io.github.jasonmomanyi.legiontube.utils.LegionTubeCrashHandler
 import io.github.jasonmomanyi.legiontube.utils.UpdateManager
 import io.github.jasonmomanyi.legiontube.utils.UpdateInfo
 import io.github.jasonmomanyi.legiontube.network.AppProxyManager
@@ -154,11 +154,11 @@ class MainActivity : ComponentActivity() {
             // Check for a crash that happened last session.
             // If found, show the CrashReporterScreen instead of the normal UI.
             var pendingCrashLog by remember {
-                mutableStateOf(FlowCrashHandler.getLastCrash(applicationContext))
+                mutableStateOf(LegionTubeCrashHandler.getLastCrash(applicationContext))
             }
 
             if (pendingCrashLog != null) {
-                FlowTheme(
+                LegionTubeTheme(
                     themeMode = themeMode,
                     customThemeColors = customThemeColors,
                     systemLightThemeMode = systemLightThemeMode,
@@ -167,7 +167,7 @@ class MainActivity : ComponentActivity() {
                     CrashReporterScreen(
                         crashLog = pendingCrashLog!!,
                         onClearAndRestart = {
-                            FlowCrashHandler.clearLastCrash(applicationContext)
+                            LegionTubeCrashHandler.clearLastCrash(applicationContext)
                             pendingCrashLog = null
                         }
                     )
@@ -221,7 +221,7 @@ class MainActivity : ComponentActivity() {
                 io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubeNeuroEngine.initialize(applicationContext)
             }
 
-            FlowTheme(
+            LegionTubeTheme(
                 themeMode = themeMode,
                 customThemeColors = customThemeColors,
                 systemLightThemeMode = systemLightThemeMode,

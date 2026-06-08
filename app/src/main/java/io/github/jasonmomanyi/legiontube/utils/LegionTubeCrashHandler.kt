@@ -17,18 +17,18 @@ private const val CRASH_PREFS_KEY_LAST = "last_crash"
  * Global exception handler for crash monitoring and logging.
  * Catches uncaught exceptions and logs them
  */
-class FlowCrashHandler private constructor(
+class LegionTubeCrashHandler private constructor(
     private val context: Context,
     private val defaultHandler: Thread.UncaughtExceptionHandler?
 ) : Thread.UncaughtExceptionHandler {
 
     companion object {
-        private const val TAG = "FlowCrashHandler"
+        private const val TAG = "LegionTubeCrashHandler"
         private const val CRASH_LOG_FILE = "flow_crashes.log"
         private const val MAX_CRASH_LOG_SIZE = 500_000L // 500KB
         
         @Volatile
-        private var instance: FlowCrashHandler? = null
+        private var instance: LegionTubeCrashHandler? = null
         
         /**
          * Install the crash handler. Call from Application.onCreate()
@@ -38,7 +38,7 @@ class FlowCrashHandler private constructor(
                 synchronized(this) {
                     if (instance == null) {
                         val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
-                        instance = FlowCrashHandler(context.applicationContext, defaultHandler)
+                        instance = LegionTubeCrashHandler(context.applicationContext, defaultHandler)
                         Thread.setDefaultUncaughtExceptionHandler(instance)
                         Log.i(TAG, "Crash handler installed")
                     }

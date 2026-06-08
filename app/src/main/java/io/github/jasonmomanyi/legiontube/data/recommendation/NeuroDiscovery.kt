@@ -398,7 +398,7 @@ internal class NeuroDiscovery(
 
     fun generateQueries(
         brain: UserBrain,
-        personaProvider: (UserBrain) -> FlowPersona
+        personaProvider: (UserBrain) -> LegionTubePersona
     ): List<DiscoveryQuery> {
         val persona = personaProvider(brain)
         val blocked = brain.blockedTopics
@@ -454,7 +454,7 @@ internal class NeuroDiscovery(
     private fun addDirectQueries(
         queries: MutableList<DiscoveryQuery>,
         selection: TopicSelection,
-        persona: FlowPersona,
+        persona: LegionTubePersona,
         brain: UserBrain,
         isMatureBrain: Boolean
     ) {
@@ -472,9 +472,9 @@ internal class NeuroDiscovery(
 
         // Secondary interests — count varies by persona
         val secondaryCount = when (persona) {
-            FlowPersona.SPECIALIST -> 1
-            FlowPersona.EXPLORER -> 4
-            FlowPersona.SKIMMER -> 3
+            LegionTubePersona.SPECIALIST -> 1
+            LegionTubePersona.EXPLORER -> 4
+            LegionTubePersona.SKIMMER -> 3
             else -> 2
         }
 
@@ -777,7 +777,7 @@ internal class NeuroDiscovery(
         queries: MutableList<DiscoveryQuery>,
         selection: TopicSelection,
         brain: UserBrain,
-        persona: FlowPersona,
+        persona: LegionTubePersona,
         isMatureBrain: Boolean
     ) {
         val primary = selection.primary.firstOrNull { isDiscoveryEligible(it, isMatureBrain) } ?: return
@@ -785,12 +785,12 @@ internal class NeuroDiscovery(
 
         val formatWord = when {
             v.duration > 0.75 ||
-                persona == FlowPersona.DEEP_DIVER ||
-                persona == FlowPersona.SCHOLAR ->
+                persona == LegionTubePersona.DEEP_DIVER ||
+                persona == LegionTubePersona.SCHOLAR ->
                 LONG_FORM_WORDS.random()
 
             v.duration < 0.30 ||
-                persona == FlowPersona.SKIMMER ->
+                persona == LegionTubePersona.SKIMMER ->
                 SHORT_FORM_WORDS.random()
 
             else -> return // No clear preference — skip format queries

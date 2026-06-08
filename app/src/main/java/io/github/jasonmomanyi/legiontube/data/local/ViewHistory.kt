@@ -76,7 +76,7 @@ class ViewHistory private constructor(private val context: Context) {
         isMusic: Boolean = false,
         isShort: Boolean = false
     ) {
-        if (PlayerPreferences(context).isDeepFlowCurrentlyActive()) return
+        if (PlayerPreferences(context).isDeepLegionTubeCurrentlyActive()) return
 
         val thumbnail = ThumbnailUrlResolver.normalizeVideoThumbnail(videoId, thumbnailUrl)
         dao.upsert(
@@ -109,7 +109,7 @@ class ViewHistory private constructor(private val context: Context) {
         duration: Long = 0L,
         isShort: Boolean = false
     ) {
-        if (PlayerPreferences(context).isDeepFlowCurrentlyActive()) return
+        if (PlayerPreferences(context).isDeepLegionTubeCurrentlyActive()) return
 
         val thumbnail = ThumbnailUrlResolver.normalizeVideoThumbnail(videoId, thumbnailUrl)
         val existingPosition = dao.getPosition(videoId) ?: 0L  // preserve saved progress

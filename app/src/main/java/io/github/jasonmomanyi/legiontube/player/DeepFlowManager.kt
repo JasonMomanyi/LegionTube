@@ -49,9 +49,9 @@ object DeepFlowManager {
         val preferences = PlayerPreferences(appContext)
         observerJob = scope.launch {
             combine(
-                preferences.deepFlowActive,
-                preferences.deepFlowActivatedAt,
-                preferences.deepFlowExpireHours
+                preferences.deepLegionTubeActive,
+                preferences.deepLegionTubeActivatedAt,
+                preferences.deepLegionTubeExpireHours
             ) { active, activatedAt, expireHours ->
                 DeepFlowSnapshot(active, activatedAt, expireHours)
             }.collectLatest { snapshot ->
@@ -71,31 +71,31 @@ object DeepFlowManager {
                 val remainingMs = expiresAt - System.currentTimeMillis()
                 if (remainingMs <= 0L) {
                     pendingDisableReason = DisableReason.Timer
-                    preferences.setDeepFlowActive(false)
+                    preferences.setDeepLegionTubeActive(false)
                     return@collectLatest
                 }
 
                 delay(remainingMs)
                 pendingDisableReason = DisableReason.Timer
-                preferences.setDeepFlowActive(false)
+                preferences.setDeepLegionTubeActive(false)
             }
         }
     }
 
     suspend fun toggle(context: Context): Boolean {
         val preferences = PlayerPreferences(context.applicationContext)
-        val nextEnabled = !preferences.deepFlowActive.first()
+        val nextEnabled = !preferences.deepLegionTubeActive.first()
         setEnabled(context, nextEnabled)
         return nextEnabled
     }
 
     suspend fun setEnabled(context: Context, enabled: Boolean): Boolean {
         val preferences = PlayerPreferences(context.applicationContext)
-        val currentEnabled = preferences.deepFlowActive.first()
+        val currentEnabled = preferences.deepLegionTubeActive.first()
         if (currentEnabled == enabled) return enabled
 
         pendingDisableReason = if (enabled) null else DisableReason.Manual
-        preferences.setDeepFlowActive(enabled)
+        preferences.setDeepLegionTubeActive(enabled)
         return enabled
     }
 

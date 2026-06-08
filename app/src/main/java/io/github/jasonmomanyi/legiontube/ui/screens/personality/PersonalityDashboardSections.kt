@@ -66,15 +66,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.jasonmomanyi.legiontube.R
-import io.github.jasonmomanyi.legiontube.data.recommendation.FlowPersona
+import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubePersona
 import io.github.jasonmomanyi.legiontube.data.recommendation.UserBrain
 
 @Composable
 internal fun PersonalityOverviewSection(
     brain: UserBrain,
-    persona: FlowPersona?
+    persona: LegionTubePersona?
 ) {
-    val displayPersona = persona ?: FlowPersona.INITIATE
+    val displayPersona = persona ?: LegionTubePersona.INITIATE
 
     Card(
         modifier = Modifier.fillMaxWidth(),

@@ -39,7 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.jasonmomanyi.legiontube.R
 import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubeNeuroEngine
-import io.github.jasonmomanyi.legiontube.data.recommendation.FlowPersona
+import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubePersona
 import io.github.jasonmomanyi.legiontube.data.recommendation.UserBrain
 import io.github.jasonmomanyi.legiontube.data.repository.YouTubeRepository
 import kotlinx.coroutines.Dispatchers
@@ -58,7 +58,7 @@ fun LegionTubePersonalityScreen(
     val scope = rememberCoroutineScope()
 
     var brain by remember { mutableStateOf<UserBrain?>(null) }
-    var persona by remember { mutableStateOf<FlowPersona?>(null) }
+    var persona by remember { mutableStateOf<LegionTubePersona?>(null) }
     var discoveryQueries by remember { mutableStateOf<List<String>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var showResetDialog by remember { mutableStateOf(false) }

@@ -12,7 +12,7 @@ import io.github.jasonmomanyi.legiontube.data.repository.NewPipeDownloader
 import io.github.jasonmomanyi.legiontube.data.repository.YouTubeRepository
 import io.github.jasonmomanyi.legiontube.notification.NotificationHelper
 import io.github.jasonmomanyi.legiontube.network.AppProxyManager
-import io.github.jasonmomanyi.legiontube.utils.FlowCrashHandler
+import io.github.jasonmomanyi.legiontube.utils.LegionTubeCrashHandler
 import io.github.jasonmomanyi.legiontube.utils.PerformanceDispatcher
 import org.schabi.newpipe.extractor.NewPipe
 import org.schabi.newpipe.extractor.localization.ContentCountry
@@ -75,7 +75,7 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         }
 
         // Install crash handler for real-time monitoring
-        FlowCrashHandler.install(this)
+        LegionTubeCrashHandler.install(this)
         
         try {
             val country = ContentCountry("US")

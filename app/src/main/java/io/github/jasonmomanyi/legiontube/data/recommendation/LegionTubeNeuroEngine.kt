@@ -102,7 +102,7 @@ class LegionTubeNeuroEngine(private val appContext: Context) {
 
         suspend fun getBrainSnapshot(): UserBrain = requireInstance().getBrainSnapshot()
 
-        fun getPersona(brain: UserBrain): FlowPersona = requireInstance().getPersona(brain)
+        fun getPersona(brain: UserBrain): LegionTubePersona = requireInstance().getPersona(brain)
 
         suspend fun markNotInterested(video: Video) =
             requireInstance().markNotInterested(video)
@@ -1407,7 +1407,7 @@ class LegionTubeNeuroEngine(private val appContext: Context) {
         percentWatched: Float = 0f
     ) {
         // Deep Flow mode: freeze vector learning while active and not yet expired
-        if (PlayerPreferences(appContext).isDeepFlowCurrentlyActive()) return
+        if (PlayerPreferences(appContext).isDeepLegionTubeCurrentlyActive()) return
 
         val idfSnapshot = brainMutex.withLock { takeIdfSnapshot() }
         val videoVector = getOrExtractFeatures(video, idfSnapshot)
@@ -1819,8 +1819,8 @@ class LegionTubeNeuroEngine(private val appContext: Context) {
     // PERSONA ENGINE
     // =================================================
 
-    fun getPersona(brain: UserBrain): FlowPersona {
-        if (brain.totalInteractions < 15) return FlowPersona.INITIATE
+    fun getPersona(brain: UserBrain): LegionTubePersona {
+        if (brain.totalInteractions < 15) return LegionTubePersona.INITIATE
 
         val v = brain.globalVector
 
@@ -1859,21 +1859,21 @@ class LegionTubeNeuroEngine(private val appContext: Context) {
 
         val rawPersona = when {
             totalScore > 0 &&
-                musicScore > (totalScore * 0.4) -> FlowPersona.AUDIOPHILE
-            v.isLive > 0.6 -> FlowPersona.LIVEWIRE
-            isNocturnal -> FlowPersona.NIGHT_OWL
+                musicScore > (totalScore * 0.4) -> LegionTubePersona.AUDIOPHILE
+            v.isLive > 0.6 -> LegionTubePersona.LIVEWIRE
+            isNocturnal -> LegionTubePersona.NIGHT_OWL
             brain.totalInteractions > 500 &&
-                v.pacing > 0.65 -> FlowPersona.BINGER
-            v.complexity > 0.75 -> FlowPersona.SCHOLAR
-            v.duration > 0.70 -> FlowPersona.DEEP_DIVER
+                v.pacing > 0.65 -> LegionTubePersona.BINGER
+            v.complexity > 0.75 -> LegionTubePersona.SCHOLAR
+            v.duration > 0.70 -> LegionTubePersona.DEEP_DIVER
             v.duration < 0.35 &&
-                v.pacing > 0.60 -> FlowPersona.SKIMMER
-            diversityIndex < 0.25 -> FlowPersona.SPECIALIST
-            else -> FlowPersona.EXPLORER
+                v.pacing > 0.60 -> LegionTubePersona.SKIMMER
+            diversityIndex < 0.25 -> LegionTubePersona.SPECIALIST
+            else -> LegionTubePersona.EXPLORER
         }
 
         val lastPersona = brain.lastPersona?.let { name ->
-            FlowPersona.entries.find { it.name == name }
+            LegionTubePersona.entries.find { it.name == name }
         }
 
         return if (lastPersona != null &&

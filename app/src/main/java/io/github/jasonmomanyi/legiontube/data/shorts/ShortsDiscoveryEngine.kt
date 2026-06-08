@@ -11,7 +11,7 @@ import android.util.Log
 import io.github.jasonmomanyi.legiontube.data.local.SubscriptionRepository
 import io.github.jasonmomanyi.legiontube.data.model.Video
 import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubeNeuroEngine
-import io.github.jasonmomanyi.legiontube.data.recommendation.FlowPersona
+import io.github.jasonmomanyi.legiontube.data.recommendation.LegionTubePersona
 import io.github.jasonmomanyi.legiontube.data.repository.YouTubeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -383,12 +383,12 @@ class ShortsDiscoveryEngine private constructor(private val appContext: Context)
             LegionTubeNeuroEngine.getPersona(brain)
         } catch (e: Exception) { null }
         val personaSuffix = when (persona) {
-            FlowPersona.AUDIOPHILE -> "music edit"
-            FlowPersona.SCHOLAR -> "explained quick"
-            FlowPersona.DEEP_DIVER -> "documentary clip"
-            FlowPersona.SKIMMER -> "satisfying"
-            FlowPersona.BINGER -> "series part"
-            FlowPersona.SPECIALIST -> "deep dive"
+            LegionTubePersona.AUDIOPHILE -> "music edit"
+            LegionTubePersona.SCHOLAR -> "explained quick"
+            LegionTubePersona.DEEP_DIVER -> "documentary clip"
+            LegionTubePersona.SKIMMER -> "satisfying"
+            LegionTubePersona.BINGER -> "series part"
+            LegionTubePersona.SPECIALIST -> "deep dive"
             else -> null
         }
         if (personaSuffix != null && primaryTopics.isNotEmpty()) {

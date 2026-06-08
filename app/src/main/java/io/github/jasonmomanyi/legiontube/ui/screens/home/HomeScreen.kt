@@ -128,7 +128,7 @@ fun HomeScreen(
     val homeViewMode by preferences.homeViewMode.collectAsState(initial = io.github.jasonmomanyi.legiontube.data.local.HomeViewMode.GRID)
     val homeFeedEnabled by preferences.homeFeedEnabled.collectAsState(initial = true)
     val showAppLogoIcon by preferences.showAppLogoIcon.collectAsState(initial = true)
-    val deepFlowActive by preferences.deepFlowActive.collectAsState(initial = false)
+    val deepLegionTubeActive by preferences.deepLegionTubeActive.collectAsState(initial = false)
     
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
