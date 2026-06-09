@@ -13,8 +13,6 @@ package io.github.jasonmomanyi.legiontube.data.recommendation.engines.spotify
 import android.util.Log
 import io.github.jasonmomanyi.legiontube.data.local.dao.SpotifyEngineDao
 import io.github.jasonmomanyi.legiontube.data.model.Video
-import io.github.jasonmomanyi.legiontube.data.local.model.SpotifyInteraction
-import io.github.jasonmomanyi.legiontube.data.local.model.SpotifyCachedRecommendation
 
 /**
  * Fallback recommendation provider for cold-start and error scenarios.
