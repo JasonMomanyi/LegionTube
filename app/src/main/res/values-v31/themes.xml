@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Android 12+ (API 31+): Use native windowSplashScreen* attributes in addition to
-         the compat ones so the OS-level splash honours our background color. -->
     <style name="Theme.LegionTube.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#0F0F0F</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_transparent</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="postSplashScreenTheme">@style/Theme.LegionTube</item>
-        <!-- Native Android 12 attribute for the splash background colour -->
         <item name="android:windowSplashScreenBackground">#0F0F0F</item>
     </style>
 </resources>

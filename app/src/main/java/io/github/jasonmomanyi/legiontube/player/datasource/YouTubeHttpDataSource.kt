@@ -31,7 +31,7 @@ class YouTubeHttpDataSource private constructor(
 
     class Factory : HttpDataSource.Factory {
         private val requestProperties = HashMap<String, String>()
-        private var userAgent = "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+        private var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
 
         override fun createDataSource(): HttpDataSource {
             return YouTubeHttpDataSource(userAgent, requestProperties)
