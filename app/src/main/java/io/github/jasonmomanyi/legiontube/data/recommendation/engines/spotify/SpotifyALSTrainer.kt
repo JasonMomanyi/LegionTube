@@ -40,9 +40,7 @@ class SpotifyALSTrainer(
     private val dao: SpotifyEngineDao,
     private val config: SpotifyEngineConfig = SpotifyEngineConfig()
 ) {
-    companion object {
-        private const val TAG = "SpotifyALSTrainer"
-    }
+    // TAG moved to companion object below
 
     /**
      * Run a full ALS training cycle.
@@ -342,7 +340,9 @@ class SpotifyALSTrainer(
         return sqrt(sum)
     }
 
-    companion object Utils {
+    companion object {
+        private const val TAG = "SpotifyALSTrainer"
+
         /**
          * Deserialize a JSON factor string back to FloatArray.
          * Used by [SpotifyVectorIndex] when loading embeddings.

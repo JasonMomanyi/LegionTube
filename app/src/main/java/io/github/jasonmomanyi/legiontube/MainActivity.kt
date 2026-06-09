@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import io.github.jasonmomanyi.legiontube.data.local.LocalDataManager
 import io.github.jasonmomanyi.legiontube.player.GlobalPlayerState
 import io.github.jasonmomanyi.legiontube.ui.LegionTubeApp
-import io.github.jasonmomanyi.legiontube.ui.Theme.LegionTubeTheme
+import io.github.jasonmomanyi.legiontube.ui.theme.LegionTubeTheme
 import io.github.jasonmomanyi.legiontube.ui.theme.ThemeMode
 import io.github.jasonmomanyi.legiontube.ui.theme.CustomThemeColors
 import io.github.jasonmomanyi.legiontube.updater.ApkUpdateHelper

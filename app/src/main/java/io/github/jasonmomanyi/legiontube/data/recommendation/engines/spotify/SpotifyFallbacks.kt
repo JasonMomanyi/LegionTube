@@ -8,11 +8,13 @@
  * the Free Software Foundation, version 3 of the License.
  */
 
-package io.github.jasonmomanyi.legion.data.recommendation.engines.spotify
+package io.github.jasonmomanyi.legiontube.data.recommendation.engines.spotify
 
 import android.util.Log
 import io.github.jasonmomanyi.legiontube.data.local.dao.SpotifyEngineDao
 import io.github.jasonmomanyi.legiontube.data.model.Video
+import io.github.jasonmomanyi.legiontube.data.local.model.SpotifyInteraction
+import io.github.jasonmomanyi.legiontube.data.local.model.SpotifyCachedRecommendation
 
 /**
  * Fallback recommendation provider for cold-start and error scenarios.
