@@ -70,7 +70,7 @@ class YouTubeHttpDataSource private constructor(
                 .followSslRedirects(true)
                 .retryOnConnectionFailure(true)
                 .build()
-        ).setUserAgent(userAgent)
+        )
 
         if (isYouTubeUri(dataSpec.uri)) {
             addYouTubeHeaders(factory)
@@ -113,15 +113,15 @@ class YouTubeHttpDataSource private constructor(
      * 'range' query parameter can cause conflicts.
      */
     private fun removeConflictingQueryParameters(uri: Uri): Uri {
-        val builder = uri.buildUpon().clearQuery()
-        uri.queryParameterNames.forEach { name ->
-            // Remove 'range' if ExoPlayer is going to handle it via DataSpec
-            // Keep all other parameters (including 'n' for throttling deobfuscation)
-            if (name != "range") {
-                builder.appendQueryParameter(name, uri.getQueryParameter(name))
-            }
+        val urlString = uri.toString()
+        val rangeParamRegex = Regex("[?&]range=[^&]+")
+        val sanitizedUrl = rangeParamRegex.replace(urlString) { match ->
+            if (match.value.startsWith("?")) "?" else ""
         }
-        return builder.build()
+        // If we replaced a "?" with "?", it means range was the first parameter.
+        // We might end up with "url?&other" instead of "url?other", so let's clean that up.
+        val cleanedUrl = sanitizedUrl.replace("?&", "?").trimEnd('?')
+        return Uri.parse(cleanedUrl)
     }
 
     /**
