@@ -1,4 +1,4 @@
-FLOW CHANGE LOG
+LEGIONTUBE CHANGE LOG
 VERSION: 1.8.0
 DATE: 2026-02-28
 
@@ -19,7 +19,7 @@ NEW FEATURES
 - Click To Scroll Up: Tapping a navigation button while already on that screen scrolls the content back to the top.
 - Paging Support: Integrated paging across various screens for smooth infinite scroll performance.
 
-FLOWNEURO ENGINE V8
+LegionTubeNEURO ENGINE V8
 - Independent Pacing Dimension: Pacing is now extracted from title keywords instead of being derived from duration. Words like "compilation", "speedrun" signal high pacing; "podcast", "essay" signal low pacing.
 - Local IDF Weighting: Common words like "gameplay" now receive reduced weight automatically. Niche words like "Subnautica" drive recommendations instead of generic filler.
 - Snowball Candidate Generation: The app now fetches related videos for the user's last 3 positive interactions and feeds them into the ranking pool alongside search results, creating organic topic transitions.
@@ -38,8 +38,8 @@ FLOWNEURO ENGINE V8
 - Fixed Negative Feedback Math: Weak topics can now actually be suppressed via dislike/not-interested. Channel blocking scrubs stored scores. Discovery queries filter blocked terms. Persona tracking auto-updates. Channel pruning retains disliked channels instead of deleting them.
 
 UI AND STYLE ENHANCEMENTS
-- Onboarding Screen Redesign: Implemented a 3-steps Onboarding workflow. Added new import data and search + Subscribe features to onboarding.
-- About Screen Redesign: Completely rebuilt the About screen with a flat, section-based layout (no card containers). Sections are divided into App, Contact, Legal, and Device with uppercase label headers. Added a Reddit row (r/Flow_Official) with an inline SVG icon. The hero area shows the app icon tinted on-background, the app name in wide ExtraBold lettering, and a plain version string — no pill badges or gradients.
+- Onboarding Screen Redesign: Implemented a 3-steps Onboarding workLegionTube. Added new import data and search + Subscribe features to onboarding.
+- About Screen Redesign: Completely rebuilt the About screen with a flat, section-based layout (no card containers). Sections are divided into App, Contact, Legal, and Device with uppercase label headers. Added a Reddit row (r/LegionTube_Official) with an inline SVG icon. The hero area shows the app icon tinted on-background, the app name in wide ExtraBold lettering, and a plain version string — no pill badges or gradients.
 - Music Screen Shimmer: The loading skeleton for the Music screen now matches the actual layout: a filter-chip row, Quick Picks rows with track title/artist and thumbnail columns, and Recommended/Recently Played grid rows. The previous shimmer used the Home screen skeleton which had no structural resemblance to the Music layout.
 - Bottom Nav Scroll Animation: The bottom navigation bar now hides when the user scrolls down and reappears when they scroll up. A NestedScrollConnection intercepts scroll events; the bar slides off-screen with a combined slide+fade and restores on upward scroll or when navigating to a new screen.
 - Dynamic Mini Player Positioning: The mini video player and mini music player now track the bottom navigation bar's visible height. When the nav bar hides during scroll the players shift down to sit above the true system inset rather than leaving an empty gap.

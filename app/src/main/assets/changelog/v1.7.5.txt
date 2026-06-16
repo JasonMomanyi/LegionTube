@@ -1,4 +1,4 @@
-FLOW CHANGE LOG
+LEGIONTUBE CHANGE LOG
 VERSION: 1.7.5
 DATE: 2026-02-23
 
@@ -27,5 +27,5 @@ UI AND STYLE ENHANCEMENTS
 - Shorts Threshold: Increased duration threshold for shorts classification from 80 to 120 seconds for better categorization.
 - Music Player Redesign: Enhanced music player UI with improved blur effects, gradients, spacing, and control animations.
 - Player Controls: Reorganized premium controls overlay for better layout, added quality pills, and improved button positioning.
-- Navigation Updates: Updated flow navigation to reflect new duration thresholds and added live stream support.
+- Navigation Updates: Updated LegionTube navigation to reflect new duration thresholds and added live stream support.
 - Lyrics Display: Improved word-level lyric syncing, scrolling, and visual effects in the music player.

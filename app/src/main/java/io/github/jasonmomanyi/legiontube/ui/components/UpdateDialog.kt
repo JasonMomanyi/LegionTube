@@ -20,6 +20,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import android.widget.Toast
+import io.github.jasonmomanyi.legiontube.R
+import io.github.jasonmomanyi.legiontube.utils.UpdateInfo
+import io.github.jasonmomanyi.legiontube.BuildConfig
+import android.os.Build
+import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -39,6 +64,14 @@ fun UpdateDialog(
     onUpdate: () -> Unit
 ) {
     val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
+    
+    val diagnosticsText = """
+        Manufacturer: ${Build.MANUFACTURER}
+        Model: ${Build.MODEL}
+        Android: ${Build.VERSION.RELEASE} (SDK ${Build.VERSION.SDK_INT})
+        App version: ${BuildConfig.VERSION_NAME}
+    """.trimIndent()
     
     val displayedChangelog = remember(updateInfo.changelog, updateInfo.version) {
         if (updateInfo.version.contains("1.4.0") || updateInfo.changelog.isBlank()) {
@@ -99,13 +132,12 @@ fun UpdateDialog(
                         modifier = Modifier
                             .size(72.dp)
                             .clip(RoundedCornerShape(20.dp))
-                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
                     ) {
                         Icon(
-                            painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                            painter = painterResource(id = R.mipmap.ic_launcher),
                             contentDescription = stringResource(R.string.update_flow),
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(40.dp)
+                            tint = Color.Unspecified,
+                            modifier = Modifier.size(64.dp)
                         )
                     }
 
@@ -115,7 +147,8 @@ fun UpdateDialog(
                         text = stringResource(R.string.new_update_available), 
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 22.sp
+                            fontSize = 28.sp,
+                            fontFamily = FontFamily.Cursive
                         ),
                         color = Color.White
                     )
@@ -141,9 +174,11 @@ fun UpdateDialog(
                             text = stringResource(R.string.release_notes).uppercase(),
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontWeight = FontWeight.Bold,
-                                letterSpacing = 1.2.sp
+                                letterSpacing = 1.2.sp,
+                                fontFamily = FontFamily.Cursive,
+                                fontSize = 18.sp
                             ),
-                            color = MaterialTheme.colorScheme.primary,
+                            color = Color(0xFFFF0000), // Vibrant Red
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
 
@@ -151,6 +186,51 @@ fun UpdateDialog(
                             markdown = displayedChangelog,
                             textColor = Color.White.copy(alpha = 0.85f)
                         )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Text(
+                            text = "DEVICE DIAGNOSTICS",
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 1.2.sp,
+                                fontFamily = FontFamily.Cursive,
+                                fontSize = 18.sp
+                            ),
+                            color = Color(0xFFFF0000),
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+
+                        Text(
+                            text = diagnosticsText,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.LightGray.copy(alpha = 0.7f),
+                            lineHeight = 18.sp,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+
+                        Text(
+                            text = "Experiencing issues after the update? Copy these diagnostics and paste them into a new GitHub issue to help us fix it for your specific device.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.LightGray.copy(alpha = 0.5f),
+                            lineHeight = 16.sp,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+
+                        Button(
+                            onClick = {
+                                clipboardManager.setText(AnnotatedString(diagnosticsText))
+                                Toast.makeText(context, "Diagnostics copied to clipboard!", Toast.LENGTH_SHORT).show()
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF333333),
+                                contentColor = Color.White
+                            ),
+                            shape = RoundedCornerShape(16.dp),
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(text = "Copy Diagnostics", fontWeight = FontWeight.SemiBold)
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(32.dp))
@@ -165,7 +245,7 @@ fun UpdateDialog(
                                 .weight(1f)
                                 .height(52.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.White.copy(alpha = 0.1f),
+                                containerColor = Color(0xFF333333), // Dark grey
                                 contentColor = Color.White
                             ),
                             shape = RoundedCornerShape(26.dp)
@@ -183,8 +263,8 @@ fun UpdateDialog(
                                 .weight(1f)
                                 .height(52.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
+                                containerColor = Color(0xFFFF0000), // Vibrant Red
+                                contentColor = Color.White
                             ),
                             shape = RoundedCornerShape(26.dp)
                         ) {

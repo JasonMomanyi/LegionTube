@@ -64,7 +64,7 @@ class MusicPlaybackService : Service() {
         createNotificationChannel()
         
         // Initialize MediaSession with full transport controls
-        mediaSession = MediaSessionCompat(this, "FlowMusicService").apply {
+        mediaSession = MediaSessionCompat(this, "LegionTubeMusicService").apply {
             setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
@@ -355,7 +355,7 @@ class MusicPlaybackService : Service() {
         val metadataBuilder = MediaMetadataCompat.Builder()
             .putString(MediaMetadataCompat.METADATA_KEY_TITLE, track.title)
             .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, track.artist)
-            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "Flow Music")
+            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "LegionTube Music")
             .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, track.videoId)
             .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
         
@@ -500,7 +500,7 @@ class MusicPlaybackService : Service() {
             shuffleText.isNotEmpty() && repeatText.isNotEmpty() -> "$shuffleText • $repeatText"
             shuffleText.isNotEmpty() -> shuffleText
             repeatText.isNotEmpty() -> repeatText
-            else -> "Flow Music"
+            else -> "LegionTube Music"
         }
     }
 }

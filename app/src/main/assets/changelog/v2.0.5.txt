@@ -1,4 +1,4 @@
-FLOW CHANGE LOG
+LEGIONTUBE CHANGE LOG
 VERSION: 2.0.5
 DATE: 2026-04-2
 
@@ -20,7 +20,7 @@ FEATURES
 - Add new category screen toggle #218
 
 IMPROVEMENTS
-- FlowNeuroEngine modularization
+- LegionTubeNeuroEngine modularization
 - Smarter Discovery Query Generation
 - Improved content tokenization - Domain based
 - Tuned engine learning rates

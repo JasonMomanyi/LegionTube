@@ -1,4 +1,4 @@
-FLOW CHANGE LOG
+LEGIONTUBE CHANGE LOG
 VERSION: 2.1.0
 DATE: 2026-04-26
 
@@ -28,7 +28,7 @@ FEATURES
 - Add new shorts playback behavior toggle
 - Add new Themes : Monochrome and Custom themes #293
 - Add new automated Backup and master backup features #290
-- Add new Deep Flow (Incognito mode) #282
+- Add new Deep LegionTube (Incognito mode) #282
 - Add new subscription groups #288
 - Add new DeArrow indicator toggle #291
 - Add new in-channel video search #313
@@ -57,7 +57,7 @@ IMPROVEMENTS
 - Improve Shorts filtring #285
 - Engine calibration, improved watch signal for new topics and feed balancing #281
 - Improve Engine performace
-- Add togglable Flow logo icon to top bar
+- Add togglable LegionTube logo icon to top bar
 - Improve mini player handling and smoother animation
 - Improve video watch progress tracking #300
 - Add new permission section in download settings #279

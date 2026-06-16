@@ -98,7 +98,7 @@ android {
             applicationIdSuffix = ".nightly"
             versionNameSuffix = "-nightly"
             isDebuggable = false
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
@@ -108,8 +108,8 @@ android {
         }
         release {
             isDebuggable = false
-            // Follow NewPipe approach: minify but don't shrink resources
-            isMinifyEnabled = true
+            // Disable minification to prevent aggressive R8 shrinking from breaking YouTube cypher logic
+            isMinifyEnabled = false
             isShrinkResources = false // disabled for reproducible builds
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),

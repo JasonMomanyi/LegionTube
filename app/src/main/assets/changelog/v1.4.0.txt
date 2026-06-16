@@ -1,12 +1,12 @@
-FLOW CHANGE LOG
+LEGIONTUBE CHANGE LOG
 VERSION: 1.4.0
 DATE: 2026-02-02
 
 NEW FEATURES
-- FlowNeuroEngine Overhaul: Implemented full onboarding flow, dynamic time-decay, boredom detection, and smart-feed mixing for a non-repetitive user experience.
+- LegionTubeNeuroEngine Overhaul: Implemented full onboarding LegionTube, dynamic time-decay, boredom detection, and smart-feed mixing for a non-repetitive user experience.
 - Comment Threads: Added support for comment replies and nested threads.
 - Floating Mini Video Player: Implemented a floating player for seamless multitasking.
-- Subscription Import: Added functionality to import YouTube subscriptions from CSV and support for Flow/NewPipe backups.
+- Subscription Import: Added functionality to import YouTube subscriptions from CSV and support for LegionTube/NewPipe backups.
 - Advanced Settings: Introduced dedicated settings screens for About, Buffer configuration, Search History management, and Video Quality preferences.
 - Audio Track Preferences: Added priority selection for native stream languages and new audio track settings.
 - Enhanced Metadata: Added like counts to video info sections and improved YouTube dislike count integration.
@@ -25,7 +25,7 @@ PERFORMANCE AND REFACTORING
 - Performance Boost: Implemented app-wide async fetching using network Dispatchers.IO and SupervisorScope for parallel parsing.
 - Modularization: Refactored the EnhancedVideoPlayerScreen and Video Player Manager into modular standalone files for better maintenance.
 - Codebase Maintenance: Conducted general codebase cleanup and moved deprecated files to legacy storage.
-- Navigation: Refactored navigation and hooks within the main FlowApp structure.
+- Navigation: Refactored navigation and hooks within the main LegionTubeApp structure.
 - Localization: Migrated core screens and components to use Strings.xml for easier translation support.
 
 UI AND STYLE ENHANCEMENTS
