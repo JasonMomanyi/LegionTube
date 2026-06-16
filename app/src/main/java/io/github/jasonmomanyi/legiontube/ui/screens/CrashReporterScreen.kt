@@ -47,7 +47,7 @@ fun CrashReporterScreen(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "Flow crashed last session",
+                    text = "LegionTube crashed last session",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.error
@@ -92,7 +92,7 @@ fun CrashReporterScreen(
                     onClick = {
                         val clipboard =
                             context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("Flow Crash Log", crashLog))
+                        clipboard.setPrimaryClip(ClipData.newPlainText("LegionTube Crash Log", crashLog))
                         Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier.weight(1f)

@@ -35,6 +35,21 @@ object CipherDeobfuscator {
 
     fun getSignatureTimestamp(): Int? = cachedSignatureTimestamp
 
+    /**
+     * Ensure the signature timestamp is available, fetching/analyzing the player JS if needed.
+     * Required by the WEB client player request. Safe to call repeatedly (cached after first).
+     */
+    suspend fun ensureSignatureTimestamp(): Int? {
+        cachedSignatureTimestamp?.let { return it }
+        return try {
+            getOrCreateWebView(forceRefresh = false)
+            cachedSignatureTimestamp
+        } catch (e: Exception) {
+            Log.w(TAG, "ensureSignatureTimestamp failed: ${e.message}")
+            cachedSignatureTimestamp
+        }
+    }
+
     fun invalidateSignatureTimestamp() {
         Log.d(TAG, "Invalidating signature timestamp")
         cachedSignatureTimestamp = null
@@ -154,16 +169,20 @@ object CipherDeobfuscator {
         cachedSignatureTimestamp = analysis.signatureTimestamp
         Log.d(TAG, "Extracted signatureTimestamp: $cachedSignatureTimestamp")
 
-        if (analysis.sigInfo == null) {
-            Log.e(TAG, "Could not extract signature function info from player JS")
+        if (analysis.sigInfo == null && analysis.nFuncInfo == null) {
+            Log.e(TAG, "Could not extract signature or n-function info from player JS")
             return null
+        }
+
+        if (analysis.sigInfo == null) {
+            Log.w(TAG, "Could not extract signature function info from player JS; n-transform may still work")
         }
 
         if (analysis.nFuncInfo == null) {
             Log.w(TAG, "Could not extract n-function info from player JS (will try brute-force)")
         }
 
-        Log.d(TAG, "Creating CipherWebView: sig=${analysis.sigInfo.name}, nFunc=${analysis.nFuncInfo?.name}")
+        Log.d(TAG, "Creating CipherWebView: sig=${analysis.sigInfo?.name}, nFunc=${analysis.nFuncInfo?.name}")
         val webView = CipherWebView.create(
             context = appContext,
             playerJs = playerJs,

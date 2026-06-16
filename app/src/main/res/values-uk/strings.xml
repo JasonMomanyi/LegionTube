@@ -202,7 +202,7 @@
     <string name="time_today">Сьогодні</string>
     <string name="time_yesterday">Вчора</string>
     <string name="time_earlier">Раніше</string>
-    <string name="icon_name_flow_red">Flow Red</string>
+    <string name="icon_name_flow_red">LegionTube Red</string>
     <string name="icon_name_amoled">AMOLED Dark</string>
     <string name="icon_name_monochrome">Monochrome</string>
     <string name="icon_name_ghost">Ghost</string>
@@ -1282,7 +1282,7 @@
     <string name="appearance_system_defaults_subtitle">Виберіть тему, яка використовуватиметься під час перемикання пристрою між світлим і темним режимами.</string>
     <string name="appearance_system_light_theme">Світла тема</string>
     <string name="appearance_system_dark_theme">Темна тема</string>
-    <string name="icon_name_flow_light">Flow Light</string>
+    <string name="icon_name_flow_light">LegionTube Light</string>
     <string name="icon_name_material_sky">Material Sky</string>
     <string name="icon_name_material_mint">Material Mint</string>
     <string name="player_adaptive_size_subtitle">Підлаштовувати висоту плеєра під формат відео. Вимкніть для фіксованого співвідношення 16:9.</string>

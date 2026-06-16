@@ -127,7 +127,7 @@
     <string name="appearance_themes_count_all">%1$d tema</string>
     <string name="appearance_themes_count_filtered">%1$d tema %2$s</string>
     <string name="app_icon_apply_toast">Ikon diperbarui - launcher Anda akan disegarkan</string>
-    <string name="icon_name_flow_red">Flow Merah</string>
+    <string name="icon_name_flow_red">LegionTube Merah</string>
     <string name="icon_name_amoled">AMOLED Gelap</string>
     <string name="icon_name_monochrome">Monokrom</string>
     <string name="icon_name_ghost">Hantu</string>
@@ -1483,7 +1483,7 @@
     <string name="appearance_system_defaults_subtitle">Pilih tema yang digunakan saat perangkat Anda beralih antara mode terang dan gelap.</string>
     <string name="appearance_system_light_theme">Tema mode terang</string>
     <string name="appearance_system_dark_theme">Tema mode gelap</string>
-    <string name="icon_name_flow_light">Flow Light</string>
+    <string name="icon_name_flow_light">LegionTube Light</string>
     <string name="icon_name_material_sky">Material Sky</string>
     <string name="icon_name_material_mint">Material Mint</string>
     <string name="player_adaptive_size_title">Ukuran Pemutar Adaptif</string>

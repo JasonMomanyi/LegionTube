@@ -360,7 +360,7 @@
     <string name="app_icon_picker_subtitle">Выберите стиль значка панели запуска. Изменения вступят в силу сразу, и панель запуска ненадолго обновится.</string>
     <string name="app_icon_picker_warning">Внимание: при смене значков используется системный механизм Android, в результате чего ярлык приложения может на короткое время исчезнуть с главного экрана. При необходимости нажмите и удерживайте значок на рабочем столе, чтобы вернуть его.</string>
     <string name="app_icon_apply_toast">Иконка обновлена - рабочий стол обновится</string>
-    <string name="icon_name_flow_red">Flow Красный</string>
+    <string name="icon_name_flow_red">LegionTube Красный</string>
     <string name="icon_name_amoled">AMOLED Темный</string>
     <string name="icon_name_monochrome">Монохромный</string>
     <string name="icon_name_ghost">Призрак</string>
@@ -778,7 +778,7 @@
     <string name="appearance_system_defaults_subtitle">Выберите, какая тема будет использоваться при переключении устройства между светлым и тёмным режимами.</string>
     <string name="appearance_system_light_theme">Тема \"светлый режим\"</string>
     <string name="appearance_system_dark_theme">Тема \"темный режим\"</string>
-    <string name="icon_name_flow_light">Flow светлый</string>
+    <string name="icon_name_flow_light">LegionTube светлый</string>
     <string name="icon_name_material_sky">Материальный дизайн - небо (Material Sky)</string>
     <string name="icon_name_material_mint">Материальный дизайн - мята (Material Mint)</string>
     <string name="player_appearance_brightness_gesture_title">Жест «Яркость»</string>

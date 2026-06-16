@@ -383,7 +383,7 @@
     <string name="app_icon_picker_subtitle">Scegli uno stile per l\'icona del launcher. La modifica ha effetto immediato e il launcher si aggiornerà brevemente.</string>
     <string name="app_icon_picker_warning">Attenzione: il cambio dell\'icona utilizza un meccanismo di sistema Android che potrebbe rimuovere brevemente il collegamento dell\'app dalla schermata home. Tieni premuto sul launcher per aggiungerlo nuovamente se necessario.</string>
     <string name="app_icon_apply_toast">Icona aggiornata - il tuo launcher si aggiornerà</string>
-    <string name="icon_name_flow_red">Rosso Flow</string>
+    <string name="icon_name_flow_red">Rosso LegionTube</string>
     <string name="icon_name_amoled">AMOLED scuro</string>
     <string name="icon_name_monochrome">Monocromatica</string>
     <string name="icon_name_ghost">Ghost</string>
@@ -1483,7 +1483,7 @@
     <string name="appearance_system_defaults_subtitle">Scegli quale tema viene utilizzato quando il dispositivo passa dalla modalità chiara a quella scura.</string>
     <string name="appearance_system_light_theme">Tema modalità chiara</string>
     <string name="appearance_system_dark_theme">Tema modalità scura</string>
-    <string name="icon_name_flow_light">Flow Light</string>
+    <string name="icon_name_flow_light">LegionTube Light</string>
     <string name="icon_name_material_sky">Material Sky</string>
     <string name="icon_name_material_mint">Material Mint</string>
     <string name="theme_name_material_you">Material You</string>

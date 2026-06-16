@@ -431,7 +431,7 @@ class PlayerPreferences(context: Context) {
     // Slider Style preference
     val sliderStyle: Flow<SliderStyle> = context.playerPreferencesDataStore.data
         .map { preferences ->
-            SliderStyle.valueOf(preferences[Keys.SLIDER_STYLE] ?: SliderStyle.DEFAULT.name)
+            SliderStyle.valueOf(preferences[Keys.SLIDER_STYLE] ?: SliderStyle.SQUIGGLY.name)
         }
 
     suspend fun setSliderStyle(style: SliderStyle) {
@@ -458,7 +458,7 @@ class PlayerPreferences(context: Context) {
 
     val squigglySliderEnabled: Flow<Boolean> = context.playerPreferencesDataStore.data
         .map { preferences ->
-            preferences[Keys.SQUIGGLY_SLIDER_ENABLED] ?: false
+            preferences[Keys.SQUIGGLY_SLIDER_ENABLED] ?: true
         }
 
     suspend fun setSquigglySliderEnabled(enabled: Boolean) {

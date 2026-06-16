@@ -76,7 +76,12 @@ private val ALL_ICONS = listOf(
     AppIconOption(".IconGhost", R.string.icon_name_ghost, Color(0xFF121212), R.drawable.ic_fg_ghost),
     AppIconOption(".IconDynamic", R.string.icon_name_dynamic, Color.Unspecified, R.drawable.ic_launcher_dynamic_foreground, usesThemeColors = true),
     AppIconOption(".IconMaterialSky", R.string.icon_name_material_sky, Color(0xFFD7E3FF), R.drawable.ic_launcher_foreground),
-    AppIconOption(".IconMaterialMint", R.string.icon_name_material_mint, Color(0xFFC7E8D4), R.drawable.ic_launcher_foreground)
+    AppIconOption(".IconMaterialMint", R.string.icon_name_material_mint, Color(0xFFC7E8D4), R.drawable.ic_launcher_foreground),
+    AppIconOption(".IconBlue", R.string.icon_name_blue, Color(0xFF1976D2), R.drawable.ic_launcher_foreground),
+    AppIconOption(".IconGreen", R.string.icon_name_green, Color(0xFF388E3C), R.drawable.ic_launcher_foreground),
+    AppIconOption(".IconYellow", R.string.icon_name_yellow, Color(0xFFFBC02D), R.drawable.ic_fg_amoled),
+    AppIconOption(".IconOrange", R.string.icon_name_orange, Color(0xFFF57C00), R.drawable.ic_launcher_foreground),
+    AppIconOption(".IconPurple", R.string.icon_name_purple, Color(0xFF7B1FA2), R.drawable.ic_launcher_foreground)
 )
 
 private fun getActiveIconSuffix(context: Context): String {

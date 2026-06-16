@@ -14,5 +14,10 @@
     <color name="icon_bg_flow_light">#FFFFFF</color>
     <color name="icon_bg_material_sky">#D7E3FF</color>
     <color name="icon_bg_material_mint">#C7E8D4</color>
+    <color name="icon_bg_blue">#1976D2</color>
+    <color name="icon_bg_green">#388E3C</color>
+    <color name="icon_bg_yellow">#FBC02D</color>
+    <color name="icon_bg_orange">#F57C00</color>
+    <color name="icon_bg_purple">#7B1FA2</color>
 </resources>
 

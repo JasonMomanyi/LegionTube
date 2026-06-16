@@ -492,6 +492,11 @@
     <string name="icon_name_dynamic">Material You</string>
     <string name="icon_name_material_sky">Material Sky</string>
     <string name="icon_name_material_mint">Material Mint</string>
+    <string name="icon_name_blue">LegionTube Blue</string>
+    <string name="icon_name_green">LegionTube Green</string>
+    <string name="icon_name_yellow">LegionTube Yellow</string>
+    <string name="icon_name_orange">LegionTube Orange</string>
+    <string name="icon_name_purple">LegionTube Purple</string>
     <!-- Player Appearance -->
     <string name="player_appearance_title">Player Appearance</string>
     <string name="player_appearance_header">Customize Player Controls</string>

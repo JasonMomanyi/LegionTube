@@ -146,9 +146,6 @@ class MainActivity : ComponentActivity() {
             var customThemeColors by remember { mutableStateOf(initialCustomThemeColors) }
             var systemLightThemeMode by remember { mutableStateOf(initialSystemLightThemeMode) }
             var systemDarkThemeMode by remember { mutableStateOf(initialSystemDarkThemeMode) }
-            // State to control splash visibility
-            var showSplash by remember { mutableStateOf(true) }
-
             val context = LocalContext.current
 
             // Check for a crash that happened last session.
@@ -314,15 +311,6 @@ class MainActivity : ComponentActivity() {
                             consumeDeeplink()
                         }
                     )
-
-                    // 2. THE SPLASH SCREEN (Z-Index Top)
-                    if (showSplash) {
-                        io.github.jasonmomanyi.legiontube.ui.components.LegionTubeSplashScreen(
-                            onAnimationFinished = {
-                                showSplash = false
-                            }
-                        )
-                    }
                 }
             }
         }

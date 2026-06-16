@@ -1083,7 +1083,7 @@
     <string name="settings_language_dialog_title">Sélectionner la langue de l\'application</string>
     <string name="settings_language_system_default">Paramètres par défaut du système</string>
     <string name="app_icon_apply_toast">L\'icône a été mise à jour – votre lanceur va s\'actualiser</string>
-    <string name="icon_name_flow_red">Flow Rouge</string>
+    <string name="icon_name_flow_red">LegionTube Rouge</string>
     <string name="icon_name_monochrome">Monochrome</string>
     <string name="icon_name_ghost">Fantôme</string>
     <string name="icon_name_dynamic">Material You</string>
@@ -1529,7 +1529,7 @@
     <string name="appearance_system_defaults_subtitle">Choisissez le thème à utiliser lorsque votre appareil passe du mode clair au mode sombre.</string>
     <string name="appearance_system_light_theme">Thème en mode clair</string>
     <string name="appearance_system_dark_theme">Thème en mode sombre</string>
-    <string name="icon_name_flow_light">Flow Light</string>
+    <string name="icon_name_flow_light">LegionTube Light</string>
     <string name="icon_name_material_sky">Material Sky</string>
     <string name="icon_name_material_mint">Material Mint</string>
     <string name="theme_name_material_you">Material You</string>

@@ -413,7 +413,7 @@
     <string name="app_icon_picker_subtitle">Odaberite stil ikone pokretača. Promjena stupa na snagu odmah i pokretač će se nakratko osvježiti.</string>
     <string name="app_icon_picker_warning">⚠ Oprez: promjena ikona koristi mehanizam Android sistema koji može nakratko ukloniti prečac aplikacije s početnog ekrana. Dugo pritisnite launcher da ga vratite ako je potrebno.</string>
     <string name="app_icon_apply_toast">Ikona je ažurirana — vaš launcher će se osvježiti</string>
-    <string name="icon_name_flow_red">Flow Crvena</string>
+    <string name="icon_name_flow_red">LegionTube Crvena</string>
     <string name="icon_name_amoled">AMOLED Tamna</string>
     <string name="icon_name_monochrome">Monochrome</string>
     <string name="icon_name_ghost">Duh</string>
