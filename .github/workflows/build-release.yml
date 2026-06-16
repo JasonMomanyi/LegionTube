@@ -2,6 +2,11 @@ name: Build and Release LegionTube
 
 on:
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for release (e.g., v2.2.0)'
+        required: true
+        default: 'v2.2.0'
   release:
     types: [published]
   push:
@@ -52,7 +57,7 @@ jobs:
         continue-on-error: true
         with:
           token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ github.event.inputs.tag_name || github.event.release.tag_name || github.ref_name }}
 
       - name: Publish Official GitHub Release
         uses: softprops/action-gh-release@v2
@@ -61,3 +66,4 @@ jobs:
           files: "LegionTube-Official.apk"
           fail_on_unmatched_files: true
           make_latest: true
+          tag_name: ${{ github.event.inputs.tag_name || github.event.release.tag_name || github.ref_name }}
