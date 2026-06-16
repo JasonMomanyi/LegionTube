@@ -63,11 +63,8 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         appContext = applicationContext
 
         val playerPreferences = PlayerPreferences(this)
-        val selectedLanguage = runBlocking { playerPreferences.appLanguage.first() }
-        AppLanguageManager.wrapContext(this, selectedLanguage)
-        runBlocking {
-            applyProxyConfig(playerPreferences.getProxyConfig())
-        }
+        
+        // Proxy is handled asynchronously via collectLatest below
         
         // Injects modern TLS/SSL certificates so OkHttp and Ktor don't crash
         if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.N_MR1) {
@@ -110,8 +107,10 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         */
         
         // Schedule periodic subscription checks for new videos
-        val savedIntervalMinutes = runBlocking { playerPreferences.subscriptionCheckIntervalMinutes.first() }
-        SubscriptionCheckWorker.schedulePeriodicCheck(this, intervalMinutes = savedIntervalMinutes.toLong())
+        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+            val savedIntervalMinutes = playerPreferences.subscriptionCheckIntervalMinutes.first()
+            SubscriptionCheckWorker.schedulePeriodicCheck(this@LegionTubeApplication, intervalMinutes = savedIntervalMinutes.toLong())
+        }
         
         // Schedule periodic update checks (every 12 hours) — github flavor only
         if (BuildConfig.UPDATER_ENABLED) {

@@ -79,8 +79,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // the OS-level splash screen (camouflaged to match Compose splash background)
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
         
@@ -127,10 +126,21 @@ class MainActivity : ComponentActivity() {
         }
 
         val dataManager = LocalDataManager(applicationContext)
-        val initialThemeMode = runBlocking { dataManager.themeMode.first() }
-        val initialCustomThemeColors = runBlocking { dataManager.customThemeColors.first() }
-        val initialSystemLightThemeMode = runBlocking { dataManager.systemLightThemeMode.first() }
-        val initialSystemDarkThemeMode = runBlocking { dataManager.systemDarkThemeMode.first() }
+        var isReady = false
+        var initialThemeMode = ThemeMode.SYSTEM
+        var initialCustomThemeColors = CustomThemeColors.default()
+        var initialSystemLightThemeMode = ThemeMode.LIGHT
+        var initialSystemDarkThemeMode = ThemeMode.DARK
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            initialThemeMode = dataManager.themeMode.first()
+            initialCustomThemeColors = dataManager.customThemeColors.first()
+            initialSystemLightThemeMode = dataManager.systemLightThemeMode.first()
+            initialSystemDarkThemeMode = dataManager.systemDarkThemeMode.first()
+            isReady = true
+        }
+
+        splashScreen.setKeepOnScreenCondition { !isReady }
 
         handleIntent(intent)
 
