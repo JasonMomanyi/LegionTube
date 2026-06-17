@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Flow</string>
+    <string name="app_name">LegionTube</string>
     <string name="subscriptions_search_placeholder">Пошук підписок...</string>
     <string name="top_bar_subscriptions_title">Підписки</string>
     <string name="view_all_button_label">Всі</string>
@@ -106,7 +106,7 @@
     <string name="pinned_by_creator">Закріплено автором</string>
     <string name="new_update_available">Нове оновлення доступне</string>
     <string name="release_notes">ПРИМІТКИ ДО ВИПУСКУ</string>
-    <string name="update_flow">Оновити Flow</string>
+    <string name="update_flow">Оновити LegionTube</string>
     <string name="maybe_later">Можливо пізніше</string>
     <string name="nav_music">Музика</string>
     <string name="nav_library">Бібліотека</string>
@@ -210,7 +210,7 @@
     <string name="player_appearance_header">Налаштування керування плеєром</string>
     <string name="player_appearance_style_subtitle">Виберіть візуальний стиль панелі пошуку</string>
     <string name="settings_item_player_appearance">Зовнішній вигляд програвача</string>
-    <string name="style_default">Стандартна (Flow)</string>
+    <string name="style_default">Стандартна (LegionTube)</string>
     <string name="style_metrolist">Metrolist (Thick)</string>
     <string name="style_metrolist_slim">Metrolist (Slim)</string>
     <string name="style_squiggly">Squiggly</string>
@@ -219,7 +219,7 @@
     <string name="dismiss">Відхилити</string>
     <string name="peace_and_quiet">Мир і тиша</string>
     <string name="settings_title">Налаштування</string>
-    <string name="settings_flow_engine_header">Flow Engine</string>
+    <string name="settings_flow_engine_header">LegionTube Engine</string>
     <string name="settings_active_learning">АКТИВНЕ НАВЧАННЯ</string>
     <string name="settings_reset_everything">Скинути все</string>
     <string name="settings_view_analytics">Переглянути аналітику</string>
@@ -229,13 +229,13 @@
     <string name="settings_header_about">Про нас</string>
     <string name="settings_header_notifications">Сповіщення</string>
     <string name="settings_item_notifications">Налаштування сповіщень</string>
-    <string name="settings_item_notifications_subtitle">Контролюйте, які сповіщення може надсилати Flow</string>
+    <string name="settings_item_notifications_subtitle">Контролюйте, які сповіщення може надсилати LegionTube</string>
     <string name="notif_settings_title">Налаштування сповіщень</string>
     <string name="notif_type_new_videos">Нові Відео</string>
     <string name="notif_type_new_videos_subtitle">Повідомляти, коли канали, на які ви підписалися, завантажують нові відео</string>
     <string name="notif_type_reminders">Нагадування про екранний час</string>
     <string name="notif_type_updates">Оновлення програми</string>
-    <string name="notif_type_updates_subtitle">Отримувати сповіщення про нові версії Flow</string>
+    <string name="notif_type_updates_subtitle">Отримувати сповіщення про нові версії LegionTube</string>
     <string name="notif_type_general">Основні сповіщення</string>
     <string name="notif_system_settings">Налаштування системних сповіщень</string>
     <string name="notif_check_interval_subtitle_template">Перевіряти кожні %s</string>
@@ -269,7 +269,7 @@
     <string name="filter_discover">Дослідити</string>
     <string name="filter_popular">Популярне</string>
     <string name="filter_workout">Тренування</string>
-    <string name="content_settings_show_app_logo_subtitle">Показувати логотип Flow поруч із назвою програми у верхній панелі головного екрана</string>
+    <string name="content_settings_show_app_logo_subtitle">Показувати логотип LegionTube поруч із назвою програми у верхній панелі головного екрана</string>
     <string name="content_settings_header_content_components">Компоненти контенту</string>
     <string name="content_settings_hide_watched_title">Сховати переглянуті відео</string>
     <string name="content_settings_hide_watched_subtitle">Фільтрувати відео, які ви вже переглянули, зі своєї стрічки та підписок</string>
@@ -330,7 +330,7 @@
     <string name="notifications">Сповіщення</string>
     <string name="since">З</string>
     <string name="chapters">Частини</string>
-    <string name="app_name_uppercase">FLOW</string>
+    <string name="app_name_uppercase">LEGIONTUBE</string>
     <string name="unsubscribed_from_template">Відписано від %1$s</string>
     <string name="playlist_metadata_template">Список відтворення • Приватний • %1$d відео</string>
     <string name="recent_searches">Нещодавні пошуки</string>
@@ -338,8 +338,8 @@
     <string name="channel_avatar">Аватарка каналу</string>
     <string name="clear_all_notifications">Очистити сповіщення</string>
     <string name="notifications_empty_body">Ви переглянули все! Нові оновлення з ваших підписок з’являтимуться тут.</string>
-    <string name="settings_reset_brain_title">Скинути персоналізацію Flow?</string>
-    <string name="settings_reset_brain_body">Це повністю очистить ваш профіль інтересів \"Flow Brain\".\n\n• Усі вивчені теми будуть забуті.\n• Риси особистості повернуться до початкових.\n• Рекомендації стануть стандартними.\n\nЦю дію неможливо скасувати.</string>
+    <string name="settings_reset_brain_title">Скинути персоналізацію LegionTube?</string>
+    <string name="settings_reset_brain_body">Це повністю очистить ваш профіль інтересів \"LegionTube Brain\".\n\n• Усі вивчені теми будуть забуті.\n• Риси особистості повернуться до початкових.\n• Рекомендації стануть стандартними.\n\nЦю дію неможливо скасувати.</string>
     <string name="settings_analyzing_interactions">Аналізую ваші взаємодії...</string>
     <string name="notif_type_downloads">Сповіщення завантажень</string>
     <string name="notif_type_downloads_subtitle">Сповіщення про прогрес, завершення та невдачі</string>
@@ -347,7 +347,7 @@
     <string name="notif_system_settings_subtitle">Відкрийте налаштування Android, для керувати дозволами кожного каналу</string>
     <string name="notif_check_interval_section_header">Графік перевірки стрічки</string>
     <string name="notif_check_interval">Інтервал перевірки нових відео</string>
-    <string name="notif_check_interval_dialog_body">Як часто Flow перевіряє наявність нових відео на ваших підписаних каналах.</string>
+    <string name="notif_check_interval_dialog_body">Як часто LegionTube перевіряє наявність нових відео на ваших підписаних каналах.</string>
     <string name="settings_item_content_prefs_subtitle">Блокуйте теми, які ви не хочете бачити</string>
     <string name="settings_item_player">Налаштування програвача</string>
     <string name="settings_item_player_subtitle">Автоматичне відтворення, фонове відтворення, SponsorBlock</string>
@@ -368,10 +368,10 @@
     <string name="settings_item_export_data_subtitle">Резервне копіювання даних</string>
     <string name="settings_item_import_data">Імпорт данних</string>
     <string name="settings_item_import_data_subtitle">Відновити з резервної копії або імпортувати з інших програм</string>
-    <string name="settings_item_about_flow">Про Flow</string>
+    <string name="settings_item_about_flow">Про LegionTube</string>
     <string name="settings_item_about_flow_subtitle">Версія, Ліцензія, Автори</string>
     <string name="settings_item_support">Підтримка та пожертви</string>
-    <string name="settings_item_support_subtitle">Підтримайте розробку Flow</string>
+    <string name="settings_item_support_subtitle">Підтримайте розробку LegionTube</string>
     <string name="settings_region_dialog_title">Вибрати регіон</string>
     <string name="settings_export_success">Дані успішно експортовано</string>
     <string name="export_newpipe_subs_failed">Не вдалося експортувати підписки NewPipe</string>
@@ -390,7 +390,7 @@
     <string name="channel_search_open">Пошук в каналі</string>
     <string name="channel_search_close">Закрити пошук</string>
     <string name="channel_search_no_results">Результати пошуку відсутні для %1$s</string>
-    <string name="deep_flow_mode_title">Режим Deep Flow</string>
+    <string name="deep_flow_mode_title">Режим Deep LegionTube</string>
     <string name="deep_flow_mode_subtitle">Призупинити навчання — перегляд не впливатиме на ваш профіль</string>
     <string name="deep_flow_learning_paused">НАВЧАННЯ ПРИЗУПИНЕНЕ</string>
     <string name="settings_item_proxy_subtitle">Спрямувати віддалений трафік через HTTP або SOCKS5</string>
@@ -399,7 +399,7 @@
     <string name="settings_language_dialog_title">Вибрати мову додатка</string>
     <string name="settings_export_failed">Експорт невдався: %1$s</string>
     <string name="appearance_title">Вигляд</string>
-    <string name="appearance_subtitle">Налаштуйте ваш досвід в Flow</string>
+    <string name="appearance_subtitle">Налаштуйте ваш досвід в LegionTube</string>
     <string name="appearance_current_theme">ПОТОЧНА ТЕМА</string>
     <string name="appearance_category_all">Всі</string>
     <string name="appearance_category_light">Світла</string>
@@ -581,10 +581,10 @@
     <string name="saved">Збережено</string>
     <string name="deep_flow_dialog_title">Тривалість зупинки</string>
     <string name="deep_flow_dialog_body">На який час потрібно зупинити навчання?</string>
-    <string name="deep_flow_enabled_message">Deep Flow увімкнено</string>
-    <string name="deep_flow_disabled_message">Deep Flow вимкнено</string>
-    <string name="deep_flow_expired_message">Таймер Deep Flow закінчився</string>
-    <string name="deep_flow_active_until_disabled">Deep Flow буде активним доки ви його не вимкнете</string>
+    <string name="deep_flow_enabled_message">Deep LegionTube увімкнено</string>
+    <string name="deep_flow_disabled_message">Deep LegionTube вимкнено</string>
+    <string name="deep_flow_expired_message">Таймер Deep LegionTube закінчився</string>
+    <string name="deep_flow_active_until_disabled">Deep LegionTube буде активним доки ви його не вимкнете</string>
     <string name="deep_flow_duration_never">Ніколи</string>
     <string name="deep_flow_duration_1h">1 година</string>
     <string name="deep_flow_duration_2h">2 години</string>
@@ -749,7 +749,7 @@
     <string name="topics_count_template">%1$d тем</string>
     <string name="hidden_count_template">%1$d приховано</string>
     <string name="your_interests_title">Ваші інтереси</string>
-    <string name="your_interests_desc">Вибрані теми допомагають Flow краще рекомендувати контент. Натисніть на теми нижче, щоб додати або видалити їх.</string>
+    <string name="your_interests_desc">Вибрані теми допомагають LegionTube краще рекомендувати контент. Натисніть на теми нижче, щоб додати або видалити їх.</string>
     <string name="currently_following">Підписки</string>
     <string name="tap_to_remove">Натисніть, щоб видалити</string>
     <string name="add_topics">Додати теми</string>
@@ -879,14 +879,14 @@
     <string name="period_one_year">1 рік</string>
     <string name="days_count_template">%1$d днів</string>
     <string name="import_data_title">Імпортувати дані</string>
-    <string name="import_flow_backup_success">Резервна копію Flow успішно імпортована</string>
-    <string name="import_flow_backup_failed_template">Не вдалось імпортувтаи резервну копію Flow: %1$s</string>
+    <string name="import_flow_backup_success">Резервна копію LegionTube успішно імпортована</string>
+    <string name="import_flow_backup_failed_template">Не вдалось імпортувтаи резервну копію LegionTube: %1$s</string>
     <string name="import_newpipe_success_template">Імпортовано %1$d відписок з NewPipe</string>
     <string name="import_newpipe_failed_template">Не вдалось імпортувати резервну копію NewPipe: %1$s</string>
     <string name="import_youtube_success_template">Імпортовано %1$d підписок з YouTube</string>
     <string name="import_youtube_failed_template">Не вдалось імпортувати резервну копію YouTube: %1$s</string>
-    <string name="import_flow_backup_item_title">Імпортувати резервну копію Flow</string>
-    <string name="import_flow_backup_desc">Відновіть історію, налаштування та підписки з файлу резервної копії Flow.</string>
+    <string name="import_flow_backup_item_title">Імпортувати резервну копію LegionTube</string>
+    <string name="import_flow_backup_desc">Відновіть історію, налаштування та підписки з файлу резервної копії LegionTube.</string>
     <string name="import_from_newpipe">Імпорт з NewPipe</string>
     <string name="import_from_newpipe_desc">Імпортувати підписки з файлу експорту NewPipe (JSON).</string>
     <string name="import_from_libretube">Імпорт з LibreTube</string>
@@ -950,8 +950,8 @@
     <string name="location_dialog_subtitle">Виберіть місце збереження завантажених файлів на вашому пристрої.</string>
     <string name="location_preset_header">Стандартні розташування</string>
     <string name="location_custom_header">Власне розташування</string>
-    <string name="location_downloads_label">Downloads/Flow</string>
-    <string name="location_movies_label">Movies/Flow</string>
+    <string name="location_downloads_label">Downloads/LegionTube</string>
+    <string name="location_movies_label">Movies/LegionTube</string>
     <string name="location_internal_app_label">Внутрішнє сховище додатка</string>
     <string name="location_internal_app_desc">Приватно для додатка — файли можуть бути видалені, якщо ви видалите додаток</string>
     <string name="location_custom_saf_label">Огляд…</string>
@@ -962,9 +962,9 @@
     <string name="select_threads_count_desc">Виберіть кількість потоків (1–8):</string>
     <string name="threads_count_label">%1$d потоків</string>
     <string name="support_donations_title">Підтримка та пожертви</string>
-    <string name="support_flow_dev_title">Підтримайте розробку Flow</string>
-    <string name="support_flow_dev_desc">Якщо Flow є корисним для вас і ви хочете підтримати його розробку, ви можете зробити це на Patreon або за допомогою криптовалют за адресами нижче. Ваша підтримка допомагає проєкту жити!</string>
-    <string name="support_flow_patreon">Підтримайте Flow на Patreon</string>
+    <string name="support_flow_dev_title">Підтримайте розробку LegionTube</string>
+    <string name="support_flow_dev_desc">Якщо LegionTube є корисним для вас і ви хочете підтримати його розробку, ви можете зробити це на Patreon або за допомогою криптовалют за адресами нижче. Ваша підтримка допомагає проєкту жити!</string>
+    <string name="support_flow_patreon">Підтримайте LegionTube на Patreon</string>
     <string name="thank_you_support_message">Дякую вам за вашу підтримку! ❤️</string>
     <string name="address_copied_toast">Адреса скопійована до буферу обміну</string>
     <string name="donation_address_clip_label">Адреса для пожертв</string>
@@ -975,7 +975,7 @@
     <string name="newpipe_extractor_subtitle">Основна бібліотека витягування</string>
     <string name="about_license">Ліцензія</string>
     <string name="about_changelog">Список змін</string>
-    <string name="whats_new_in_flow">Що нового у Flow</string>
+    <string name="whats_new_in_flow">Що нового у LegionTube</string>
     <string name="about_device_info">Інформація про пристрій</string>
     <string name="gnu_license_full_title">GNU General Public License</string>
     <string name="loading_ellipsis">Завантаження...</string>
@@ -1018,7 +1018,7 @@
     <string name="delete_playlist_dialog_text">Це назавжди видалить \'%1$s\' і всі його відео.</string>
     <string name="playlist_metadata_private_template">Плейліст • Приватний • %1$d відео</string>
     <string name="playlist_metadata_public_template">Плейліст • Приватний • %1$d відео</string>
-    <string name="welcome_to_flow">Вітаємо у Flow</string>
+    <string name="welcome_to_flow">Вітаємо у LegionTube</string>
     <string name="onboarding_subtitle">Розкажіть нам, що вас цікавить</string>
     <string name="onboarding_instructions">Оберіть принаймні 3 теми, щоб персоналізувати досвід</string>
     <string name="selected_with_more_needed_template">Вибрано: %1$d (потрібно ще %2$d)</string>
@@ -1036,7 +1036,7 @@
     <string name="category_creative">Творчість</string>
     <string name="category_science_nature">Наука і природа</string>
     <string name="category_news_current_events">Новини та події</string>
-    <string name="flow_control_center">Центр керування Flow</string>
+    <string name="flow_control_center">Центр керування LegionTube</string>
     <string name="action_refresh">Оновити</string>
     <string name="loading_neural_matrix">Завантаження нейронної матриці...</string>
     <string name="neural_interest_map_subtitle">Ваша нейронна карта інтересів</string>
@@ -1061,7 +1061,7 @@
     <string name="empty_bubble_cloud_message">Перегляньте кілька відео, щоб сформувати ваш профіль інтересів!</string>
     <string name="interactions_level_template">%1$d взаємодій • Рівень %2$d</string>
     <string name="export_profile_data">Експортувати дані профілю</string>
-    <string name="flow_neural_profile_export_subject">Експорт нейронного профілю Flow</string>
+    <string name="flow_neural_profile_export_subject">Експорт нейронного профілю LegionTube</string>
     <string name="screen_title_music_library">Музична бібліотека</string>
     <string name="header_your_collection">Ваша колекція</string>
     <string name="subtitle_liked_music">Вподобані пісні</string>
@@ -1228,17 +1228,17 @@
     <string name="check_for_updates">Перевірити оновлення</string>
     <string name="check_for_updates_subtitle">Натисніть для перевірки оновлень</string>
     <string name="checking_for_updates">Перевірка оновлень…</string>
-    <string name="flow_is_up_to_date">Flow оновлено!</string>
+    <string name="flow_is_up_to_date">LegionTube оновлено!</string>
     <string name="update_check_failed">Не вдалося перевірити оновлення. Перевірте з\'єднання.</string>
     <string name="export_engine_data">Експортувати профіль рушія</string>
     <string name="export_engine_data_subtitle">Резервна копія особистості та даних навчання ШІ</string>
     <string name="export_engine_success">Профіль рушія успішно експортовано</string>
     <string name="export_engine_failed">Не вдалось експортувтаи профіль рушія</string>
-    <string name="import_engine_data">Імпортувати дані рушія Flow</string>
+    <string name="import_engine_data">Імпортувати дані рушія LegionTube</string>
     <string name="import_engine_data_desc">Відновити профіль особистості ШІ з файлу бекапу</string>
     <string name="import_engine_success">Профіль рушія успішно відновлено</string>
     <string name="import_engine_failed">Не вдлаось імпортувати профіль рушія</string>
-    <string name="import_engine_section_title">Рушій Flow</string>
+    <string name="import_engine_section_title">Рушій LegionTube</string>
     <string name="import_engine_section_subtitle">Відновити профіль навчання ШІ</string>
     <string name="master_backup_title">Повна резервна копія</string>
     <string name="master_backup_subtitle">Експортувати мозок та дані застосунка одним файлом</string>
@@ -1258,7 +1258,7 @@
     <string name="download_all_confirmation">Завантажити всі %1$d відео? Це може зацняти багато місця.</string>
     <string name="title_copied">Назва скопійована</string>
     <string name="notif_master_toggle">Увімкнути сповіщення</string>
-    <string name="notif_master_toggle_subtitle">Дозволити Flow працювати і фоні для перевірки сповіщень</string>
+    <string name="notif_master_toggle_subtitle">Дозволити LegionTube працювати і фоні для перевірки сповіщень</string>
     <string name="notif_check_interval_disabled">Фонові перевірки сповіщень вимкнені</string>
     <string name="player_adaptive_size_title">Адаптивний розмір програвача</string>
     <string name="player_settings_rytd_subtitle">Отримати кількість дизлайків з Return YouTube Dislike</string>

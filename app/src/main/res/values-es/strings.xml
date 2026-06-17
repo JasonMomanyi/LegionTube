@@ -163,15 +163,15 @@
     <string name="settings_item_export_data_subtitle">Respalda tus datos</string>
     <string name="settings_item_import_data">Importar datos</string>
     <string name="settings_item_import_data_subtitle">Restaura desde tu respaldo o importa de otras apps</string>
-    <string name="settings_item_about_flow">Sobre Flow</string>
+    <string name="settings_item_about_flow">Sobre LegionTube</string>
     <string name="settings_item_about_flow_subtitle">Versión, licencia y contribuyentes</string>
     <string name="settings_item_support">Apoyo y donaciones</string>
-    <string name="settings_item_support_subtitle">Ayuda a apoyar el desarrollo de Flow</string>
+    <string name="settings_item_support_subtitle">Ayuda a apoyar el desarrollo de LegionTube</string>
     <string name="settings_region_dialog_title">Seleccionar región</string>
     <string name="settings_export_success">Datos exportados con exito</string>
     <string name="settings_export_failed">Exportación fallida:%1$s</string>
     <string name="appearance_title">Apariencia</string>
-    <string name="appearance_subtitle">Personaliza tu experiencia en Flow</string>
+    <string name="appearance_subtitle">Personaliza tu experiencia en LegionTube</string>
     <string name="appearance_current_theme">TEMA ACUAL</string>
     <string name="appearance_category_all">Todo</string>
     <string name="appearance_category_light">Claro</string>
@@ -208,7 +208,7 @@
     <string name="artist">Artista</string>
     <string name="comments">Comentarios</string>
     <string name="filter_workout">Ejercicio</string>
-    <string name="app_name">Flow</string>
+    <string name="app_name">LegionTube</string>
     <string name="download_all">Vídeo</string>
     <string name="saved">Guardado</string>
     <string name="resume">Reanudar</string>
@@ -230,7 +230,7 @@
     <string name="album_art">Portada del álbum</string>
     <string name="views_template">%1$s visualizaciones</string>
     <string name="chapters">Capítulos</string>
-    <string name="app_name_uppercase">Flow</string>
+    <string name="app_name_uppercase">LegionTube</string>
     <string name="notification_badge_9_plus">9+</string>
     <string name="videos_curated_template">%1$d videos seleccionados especialmente para ti</string>
     <string name="personalized_feed">%1$d videos seleccionados especialmente para ti</string>

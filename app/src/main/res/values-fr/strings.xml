@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Flow</string>
+    <string name="app_name">LegionTube</string>
     <string name="subscriptions_search_placeholder">Rechercher des abonnements...</string>
     <string name="top_bar_subscriptions_title">Abonnements</string>
     <string name="view_all_button_label">Tout voir</string>
@@ -162,7 +162,7 @@
     <string name="new_update_available">Mise à jour disponible</string>
     <string name="update_available_template">%1$s est maintenant disponible</string>
     <string name="release_notes">NOTES DE VERSION</string>
-    <string name="update_flow">Mettre à jour Flow</string>
+    <string name="update_flow">Mettre à jour LegionTube</string>
     <string name="maybe_later">Peut-être plus tard</string>
     <!-- Navigation -->
     <string name="nav_home">Accueil</string>
@@ -193,7 +193,7 @@
     <string name="chapters">Chapitres</string>
     <string name="artist">Artiste</string>
     <string name="playlist">Playlist</string>
-    <string name="app_name_uppercase">FLOW</string>
+    <string name="app_name_uppercase">LEGIONTUBE</string>
     <string name="notification_badge_9_plus">9+</string>
     <string name="personalized_feed">Votre fil personnalisé</string>
     <string name="videos_curated_template">%1$d vidéos sélectionnées rien que pour vous</string>
@@ -270,10 +270,10 @@
     <string name="notifications_empty_body">Vous êtes à jour ! Les nouvelles mises à jour de vos abonnements apparaîtront ici.</string>
     <!-- Écran des Paramètres -->
     <string name="settings_title">Paramètres</string>
-    <string name="settings_flow_engine_header">Moteur Flow</string>
+    <string name="settings_flow_engine_header">Moteur LegionTube</string>
     <string name="settings_active_learning">APPRENTISSAGE ACTIF</string>
     <string name="settings_reset_brain_title">Réinitialiser la personnalité ?</string>
-    <string name="settings_reset_brain_body">Cela effacera complètement votre profil d\'intérêt \'Flow Brain\'.\n\n• Tous les sujets appris seront oubliés.\n• Les traits de personnalité reviendront à neutre.\n• Les recommandations reviendront aux valeurs par défaut.\n\nCette action ne peut pas être annulée.</string>
+    <string name="settings_reset_brain_body">Cela effacera complètement votre profil d\'intérêt \'LegionTube Brain\'.\n\n• Tous les sujets appris seront oubliés.\n• Les traits de personnalité reviendront à neutre.\n• Les recommandations reviendront aux valeurs par défaut.\n\nCette action ne peut pas être annulée.</string>
     <string name="settings_reset_everything">Tout Réinitialiser</string>
     <string name="settings_analyzing_interactions">Analyse de vos interactions...</string>
     <string name="settings_view_analytics">Voir les Analytics</string>
@@ -303,10 +303,10 @@
     <string name="settings_item_export_data_subtitle">Sauvegardez vos données</string>
     <string name="settings_item_import_data">Importer les Données</string>
     <string name="settings_item_import_data_subtitle">Restaurer depuis une sauvegarde ou importer depuis d\'autres applications</string>
-    <string name="settings_item_about_flow">À Propos de Flow</string>
+    <string name="settings_item_about_flow">À Propos de LegionTube</string>
     <string name="settings_item_about_flow_subtitle">Version, Licence, Contributeurs</string>
     <string name="settings_item_support">Support &amp; Dons</string>
-    <string name="settings_item_support_subtitle">Aidez à soutenir le développement de Flow</string>
+    <string name="settings_item_support_subtitle">Aidez à soutenir le développement de LegionTube</string>
     <string name="settings_region_dialog_title">Sélectionner la Région</string>
     <string name="settings_export_success">Données exportées avec succès</string>
     <string name="settings_export_failed">Échec de l\'exportation : %1$s</string>
@@ -328,7 +328,7 @@
     <string name="player_appearance_style_subtitle">Sélectionner le style de la barre de lecture</string>
     <string name="settings_item_player_appearance">Apparence du lecteur</string>
     <string name="settings_item_player_appearance_subtitle">Personnaliser le style de la barre de progression</string>
-    <string name="style_default">Défaut (Flow)</string>
+    <string name="style_default">Défaut (LegionTube)</string>
     <string name="style_metrolist">Metrolist (Épais)</string>
     <string name="style_metrolist_slim">Metrolist (Fin)</string>
     <string name="style_squiggly">Vague (Squiggly)</string>
@@ -489,7 +489,7 @@
     <string name="topics_count_template">%1$d sujets</string>
     <string name="hidden_count_template">%1$d masqués</string>
     <string name="your_interests_title">Vos Intérêts</string>
-    <string name="your_interests_desc">Les thèmes que vous avez sélectionnés aident Flow à vous recommander des contenus plus pertinents. Appuyez sur les thèmes ci-dessous pour en ajouter ou en supprimer.</string>
+    <string name="your_interests_desc">Les thèmes que vous avez sélectionnés aident LegionTube à vous recommander des contenus plus pertinents. Appuyez sur les thèmes ci-dessous pour en ajouter ou en supprimer.</string>
     <string name="currently_following">Actuellement Suivis</string>
     <string name="tap_to_remove">Appuyez pour supprimer</string>
     <string name="add_topics">Ajouter des sujets</string>
@@ -551,14 +551,14 @@
     <string name="days_count_template">%1$d jours</string>
     <!-- Écran d'Importation de Données -->
     <string name="import_data_title">Importation de données</string>
-    <string name="import_flow_backup_success">Sauvegarde Flow importée avec succès</string>
-    <string name="import_flow_backup_failed_template">Échec de l\'importation de la sauvegarde Flow : %1$s</string>
+    <string name="import_flow_backup_success">Sauvegarde LegionTube importée avec succès</string>
+    <string name="import_flow_backup_failed_template">Échec de l\'importation de la sauvegarde LegionTube : %1$s</string>
     <string name="import_newpipe_success_template">%1$d abonnements importés depuis NewPipe</string>
     <string name="import_newpipe_failed_template">Échec de l\'importation de la sauvegarde NewPipe : %1$s</string>
     <string name="import_youtube_success_template">%1$d abonnements importés depuis YouTube</string>
     <string name="import_youtube_failed_template">Échec de l\'importation de la sauvegarde YouTube : %1$s</string>
-    <string name="import_flow_backup_item_title">Importer la Sauvegarde Flow</string>
-    <string name="import_flow_backup_desc">Restaurez votre historique, vos paramètres et vos abonnements depuis un fichier de sauvegarde Flow.</string>
+    <string name="import_flow_backup_item_title">Importer la Sauvegarde LegionTube</string>
+    <string name="import_flow_backup_desc">Restaurez votre historique, vos paramètres et vos abonnements depuis un fichier de sauvegarde LegionTube.</string>
     <string name="import_from_newpipe">Importer depuis NewPipe</string>
     <string name="import_from_newpipe_desc">Importer les abonnements depuis un fichier d\'exportation NewPipe (JSON).</string>
     <string name="import_from_libretube">Importer depuis LibreTube</string>
@@ -586,8 +586,8 @@
     <string name="location_dialog_subtitle">Choisissez où les fichiers téléchargés sont enregistrés sur votre appareil.</string>
     <string name="location_preset_header">Emplacements prédéfinis</string>
     <string name="location_custom_header">Emplacement personnalisé</string>
-    <string name="location_downloads_label">Téléchargements / Flow</string>
-    <string name="location_movies_label">Vidéos / Flow</string>
+    <string name="location_downloads_label">Téléchargements / LegionTube</string>
+    <string name="location_movies_label">Vidéos / LegionTube</string>
     <string name="location_internal_app_label">Stockage interne de l\'application</string>
     <string name="location_internal_app_desc">Privé à l\'application — les fichiers peuvent être supprimés si vous désinstallez</string>
     <string name="location_custom_saf_label">Parcourir…</string>
@@ -603,8 +603,8 @@
     <string name="threads_count_label">%1$d threads</string>
     <!-- Écran des Dons -->
     <string name="support_donations_title">Soutien et dons</string>
-    <string name="support_flow_dev_title">Soutenir le développement de Flow</string>
-    <string name="support_flow_dev_desc">Si vous trouvez Flow utile et souhaitez soutenir son développement, vous pouvez le faire sur Patreon ou faire un don via les adresses de cryptomonnaie ci-dessous. Votre soutien contribue à la pérennité du projet !</string>
+    <string name="support_flow_dev_title">Soutenir le développement de LegionTube</string>
+    <string name="support_flow_dev_desc">Si vous trouvez LegionTube utile et souhaitez soutenir son développement, vous pouvez le faire sur Patreon ou faire un don via les adresses de cryptomonnaie ci-dessous. Votre soutien contribue à la pérennité du projet !</string>
     <string name="thank_you_support_message">Merci pour votre soutien ! ❤️</string>
     <string name="address_copied_toast">Adresse copiée dans le presse-papiers</string>
     <string name="donation_address_clip_label">Adresse de Don</string>
@@ -616,7 +616,7 @@
     <string name="newpipe_extractor_subtitle">Bibliothèque d\'extraction principale</string>
     <string name="about_license">Licence</string>
     <string name="about_changelog">Journal des modifications</string>
-    <string name="whats_new_in_flow">Quoi de neuf dans Flow</string>
+    <string name="whats_new_in_flow">Quoi de neuf dans LegionTube</string>
     <string name="about_device_info">Informations sur l\'appareil</string>
     <string name="gnu_license_full_title">Licence Publique Générale GNU</string>
     <string name="loading_ellipsis">Chargement...</string>
@@ -656,7 +656,7 @@
     <string name="playlist_metadata_private_template">Playlist • Privée • %1$d vidéos</string>
     <string name="playlist_metadata_public_template">Playlist • Publique • %1$d vidéos</string>
     <!-- Accueil -->
-    <string name="welcome_to_flow">Bienvenue dans Flow</string>
+    <string name="welcome_to_flow">Bienvenue dans LegionTube</string>
     <string name="onboarding_subtitle">Dites-nous ce qui vous intéresse</string>
     <string name="onboarding_instructions">Sélectionnez au moins 3 sujets pour personnaliser votre expérience</string>
     <string name="selected_with_more_needed_template">%1$d sélectionnés (%2$d de plus nécessaires)</string>
@@ -675,8 +675,8 @@
     <string name="category_creative">Créatif</string>
     <string name="category_science_nature">Sciences &amp; Nature</string>
     <string name="category_news_current_events">Actualités &amp; Événements</string>
-    <!-- Écran de Contrôle de Flow -->
-    <string name="flow_control_center">Centre de contrôle de Flow</string>
+    <!-- Écran de Contrôle de LegionTube -->
+    <string name="flow_control_center">Centre de contrôle de LegionTube</string>
     <string name="action_refresh">Rafraîchir</string>
     <string name="loading_neural_matrix">Chargement de la matrice neurale...</string>
     <string name="neural_interest_map_subtitle">Votre carte d\'intérêt neurale</string>
@@ -700,7 +700,7 @@
     <string name="empty_bubble_cloud_message">Regardez quelques vidéos pour remplir votre nébuleuse d\'intérêts !</string>
     <string name="interactions_level_template">%1$d interactions • Niveau %2$d</string>
     <string name="export_profile_data">Exporter les Données de Profil</string>
-    <string name="flow_neural_profile_export_subject">Exportation du Profil Neural de Flow</string>
+    <string name="flow_neural_profile_export_subject">Exportation du Profil Neural de LegionTube</string>
     <!-- Écran des Playlists Musicales -->
     <string name="screen_title_music_library">Bibliothèque Musicale</string>
     <string name="header_your_collection">Votre Collection</string>
@@ -864,7 +864,7 @@
     <string name="search_hint">Recherche</string>
     <string name="settings_header_notifications">Notifications</string>
     <string name="settings_item_notifications">Préférences de Notification</string>
-    <string name="settings_item_notifications_subtitle">Gérer les notifications que Flow peut envoyer</string>
+    <string name="settings_item_notifications_subtitle">Gérer les notifications que LegionTube peut envoyer</string>
     <string name="notif_settings_title">Préférences de Notification</string>
     <string name="notif_type_new_videos">Nouvelles Vidéos</string>
     <string name="notif_type_new_videos_subtitle">M\'avertir lorsque les chaînes auxquelles je suis abonné publient de nouvelles vidéos</string>
@@ -893,7 +893,7 @@
     <string name="channel_search_open">Rechercher dans la chaîne</string>
     <string name="channel_search_close">Fermer la recherche</string>
     <string name="channel_search_no_results">Aucun résultat trouvé pour %1$s</string>
-    <string name="deep_flow_mode_title">Mode Deep Flow</string>
+    <string name="deep_flow_mode_title">Mode Deep LegionTube</string>
     <string name="deep_flow_mode_subtitle">Mettre l\'apprentissage en pause — naviguer sans influencer votre profil</string>
     <string name="deep_flow_learning_paused">APPRENTISSAGE EN PAUSE</string>
     <string name="deep_flow_expires_in">Expire dans %s</string>
@@ -910,7 +910,7 @@
     <string name="deep_flow_duration_24h">24 heures</string>
     <string name="notif_type_reminders_subtitle">Rappels pour l\'heure du coucher et les pauses, par Time Management</string>
     <string name="notif_type_updates">Mises à jour de l’application</string>
-    <string name="notif_type_updates_subtitle">Recevez une notification lorsqu\'une nouvelle version de Flow est disponible</string>
+    <string name="notif_type_updates_subtitle">Recevez une notification lorsqu\'une nouvelle version de LegionTube est disponible</string>
     <string name="notif_type_general">Notifications Générales</string>
     <string name="notif_type_general_subtitle">Alertes et annonces diverses concernant l\'application</string>
     <string name="notif_system_settings">Paramètres de Notification du Système</string>
@@ -919,7 +919,7 @@
     <string name="notif_check_interval">Intervalle de Vérification de Nouvelles Vidéos</string>
     <string name="notif_check_interval_subtitle_template">Vérification toutes les %s</string>
     <string name="notif_check_interval_dialog_title">Intervalle de Vérification</string>
-    <string name="notif_check_interval_dialog_body">À quelle fréquence Flow vérifie s\'il y a de nouvelles vidéos sur les chaînes auxquelles vous êtes abonné.</string>
+    <string name="notif_check_interval_dialog_body">À quelle fréquence LegionTube vérifie s\'il y a de nouvelles vidéos sur les chaînes auxquelles vous êtes abonné.</string>
     <string name="notif_interval_15m">15 minutes</string>
     <string name="notif_interval_30m">30 minutes</string>
     <string name="notif_interval_1h">1 heure</string>
@@ -939,10 +939,10 @@
     <string name="appearance_customizer_save">Enregistrer le thème</string>
     <string name="appearance_role_primary">Primaire</string>
     <string name="appearance_role_on_primary">Aux primaires</string>
-    <string name="deep_flow_enabled_message">Deep Flow activé</string>
-    <string name="deep_flow_disabled_message">Deep Flow désactivé</string>
-    <string name="deep_flow_expired_message">Le minuteur Deep Flow s\'est arrêté</string>
-    <string name="deep_flow_active_until_disabled">Deep Flow reste actif jusqu\'à ce que vous le désactiviez</string>
+    <string name="deep_flow_enabled_message">Deep LegionTube activé</string>
+    <string name="deep_flow_disabled_message">Deep LegionTube désactivé</string>
+    <string name="deep_flow_expired_message">Le minuteur Deep LegionTube s\'est arrêté</string>
+    <string name="deep_flow_active_until_disabled">Deep LegionTube reste actif jusqu\'à ce que vous le désactiviez</string>
     <string name="deep_flow_duration_never">Jamais</string>
     <string name="appearance_role_secondary">Secondaire</string>
     <string name="appearance_role_tertiary">Tertiaire</string>
@@ -981,7 +981,7 @@
     <string name="content_settings_video_card_mark_watched_title">Bouton « Marquer comme vu » de la carte graphique</string>
     <string name="content_settings_video_card_mark_watched_subtitle">Afficher un bouton en forme d\'œil sur les fiches vidéo « complète » et « compacte » pour marquer rapidement les vidéos comme déjà visionnées</string>
     <string name="content_settings_show_app_logo_title">Afficher l\'icône du logo de l\'application</string>
-    <string name="content_settings_show_app_logo_subtitle">Afficher l\'icône du logo Flow à côté du nom de l\'application dans la barre supérieure de l\'écran d\'accueil</string>
+    <string name="content_settings_show_app_logo_subtitle">Afficher l\'icône du logo LegionTube à côté du nom de l\'application dans la barre supérieure de l\'écran d\'accueil</string>
     <string name="content_settings_header_content_components">Éléments de contenu</string>
     <string name="content_settings_hide_watched_title">Masquer les vidéos visionnées</string>
     <string name="content_settings_hide_watched_subtitle">Filtrez les vidéos que vous avez déjà visionnées dans votre fil d\'actualité et vos abonnements</string>
@@ -1126,8 +1126,8 @@
     <string name="sb_action_show_toast">Notification uniquement</string>
     <string name="sb_action_ignore">Ignorer</string>
     <string name="select_text">Sélectionner le texte</string>
-    <string name="flow_is_up_to_date">Flow est à jour !</string>
-    <string name="error_not_supported_hint">Ce format ou ce type de contenu ne peut pas être lu dans Flow.</string>
+    <string name="flow_is_up_to_date">LegionTube est à jour !</string>
+    <string name="error_not_supported_hint">Ce format ou ce type de contenu ne peut pas être lu dans LegionTube.</string>
     <string name="proxy_settings_invalid_port">Entrez un port proxy valide compris entre 1 et 65535.</string>
     <string name="proxy_settings_saved">Paramètres de proxy enregistrés</string>
     <string name="sb_category_intro">Introduction / Entracte</string>
@@ -1188,7 +1188,7 @@
     <string name="audio_access_title">Accès à la musique &amp; à l\'audio</string>
     <string name="audio_access_granted_subtitle">Autorisé</string>
     <string name="audio_access_denied_subtitle">Non autorisé — appuyez pour activer</string>
-    <string name="support_flow_patreon">Soutenez Flow sur Patreon</string>
+    <string name="support_flow_patreon">Soutenez LegionTube sur Patreon</string>
     <string name="section_app">Application</string>
     <string name="section_contact">Contact</string>
     <string name="section_legal">Légal</string>
@@ -1224,7 +1224,7 @@
     <string name="error_playback_failed">Échec de la lecture</string>
     <string name="error_playback_failed_hint">Une erreur inattendue s\'est produite. Veuillez réessayer.</string>
     <string name="error_extraction_failed">Échec de l\'analyse des données vidéo</string>
-    <string name="error_extraction_failed_hint">YouTube a peut-être mis à jour son format. Flow sera bientôt mis à jour — veuillez réessayer plus tard.</string>
+    <string name="error_extraction_failed_hint">YouTube a peut-être mis à jour son format. LegionTube sera bientôt mis à jour — veuillez réessayer plus tard.</string>
     <string name="error_generic">Impossible de charger la vidéo</string>
     <string name="error_generic_hint">Une erreur inconnue s\'est produite. Veuillez réessayer.</string>
     <string name="player_settings_overlay_controls">Commandes de superposition</string>
@@ -1329,10 +1329,10 @@
     <string name="import_newpipe_history">Importer l\'historique de NewPipe</string>
     <string name="play_next_video">Lecture suivante</string>
     <string name="play_next_toast">Va passer à la vidéo suivante</string>
-    <string name="export_engine_data">Exporter les données de Flow Engine</string>
-    <string name="import_engine_data">Importer les données de Flow Engine</string>
-    <string name="import_engine_success">Le profil de Flow Engine a été restauré avec succès</string>
-    <string name="import_engine_failed">Échec de l\'importation du profil de Flow Engine</string>
+    <string name="export_engine_data">Exporter les données de LegionTube Engine</string>
+    <string name="import_engine_data">Importer les données de LegionTube Engine</string>
+    <string name="import_engine_success">Le profil de LegionTube Engine a été restauré avec succès</string>
+    <string name="import_engine_failed">Échec de l\'importation du profil de LegionTube Engine</string>
     <string name="master_backup_title">Sauvegarde principale</string>
     <string name="master_backup_subtitle">Exportez l\'algorithme et les données de l\'application dans un seul fichier</string>
     <string name="master_backup_export_success">Sauvegarde principale enregistrée avec succès</string>
@@ -1503,7 +1503,7 @@
     <string name="taste_chart_profile">Profil</string>
     <string name="taste_chart_now">Maintenant</string>
     <string name="notif_master_toggle">Activer les notifications</string>
-    <string name="notif_master_toggle_subtitle">Autoriser Flow à s\'activer en arrière-plan pour vérifier les notifications et les alertes</string>
+    <string name="notif_master_toggle_subtitle">Autoriser LegionTube à s\'activer en arrière-plan pour vérifier les notifications et les alertes</string>
     <string name="notif_check_interval_disabled">Les vérifications de notification en arrière-plan sont désactivées</string>
     <string name="player_settings_rytd_title">Réintroduire le bouton « Je n\'aime pas » sur YouTube</string>
     <string name="player_settings_rytd_subtitle">Récupérer le nombre de « J\'aime pas » à l\'aide du service « Return YouTube Dislike »</string>

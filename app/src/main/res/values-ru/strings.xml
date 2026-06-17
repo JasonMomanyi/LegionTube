@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Flow</string>
+    <string name="app_name">LegionTube</string>
     <string name="subscriptions_search_placeholder">Поиск в подписках...</string>
     <string name="top_bar_subscriptions_title">Подписки</string>
     <string name="view_all_button_label">Все</string>
@@ -167,7 +167,7 @@
     <string name="new_update_available">Доступно новое обновление</string>
     <string name="update_available_template">Версия %1$s уже доступна</string>
     <string name="release_notes">ПРИМЕЧАНИЯ К ВЫПУСКУ</string>
-    <string name="update_flow">Обновить Flow</string>
+    <string name="update_flow">Обновить LegionTube</string>
     <string name="maybe_later">Может быть, позже</string>
     <string name="nav_home">Главная</string>
     <string name="nav_shorts">Короткие видео (Shorts)</string>
@@ -201,7 +201,7 @@
     <string name="chapters">Главы</string>
     <string name="artist">Исполнитель</string>
     <string name="playlist">Плейлист</string>
-    <string name="app_name_uppercase">FLOW</string>
+    <string name="app_name_uppercase">LEGIONTUBE</string>
     <string name="notification_badge_9_plus">9+</string>
     <string name="personalized_feed">Ваша персональная лента</string>
     <string name="videos_curated_template">%1$d видео специально для вас</string>
@@ -276,10 +276,10 @@
     <string name="peace_and_quiet">Тишина и покой</string>
     <string name="notifications_empty_body">Вы все просмотрели! Здесь будут новые обновления ваших подписок.</string>
     <string name="settings_title">Настройки</string>
-    <string name="settings_flow_engine_header">Движок Flow</string>
+    <string name="settings_flow_engine_header">Движок LegionTube</string>
     <string name="settings_active_learning">АКТИВНОЕ ОБУЧЕНИЕ</string>
-    <string name="settings_reset_brain_title">Сбросить настройки «мозга» Flow?</string>
-    <string name="settings_reset_brain_body">Это полностью сотрет профиль интересов вашего «мозга Flow».\n\n• Все изученные темы будут забыты.\n• Черты личности станут нейтральными.\n• Рекомендации вернутся к значениям по умолчанию.\n\nЭто действие нельзя отменить.</string>
+    <string name="settings_reset_brain_title">Сбросить настройки «мозга» LegionTube?</string>
+    <string name="settings_reset_brain_body">Это полностью сотрет профиль интересов вашего «мозга LegionTube».\n\n• Все изученные темы будут забыты.\n• Черты личности станут нейтральными.\n• Рекомендации вернутся к значениям по умолчанию.\n\nЭто действие нельзя отменить.</string>
     <string name="settings_reset_everything">Сбросить всё</string>
     <string name="settings_analyzing_interactions">Анализируем ваше взаимодействие...</string>
     <string name="settings_view_analytics">Посмотреть аналитику</string>
@@ -289,7 +289,7 @@
     <string name="settings_header_about">О приложении</string>
     <string name="settings_header_notifications">Уведомления</string>
     <string name="settings_item_notifications">Настройки уведомлений</string>
-    <string name="settings_item_notifications_subtitle">Управляйте тем, какие уведомления может присылать Flow</string>
+    <string name="settings_item_notifications_subtitle">Управляйте тем, какие уведомления может присылать LegionTube</string>
     <string name="notif_settings_title">Настройки уведомлений</string>
     <string name="notif_type_new_videos">Новые видео</string>
     <string name="notif_type_new_videos_subtitle">Уведомлять, когда на подписанных каналах выходят новые видео</string>
@@ -298,7 +298,7 @@
     <string name="notif_type_reminders">Напоминания о времени у экрана</string>
     <string name="notif_type_reminders_subtitle">Напоминания о сне и перерывах из раздела «Управление временем»</string>
     <string name="notif_type_updates">Обновления приложения</string>
-    <string name="notif_type_updates_subtitle">Узнавайте о выходе новых версий Flow</string>
+    <string name="notif_type_updates_subtitle">Узнавайте о выходе новых версий LegionTube</string>
     <string name="notif_type_general">Общие уведомления</string>
     <string name="notif_type_general_subtitle">Различные оповещения и объявления приложения</string>
     <string name="notif_system_settings">Системные настройки уведомлений</string>
@@ -307,7 +307,7 @@
     <string name="notif_check_interval">Интервал проверки новых видео</string>
     <string name="notif_check_interval_subtitle_template">Проверять каждые %s</string>
     <string name="notif_check_interval_dialog_title">Интервал проверки</string>
-    <string name="notif_check_interval_dialog_body">Как часто Flow проверяет наличие новых видео на ваших подписанных каналах.</string>
+    <string name="notif_check_interval_dialog_body">Как часто LegionTube проверяет наличие новых видео на ваших подписанных каналах.</string>
     <string name="notif_interval_15m">15 минут</string>
     <string name="notif_interval_30m">30 минут</string>
     <string name="notif_interval_1h">1 час</string>
@@ -340,15 +340,15 @@
     <string name="settings_item_export_data_subtitle">Создать резервную копию данных</string>
     <string name="settings_item_import_data">Импорт данных</string>
     <string name="settings_item_import_data_subtitle">Восстановление из копии или импорт из других приложений</string>
-    <string name="settings_item_about_flow">О Flow</string>
+    <string name="settings_item_about_flow">О LegionTube</string>
     <string name="settings_item_about_flow_subtitle">Версия, лицензия, участники</string>
     <string name="settings_item_support">Поддержка и донаты</string>
-    <string name="settings_item_support_subtitle">Поддержите разработку Flow</string>
+    <string name="settings_item_support_subtitle">Поддержите разработку LegionTube</string>
     <string name="settings_region_dialog_title">Выберите регион</string>
     <string name="settings_export_success">Данные успешно экспортированы</string>
     <string name="settings_export_failed">Ошибка экспорта: %1$s</string>
     <string name="appearance_title">Внешний вид</string>
-    <string name="appearance_subtitle">Персонализируйте свой опыт использования Flow</string>
+    <string name="appearance_subtitle">Персонализируйте свой опыт использования LegionTube</string>
     <string name="appearance_current_theme">ТЕКУЩАЯ ТЕМА</string>
     <string name="appearance_category_all">Все</string>
     <string name="appearance_category_light">Светлые</string>
@@ -371,7 +371,7 @@
     <string name="player_appearance_style_subtitle">Выберите визуальный стиль полосы прокрутки</string>
     <string name="settings_item_player_appearance">Вид плеера</string>
     <string name="settings_item_player_appearance_subtitle">Настройка стиля полосы прокрутки</string>
-    <string name="style_default">Стандартный (Flow)</string>
+    <string name="style_default">Стандартный (LegionTube)</string>
     <string name="style_metrolist">Metrolist (Толстый)</string>
     <string name="style_metrolist_slim">Metrolist (Тонкий)</string>
     <string name="style_squiggly">Волнистый</string>
@@ -686,7 +686,7 @@
     <string name="content_settings_video_card_actions_title">Кнопки «Нравится» и «Не нравится» на карточке видео</string>
     <string name="content_settings_video_card_actions_subtitle">Отображать кнопки «Нравится» и «Не нравится» на карточках видео, чтобы быстро настроить рекомендации</string>
     <string name="content_settings_show_app_logo_title">Отображать логотип приложения</string>
-    <string name="content_settings_show_app_logo_subtitle">Отображать значок логотипа Flow рядом с названием приложения в верхней панели главного экрана</string>
+    <string name="content_settings_show_app_logo_subtitle">Отображать значок логотипа LegionTube рядом с названием приложения в верхней панели главного экрана</string>
     <string name="player_settings_shorts_background_play">Воспроизведение Shorts в фоновом режиме</string>
     <string name="player_settings_shorts_background_play_subtitle">Продолжать воспроизведение Shorts, когда приложение работает в фоновом режиме</string>
     <string name="currently_following">Текущие подписки</string>
@@ -719,10 +719,10 @@
     <string name="deep_flow_expire_duration_subtitle">Обучение возобновляется автоматически после %s</string>
     <string name="deep_flow_dialog_title">Продолжительность паузы</string>
     <string name="deep_flow_dialog_body">На какой срок следует приостанавливать обучение?</string>
-    <string name="deep_flow_enabled_message">Включена функция Deep Flow</string>
-    <string name="deep_flow_disabled_message">Функция Deep Flow отключена</string>
-    <string name="deep_flow_expired_message">Истекло время таймера Deep Flow</string>
-    <string name="deep_flow_active_until_disabled">Deep Flow остается активным, пока вы его не выключите</string>
+    <string name="deep_flow_enabled_message">Включена функция Deep LegionTube</string>
+    <string name="deep_flow_disabled_message">Функция Deep LegionTube отключена</string>
+    <string name="deep_flow_expired_message">Истекло время таймера Deep LegionTube</string>
+    <string name="deep_flow_active_until_disabled">Deep LegionTube остается активным, пока вы его не выключите</string>
     <string name="deep_flow_duration_never">Никогда</string>
     <string name="deep_flow_duration_1h">1 час</string>
     <string name="deep_flow_duration_2h">2 часа</string>
@@ -732,7 +732,7 @@
     <string name="deep_flow_duration_12h">12 часов</string>
     <string name="deep_flow_duration_24h">24 часа</string>
     <string name="notif_master_toggle">Включить уведомления</string>
-    <string name="notif_master_toggle_subtitle">Разрешить приложению Flow запускаться в фоновом режиме для проверки уведомлений и оповещений</string>
+    <string name="notif_master_toggle_subtitle">Разрешить приложению LegionTube запускаться в фоновом режиме для проверки уведомлений и оповещений</string>
     <string name="notif_check_interval_disabled">Проверка уведомлений в фоновом режиме отключена</string>
     <string name="settings_item_proxy">Настройки прокси</string>
     <string name="settings_item_proxy_subtitle">Направлять удаленный трафик через HTTP или SOCKS5</string>
@@ -754,7 +754,7 @@
     <string name="appearance_role_on_background">На заднем фоне</string>
     <string name="appearance_role_surface">Поверхность</string>
     <string name="appearance_role_on_surface">На поверхности</string>
-    <string name="deep_flow_mode_title">Режим Deep Flow</string>
+    <string name="deep_flow_mode_title">Режим Deep LegionTube</string>
     <string name="done">Готово</string>
     <string name="next_up">Следующий</string>
     <string name="cast_to_tv">Транслировать на ТВ</string>
@@ -766,7 +766,7 @@
     <string name="export_engine_data_subtitle">Создать резервную копию своей ИИ личности и обучающих данных</string>
     <string name="export_engine_success">Успешно экспортирован профиль движка</string>
     <string name="export_engine_failed">Не удалось экспортировать профиль движка</string>
-    <string name="import_engine_data">Импорт данных движка Flow</string>
+    <string name="import_engine_data">Импорт данных движка LegionTube</string>
     <string name="import_engine_data_desc">Восстановите свой профиль личности ИИ из файла резервной копии</string>
     <string name="error_age_restricted">Контент с возрастными ограничениями</string>
     <string name="subscriptions_refresh_progress_template">Обновление %1$d из %2$d каналов</string>

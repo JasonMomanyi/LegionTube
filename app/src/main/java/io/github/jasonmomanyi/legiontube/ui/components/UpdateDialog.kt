@@ -37,6 +37,7 @@ import io.github.jasonmomanyi.legiontube.R
 import io.github.jasonmomanyi.legiontube.utils.UpdateInfo
 import io.github.jasonmomanyi.legiontube.BuildConfig
 import android.os.Build
+import coil.compose.AsyncImage
 
 
 @Composable
@@ -115,10 +116,9 @@ fun UpdateDialog(
                             .size(72.dp)
                             .clip(RoundedCornerShape(20.dp))
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.mipmap.ic_launcher),
+                        AsyncImage(
+                            model = R.mipmap.ic_launcher,
                             contentDescription = stringResource(R.string.update_flow),
-                            tint = Color.Unspecified,
                             modifier = Modifier.size(64.dp)
                         )
                     }

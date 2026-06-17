@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Flow</string>
+    <string name="app_name">LegionTube</string>
     <string name="subscriptions_search_placeholder">Abonnements durchsuchen...</string>
     <string name="top_bar_subscriptions_title">Abonnements</string>
     <string name="view_all_button_label">Alle</string>
@@ -165,7 +165,7 @@
     <string name="release_notes">VERSIONSHINWEISE</string>
     <string name="premiere_date_prefix">Premieren %1$s</string>
     <string name="maybe_later">Vielleicht später</string>
-    <string name="update_flow">Flow Aktualisieren</string>
+    <string name="update_flow">LegionTube Aktualisieren</string>
     <string name="nav_home">Startseite</string>
     <string name="nav_shorts">Shorts</string>
     <string name="nav_music">Musik</string>
@@ -198,7 +198,7 @@
     <string name="chapters">Kapitel</string>
     <string name="artist">Künstler</string>
     <string name="playlist">Playlist</string>
-    <string name="app_name_uppercase">FLOW</string>
+    <string name="app_name_uppercase">LEGIONTUBE</string>
     <string name="notification_badge_9_plus">9+</string>
     <string name="personalized_feed">Dein persönlicher Feed</string>
     <string name="videos_curated_template">%1$d Videos, speziell für dich ausgewählt</string>
@@ -285,14 +285,14 @@
     <string name="peace_and_quiet">Ruhe und Frieden</string>
     <string name="notifications_empty_body">Jetzt bist du auf dem neuesten Stand! Neue Updates aus deinen Abonnements werden hier angezeigt.</string>
     <string name="settings_title">Einstellungen</string>
-    <string name="settings_flow_engine_header">Flow Engine</string>
+    <string name="settings_flow_engine_header">LegionTube Engine</string>
     <string name="settings_active_learning">AKTIVES LERNEN</string>
-    <string name="settings_reset_brain_title">Flow-Persönlichkeit zurücksetzen?</string>
-    <string name="settings_reset_brain_body">Dadurch wird dein „Flow Brain“-Interessenprofil vollständig gelöscht.\n\n• Alle gespeicherten Themen werden gelöscht.\n• Persönlichkeitsmerkmale werden auf den neutralen Stand zurückgesetzt.\n• Empfehlungen werden auf die Standardeinstellungen zurückgesetzt.\n\nDieser Vorgang kann nicht rückgängig gemacht werden.</string>
+    <string name="settings_reset_brain_title">LegionTube-Persönlichkeit zurücksetzen?</string>
+    <string name="settings_reset_brain_body">Dadurch wird dein „LegionTube Brain“-Interessenprofil vollständig gelöscht.\n\n• Alle gespeicherten Themen werden gelöscht.\n• Persönlichkeitsmerkmale werden auf den neutralen Stand zurückgesetzt.\n• Empfehlungen werden auf die Standardeinstellungen zurückgesetzt.\n\nDieser Vorgang kann nicht rückgängig gemacht werden.</string>
     <string name="settings_reset_everything">Alles zurücksetzen</string>
     <string name="settings_analyzing_interactions">Analysieren Sie Ihre Interaktionen...</string>
     <string name="settings_view_analytics">Analysen anzeigen</string>
-    <string name="deep_flow_mode_title">Deep-Flow-Modus</string>
+    <string name="deep_flow_mode_title">Deep-LegionTube-Modus</string>
     <string name="deep_flow_mode_subtitle">Lernen unterbrechen – stöbern, ohne dein Profil zu beeinflussen</string>
     <string name="deep_flow_learning_paused">Lernen pausiert</string>
     <string name="deep_flow_expires_in">Läuft in %s ab</string>
@@ -300,10 +300,10 @@
     <string name="deep_flow_expire_duration_subtitle">Das Lernen wird automatisch nach %s fortgesetzt</string>
     <string name="deep_flow_dialog_title">Pausendauer</string>
     <string name="deep_flow_dialog_body">Wie lange sollte das Lernen unterbrochen bleiben?</string>
-    <string name="deep_flow_enabled_message">Deep Flow aktiviert</string>
-    <string name="deep_flow_disabled_message">Deep Flow deaktiviert</string>
-    <string name="deep_flow_expired_message">Der Deep Flow-Timer ist abgelaufen</string>
-    <string name="deep_flow_active_until_disabled">Deep Flow bleibt aktiv, bis Sie es ausschalten</string>
+    <string name="deep_flow_enabled_message">Deep LegionTube aktiviert</string>
+    <string name="deep_flow_disabled_message">Deep LegionTube deaktiviert</string>
+    <string name="deep_flow_expired_message">Der Deep LegionTube-Timer ist abgelaufen</string>
+    <string name="deep_flow_active_until_disabled">Deep LegionTube bleibt aktiv, bis Sie es ausschalten</string>
     <string name="deep_flow_duration_never">Niemals</string>
     <string name="deep_flow_duration_1h">1 Stunde</string>
     <string name="deep_flow_duration_2h">2 Stunden</string>
@@ -318,7 +318,7 @@
     <string name="settings_header_about">Über</string>
     <string name="settings_header_notifications">Benachrichtigungen</string>
     <string name="settings_item_notifications">Benachrichtigungseinstellungen</string>
-    <string name="settings_item_notifications_subtitle">Steuern Sie, welche Benachrichtigungen Flow senden kann</string>
+    <string name="settings_item_notifications_subtitle">Steuern Sie, welche Benachrichtigungen LegionTube senden kann</string>
     <string name="notif_settings_title">Benachrichtigungseinstellungen</string>
     <string name="notif_type_new_videos">Neue Videos</string>
     <string name="notif_type_new_videos_subtitle">Benachrichtigen, wenn abonnierte Kanäle neue Videos hochladen</string>
@@ -327,7 +327,7 @@
     <string name="notif_type_reminders">Bildschirmzeit-Erinnerungen</string>
     <string name="notif_type_reminders_subtitle">Erinnerungen an die Schlafenszeit und Pausen von „Zeitmanagement“</string>
     <string name="notif_type_updates">App-Updates</string>
-    <string name="notif_type_updates_subtitle">Werden Sie benachrichtigt, wenn eine neue Version von Flow verfügbar ist</string>
+    <string name="notif_type_updates_subtitle">Werden Sie benachrichtigt, wenn eine neue Version von LegionTube verfügbar ist</string>
     <string name="notif_type_general">Allgemeine Benachrichtigungen</string>
     <string name="notif_type_general_subtitle">Verschiedene App-Benachrichtigungen und Ankündigungen</string>
     <string name="notif_system_settings">Einstellungen für die Systembenachrichtigung</string>
@@ -336,7 +336,7 @@
     <string name="notif_check_interval">Neue Videos – Überprüfungsintervall</string>
     <string name="notif_check_interval_subtitle_template">Überprüfen Sie alle %</string>
     <string name="notif_check_interval_dialog_title">Prüfintervall</string>
-    <string name="notif_check_interval_dialog_body">Wie oft überprüft Flow nach neuen Videos aus Ihren abonnierten Kanälen.</string>
+    <string name="notif_check_interval_dialog_body">Wie oft überprüft LegionTube nach neuen Videos aus Ihren abonnierten Kanälen.</string>
     <string name="notif_interval_15m">15 Minuten</string>
     <string name="notif_interval_30m">30 Minuten</string>
     <string name="notif_interval_1h">1 Stunde</string>
@@ -373,17 +373,17 @@
     <string name="settings_item_export_data_subtitle">Sichern Sie Ihre Daten</string>
     <string name="settings_item_import_data">Daten importieren</string>
     <string name="settings_item_import_data_subtitle">Aus einem Backup wiederherstellen oder Import aus anderen Apps</string>
-    <string name="settings_item_about_flow">Über Flow</string>
+    <string name="settings_item_about_flow">Über LegionTube</string>
     <string name="settings_item_about_flow_subtitle">Version, Lizenz, Mitwirkende</string>
     <string name="settings_item_support">Unterstützung &amp; Spenden</string>
-    <string name="settings_item_support_subtitle">Unterstützung bei der Entwicklung von Flow</string>
+    <string name="settings_item_support_subtitle">Unterstützung bei der Entwicklung von LegionTube</string>
     <string name="settings_region_dialog_title">Region auswählen</string>
     <string name="settings_language_dialog_title">App-Sprache auswählen</string>
     <string name="settings_language_system_default">System-Standard</string>
     <string name="settings_export_success">Daten erfolgreich exportiert</string>
     <string name="settings_export_failed">Export fehlgeschlagen: %1$s</string>
     <string name="appearance_title">Aussehen</string>
-    <string name="appearance_subtitle">Personalisieren Sie Ihre Flow-Erfahrung</string>
+    <string name="appearance_subtitle">Personalisieren Sie Ihre LegionTube-Erfahrung</string>
     <string name="appearance_current_theme">AKTUELLES DESIGN</string>
     <string name="appearance_category_all">Alle</string>
     <string name="appearance_category_light">Hell</string>
@@ -413,7 +413,7 @@
     <string name="player_appearance_style_subtitle">Wählen Sie den Stil des Musik-Fortschrittsbalkens</string>
     <string name="settings_item_player_appearance">Player-Erscheinungsbild</string>
     <string name="settings_item_player_appearance_subtitle">Anpassen des Fortschrittsbalkenstils</string>
-    <string name="style_default">Standard (Flow)</string>
+    <string name="style_default">Standard (LegionTube)</string>
     <string name="style_metrolist">Metrolist (Dick)</string>
     <string name="style_metrolist_slim">Metrolist (Schlank)</string>
     <string name="style_squiggly">Verschnörkelt</string>
@@ -551,7 +551,7 @@
     <string name="content_settings_video_card_mark_watched_title">Schaltfläche „Als angesehen markieren“ für Grafikkarten</string>
     <string name="content_settings_video_card_mark_watched_subtitle">Zeige auf den Vollbild- und Kompakt-Videokarten eine „Auge“-Schaltfläche an, um Videos schnell als angesehen zu markieren</string>
     <string name="content_settings_show_app_logo_title">App-Logo-Symbol anzeigen</string>
-    <string name="content_settings_show_app_logo_subtitle">Das Flow-Logo neben dem App-Namen in der oberen Leiste des Startbildschirms anzeigen</string>
+    <string name="content_settings_show_app_logo_subtitle">Das LegionTube-Logo neben dem App-Namen in der oberen Leiste des Startbildschirms anzeigen</string>
     <string name="content_settings_header_content_components">Inhaltskomponenten</string>
     <string name="content_settings_hide_watched_title">Angesehene Videos Ausblenden</string>
     <string name="content_settings_hide_watched_subtitle">Filtern Sie Videos, die Sie bereits von Ihrem Home-Feed und Abonnements angesehen haben</string>
@@ -602,7 +602,7 @@
     <string name="hide_channel_shorts">Shorts dieses Kanals ausblenden</string>
     <string name="show_channel_shorts">Shorts dieses Kanals anzeigen</string>
     <string name="notif_master_toggle">Benachrichtigungen aktivieren</string>
-    <string name="notif_master_toggle_subtitle">Erlaube Flow, im Hintergrund zu aktivieren, um Benachrichtigungen und Warnmeldungen zu überprüfen</string>
+    <string name="notif_master_toggle_subtitle">Erlaube LegionTube, im Hintergrund zu aktivieren, um Benachrichtigungen und Warnmeldungen zu überprüfen</string>
     <string name="notif_check_interval_disabled">Hintergrundüberprüfungen sind deaktiviert</string>
     <string name="appearance_role_surface_variant">Oberflächenvariante</string>
     <string name="appearance_role_on_surface_variant">Zur Surface-Variante</string>

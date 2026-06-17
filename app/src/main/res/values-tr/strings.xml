@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Flow</string>
+    <string name="app_name">LegionTube</string>
     <string name="subscriptions_search_placeholder">Abonelikleri ara...</string>
     <string name="top_bar_subscriptions_title">Abonelikler</string>
     <string name="view_all_button_label">Hepsi</string>
@@ -194,7 +194,7 @@
     <string name="new_update_available">Yeni Güncelleme Mevcut</string>
     <string name="update_available_template">%1$s şimdi mevcut</string>
     <string name="release_notes">SÜRÜM NOTLARI</string>
-    <string name="update_flow">Flow\'u Güncelle</string>
+    <string name="update_flow">LegionTube\'u Güncelle</string>
     <string name="maybe_later">Belki daha sonra</string>
     <string name="nav_home">Ana sayfa</string>
     <string name="nav_shorts">Shorts</string>
@@ -214,7 +214,7 @@
     <string name="views_template">%1$s görüntüleme</string>
     <string name="artist">Sanatçı</string>
     <string name="playlist">Çalma listesi</string>
-    <string name="app_name_uppercase">FLOW</string>
+    <string name="app_name_uppercase">LEGIONTUBE</string>
     <string name="notification_badge_9_plus">9+</string>
     <string name="import_newpipe_backup">NewPipe Yedeğini içe aktar</string>
     <string name="importing_from_backup">NewPipe yedeğinden abonelikler içe aktarılıyor...</string>
@@ -362,14 +362,14 @@
     <string name="peace_and_quiet">Huzur ve sessizlik</string>
     <string name="notifications_empty_body">Her şey tamam! Aboneliklerinizden gelen yeni güncellemeler burada görünecektir.</string>
     <string name="settings_title">Ayarlar</string>
-    <string name="settings_flow_engine_header">Flow Motoru</string>
+    <string name="settings_flow_engine_header">LegionTube Motoru</string>
     <string name="settings_active_learning">AKTİF ÖĞRENME</string>
-    <string name="settings_reset_brain_title">Flow Kişiliğini Sıfırla?</string>
-    <string name="settings_reset_brain_body">Bu işlem, \'Flow Beyni\' ilgi profilinizi tamamen silecektir.\n\n• Öğrenilen tüm konular unutulacak.\n• Kişilik özellikleri sıfırlanacak.\n• Öneriler ilk haline dönecek.\n\nBu eylem geri alınamaz.</string>
+    <string name="settings_reset_brain_title">LegionTube Kişiliğini Sıfırla?</string>
+    <string name="settings_reset_brain_body">Bu işlem, \'LegionTube Beyni\' ilgi profilinizi tamamen silecektir.\n\n• Öğrenilen tüm konular unutulacak.\n• Kişilik özellikleri sıfırlanacak.\n• Öneriler ilk haline dönecek.\n\nBu eylem geri alınamaz.</string>
     <string name="settings_reset_everything">Herşeyi Sıfırla</string>
     <string name="settings_analyzing_interactions">Etkileşimleriniz analiz ediliyor...</string>
     <string name="settings_view_analytics">Analizleri Gör</string>
-    <string name="deep_flow_mode_title">Derin Flow Modu</string>
+    <string name="deep_flow_mode_title">Derin LegionTube Modu</string>
     <string name="deep_flow_mode_subtitle">Öğrenmeyi duraklat — profilinizi etkilemeden göz atın</string>
     <string name="deep_flow_learning_paused">ÖĞRENME DURDURULDU</string>
     <string name="deep_flow_expires_in">%s içinde sona eriyor</string>
@@ -377,10 +377,10 @@
     <string name="deep_flow_expire_duration_subtitle">%s \'dan sonra özgezmişleri kendiğinden öğreniyor</string>
     <string name="deep_flow_dialog_title">Durdurma süresi</string>
     <string name="deep_flow_dialog_body">Öğrenim ne kadar süre durdurulmalı?</string>
-    <string name="deep_flow_enabled_message">Derin Flow aktif</string>
-    <string name="deep_flow_disabled_message">Derin Flow inaktif</string>
-    <string name="deep_flow_expired_message">Derin Flow zamanlayıcısı sona erdi</string>
-    <string name="deep_flow_active_until_disabled">Derin Flow siz kapatana kadar aktif durumdadır</string>
+    <string name="deep_flow_enabled_message">Derin LegionTube aktif</string>
+    <string name="deep_flow_disabled_message">Derin LegionTube inaktif</string>
+    <string name="deep_flow_expired_message">Derin LegionTube zamanlayıcısı sona erdi</string>
+    <string name="deep_flow_active_until_disabled">Derin LegionTube siz kapatana kadar aktif durumdadır</string>
     <string name="deep_flow_duration_never">Asla</string>
     <string name="deep_flow_duration_1h">1 Saat</string>
     <string name="deep_flow_duration_2h">2 Saat</string>
@@ -395,7 +395,7 @@
     <string name="settings_header_about">Hakkında</string>
     <string name="settings_header_notifications">Bildirimler</string>
     <string name="settings_item_notifications">Bildirim Tercihleri</string>
-    <string name="settings_item_notifications_subtitle">Flow\'un hangi bildirimleri göndereceğini yönet</string>
+    <string name="settings_item_notifications_subtitle">LegionTube\'un hangi bildirimleri göndereceğini yönet</string>
     <string name="notif_settings_title">Bildirim Tercihleri</string>
     <string name="notif_type_new_videos">Yeni Videolar</string>
     <string name="notif_type_new_videos_subtitle">Abone olunan kanallar video yüklediğinde haber ver</string>
@@ -404,7 +404,7 @@
     <string name="notif_type_reminders">Ekran Süresi Hatırlatıcısı</string>
     <string name="notif_type_reminders_subtitle">Uykuvakti ve mola hatırlatıcıları</string>
     <string name="notif_type_updates">Uygulama Güncellemesi</string>
-    <string name="notif_type_updates_subtitle">Flow\'un yeni sürümü geldiğinde bildirim al</string>
+    <string name="notif_type_updates_subtitle">LegionTube\'un yeni sürümü geldiğinde bildirim al</string>
     <string name="notif_type_general">Genel Bildirimler</string>
     <string name="notif_system_settings">Sistem Bildirimleri Ayarları</string>
     <string name="notif_system_settings_subtitle">Kanal başı ayarlar için Android İzinlerini Aç</string>
