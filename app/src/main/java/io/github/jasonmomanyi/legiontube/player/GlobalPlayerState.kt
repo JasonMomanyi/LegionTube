@@ -3,9 +3,16 @@ package io.github.jasonmomanyi.legiontube.player
 import android.content.Context
 import androidx.media3.common.util.UnstableApi
 import io.github.jasonmomanyi.legiontube.data.model.Video
+import io.github.jasonmomanyi.legiontube.player.state.EnhancedPlayerState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 /**
  * Mini player expansion states for in-app PiP functionality
@@ -43,23 +50,19 @@ object GlobalPlayerState {
     val playerState: StateFlow<EnhancedPlayerState> = EnhancedPlayerManager.getInstance().playerState
     
     // Computed properties from EnhancedPlayerManager - delegates to player state
-    val isPlaying: StateFlow<Boolean> get() {
-        val flow = MutableStateFlow(false)
-        flow.value = EnhancedPlayerManager.getInstance().isPlaying()
-        return flow.asStateFlow()
-    }
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
+    val isPlaying: StateFlow<Boolean> = EnhancedPlayerManager.getInstance().playerState
+        .map { it.isPlaying }
+        .stateIn(scope, SharingStarted.Eagerly, false)
     
-    val currentPosition: StateFlow<Long> get() {
-        val flow = MutableStateFlow(0L)
-        flow.value = EnhancedPlayerManager.getInstance().getCurrentPosition()
-        return flow.asStateFlow()
-    }
+    val currentPosition: StateFlow<Long> = EnhancedPlayerManager.getInstance().playerState
+        .map { EnhancedPlayerManager.getInstance().getCurrentPosition() }
+        .stateIn(scope, SharingStarted.Eagerly, 0L)
     
-    val duration: StateFlow<Long> get() {
-        val flow = MutableStateFlow(0L)
-        flow.value = EnhancedPlayerManager.getInstance().getDuration()
-        return flow.asStateFlow()
-    }
+    val duration: StateFlow<Long> = EnhancedPlayerManager.getInstance().playerState
+        .map { EnhancedPlayerManager.getInstance().getDuration() }
+        .stateIn(scope, SharingStarted.Eagerly, 0L)
     
     // Legacy compatibility - delegates to EnhancedPlayerManager
     @Deprecated("Use EnhancedPlayerManager.getPlayer() instead", ReplaceWith("EnhancedPlayerManager.getInstance().getPlayer()"))

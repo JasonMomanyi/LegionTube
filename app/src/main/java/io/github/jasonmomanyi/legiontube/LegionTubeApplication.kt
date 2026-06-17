@@ -31,6 +31,7 @@ import io.github.jasonmomanyi.legiontube.utils.potoken.NewPipePoTokenProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import io.github.jasonmomanyi.legiontube.innertube.models.YouTubeLocale
@@ -58,6 +59,8 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         super.attachBaseContext(AppLanguageManager.wrapContext(base, selectedLanguage))
     }
     
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
@@ -107,7 +110,7 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         */
         
         // Schedule periodic subscription checks for new videos
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        applicationScope.launch {
             val savedIntervalMinutes = playerPreferences.subscriptionCheckIntervalMinutes.first()
             SubscriptionCheckWorker.schedulePeriodicCheck(this@LegionTubeApplication, intervalMinutes = savedIntervalMinutes.toLong())
         }
@@ -122,13 +125,13 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         // Fetch and cache visitor data for the lifetime of the install.
         // The X-Goog-Visitor-Id header prevents YouTube from returning empty
         // search results on tablets and fresh Android 16 installs (Issue #223).
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        applicationScope.launch {
             playerPreferences.proxyConfig.collectLatest { proxyConfig ->
                 applyProxyConfig(proxyConfig)
             }
         }
 
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        applicationScope.launch {
             try {
                 val prefs = getSharedPreferences("flow_prefs", MODE_PRIVATE)
                 val cached = prefs.getString("visitor_data", null)
@@ -151,7 +154,7 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
             }
         }
 
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        applicationScope.launch {
             combine(
                 playerPreferences.appLanguage,
                 playerPreferences.trendingRegion
@@ -165,7 +168,7 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
             }
         }
 
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        applicationScope.launch {
             var lastRegion: String? = null
             playerPreferences.trendingRegion.collectLatest { region ->
                 if (lastRegion != null && lastRegion != region) {
@@ -188,7 +191,7 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
             }
         }
 
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        applicationScope.launch {
             try {
                 val repository = SubscriptionRepository.getInstance(this@LegionTubeApplication)
                 val youtubeRepository = YouTubeRepository.getInstance(playerPreferences)
@@ -205,7 +208,7 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
             }
         }
 
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+        applicationScope.launch {
             try {
                 val spotifyEnabled = playerPreferences.spotifyEngineEnabled.first()
                 io.github.jasonmomanyi.legiontube.data.recommendation.engines.EngineRegistry
@@ -228,5 +231,6 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         super.onTerminate()
         // Clean up performance dispatcher resources
         PerformanceDispatcher.shutdown()
+        applicationScope.cancel()
     }
 }

@@ -44,6 +44,18 @@ class YouTubeHttpDataSource private constructor(
         }
     }
 
+    companion object {
+        private val sharedHttpClient by lazy {
+            AppProxyManager.applyTo(OkHttpClient.Builder())
+                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .followRedirects(true)
+                .followSslRedirects(true)
+                .retryOnConnectionFailure(true)
+                .build()
+        }
+    }
+
     @UnstableApi
     override fun open(dataSpec: DataSpec): Long {
         currentUri = dataSpec.uri
@@ -62,15 +74,7 @@ class YouTubeHttpDataSource private constructor(
         // Optimized timeouts for YouTube streaming
         // YouTube can have variable latency, especially during peak hours
         // Longer timeouts prevent premature failures on slow networks
-        val factory = OkHttpDataSource.Factory(
-            AppProxyManager.applyTo(OkHttpClient.Builder())
-                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                .followRedirects(true)
-                .followSslRedirects(true)
-                .retryOnConnectionFailure(true)
-                .build()
-        )
+        val factory = OkHttpDataSource.Factory(sharedHttpClient)
 
         if (isYouTubeUri(dataSpec.uri)) {
             addYouTubeHeaders(factory)

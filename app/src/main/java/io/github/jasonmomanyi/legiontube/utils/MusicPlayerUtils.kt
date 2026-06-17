@@ -38,11 +38,12 @@ import java.util.Locale
 object MusicPlayerUtils {
     private const val TAG = "MusicPlayerUtils"
 
-    private val httpClient: OkHttpClient
-        get() = AppProxyManager.applyTo(OkHttpClient.Builder())
+    private val httpClient: OkHttpClient by lazy {
+        AppProxyManager.applyTo(OkHttpClient.Builder())
             .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
             .build()
+    }
 
     @Volatile
     private var cachedSignatureTimestamp: Int? = null
@@ -390,7 +391,8 @@ object MusicPlayerUtils {
     ): Pair<PlayerResponse.StreamingData.Format, String>? {
         if (response?.playabilityStatus?.status != "OK") return null
         
-        val format = findBestAudioFormat(response, requireDirectUrl) ?: return null
+        val preferredAudioLanguage = PlayerPreferences(LegionTubeApplication.appContext).preferredAudioLanguage.first()
+        val format = findBestAudioFormat(response, preferredAudioLanguage, requireDirectUrl) ?: return null
         
         val url = findUrlOrNull(
             format = format,
@@ -479,6 +481,7 @@ object MusicPlayerUtils {
 
     private fun findBestAudioFormat(
         response: PlayerResponse,
+        preferredAudioLanguage: String,
         requireDirectUrl: Boolean = false
     ): PlayerResponse.StreamingData.Format? {
         val adaptiveFormats = response.streamingData?.adaptiveFormats ?: emptyList()
@@ -494,9 +497,6 @@ object MusicPlayerUtils {
             return null
         }
 
-        val preferredAudioLanguage = runBlocking {
-            PlayerPreferences(LegionTubeApplication.appContext).preferredAudioLanguage.first()
-        }
         val preferredFormats = preferredAudioFormats(audioFormats, preferredAudioLanguage)
         
         val bestFormat = preferredFormats.maxByOrNull { format ->
