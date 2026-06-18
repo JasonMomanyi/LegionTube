@@ -75,10 +75,27 @@ class YouTubeHttpDataSource private constructor(
         // YouTube can have variable latency, especially during peak hours
         // Longer timeouts prevent premature failures on slow networks
         val factory = OkHttpDataSource.Factory(sharedHttpClient)
+        factory.setUserAgent(userAgent)
+
+        val mergedProperties = mutableMapOf<String, String>()
+        mergedProperties.putAll(defaultRequestProperties)
 
         if (isYouTubeUri(dataSpec.uri)) {
-            addYouTubeHeaders(factory)
+            val youtubeHeaders = mapOf(
+                "Origin" to "https://www.youtube.com",
+                "Referer" to "https://www.youtube.com/",
+                "Sec-Fetch-Dest" to "empty",
+                "Sec-Fetch-Mode" to "cors",
+                "Sec-Fetch-Site" to "cross-site",
+                // Accept-Encoding helps with CDN optimization
+                "Accept-Encoding" to "identity",
+                // Accept header for video content
+                "Accept" to "*/*"
+            )
+            mergedProperties.putAll(youtubeHeaders)
         }
+        
+        factory.setDefaultRequestProperties(mergedProperties)
 
         dataSource = factory.createDataSource()
         return dataSource!!.open(enhancedDataSpec)
@@ -128,22 +145,5 @@ class YouTubeHttpDataSource private constructor(
         return Uri.parse(cleanedUrl)
     }
 
-    /**
-     * Add headers that YouTube expects/requires for video streaming.
-     * These help avoid bot detection and ensure proper CDN routing.
-     */
-    private fun addYouTubeHeaders(factory: OkHttpDataSource.Factory) {
-        val headers = mapOf(
-            "Origin" to "https://www.youtube.com",
-            "Referer" to "https://www.youtube.com/",
-            "Sec-Fetch-Dest" to "empty",
-            "Sec-Fetch-Mode" to "cors",
-            "Sec-Fetch-Site" to "cross-site",
-            // Accept-Encoding helps with CDN optimization
-            "Accept-Encoding" to "identity",
-            // Accept header for video content
-            "Accept" to "*/*"
-        )
-        factory.setDefaultRequestProperties(headers)
-    }
+
 }

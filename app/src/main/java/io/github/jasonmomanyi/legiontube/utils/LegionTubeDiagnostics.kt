@@ -65,7 +65,7 @@ object FlowDiagnostics {
     fun buildFullReport(context: Context, sessionLogs: String): String = buildString {
         val ts = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())
         appendLine("=".repeat(60))
-        appendLine("FLOW DIAGNOSTICS REPORT")
+        appendLine("LT DIAGNOSTICS REPORT")
         appendLine("Generated: $ts")
         appendLine("=".repeat(60))
         appendLine()
