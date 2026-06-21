@@ -64,6 +64,29 @@ class CipherWebView private constructor(
                 return super.onConsoleMessage(m)
             }
         }
+        
+        webView.webViewClient = object : android.webkit.WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView,
+                request: android.webkit.WebResourceRequest
+            ): android.webkit.WebResourceResponse? {
+                if (request.url.toString() == "https://www.youtube.com/player_local.js") {
+                    return try {
+                        val cacheDir = File(webView.context.cacheDir, "cipher")
+                        val playerJsFile = File(cacheDir, "player.js")
+                        android.webkit.WebResourceResponse(
+                            "application/javascript",
+                            "utf-8",
+                            playerJsFile.inputStream()
+                        )
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Failed to serve player.js: ${e.message}")
+                        null
+                    }
+                }
+                return super.shouldInterceptRequest(view, request)
+            }
+        }
     }
 
     private fun loadPlayerJsFromFile() {
@@ -128,7 +151,7 @@ class CipherWebView private constructor(
 
         val html = buildDiscoveryHtml()
         webView.loadDataWithBaseURL(
-            "file://${cacheDir.absolutePath}/",
+            "https://www.youtube.com/",
             html, "text/html", "utf-8", null
         )
     }
@@ -261,9 +284,9 @@ function discoverAndInit() {
     CipherBridge.onPlayerJsLoaded();
 }
 </script>
-<script src="player.js"
+<script src="https://www.youtube.com/player_local.js"
     onload="discoverAndInit()"
-    onerror="CipherBridge.onPlayerJsError('Failed to load player.js from file')">
+    onerror="CipherBridge.onPlayerJsError('Failed to load player.js from intercepted request')">
 </script>
 </head><body></body></html>"""
 

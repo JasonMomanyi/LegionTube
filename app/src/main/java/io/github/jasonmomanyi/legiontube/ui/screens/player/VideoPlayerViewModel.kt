@@ -1818,6 +1818,7 @@ class VideoPlayerViewModel @Inject constructor(
         preferredAudioLanguage: String = "original"
     ): Triple<VideoStream?, AudioStream?, VideoQuality> {
         val audioCandidates = streamInfo.audioStreams
+            .filter { it.format == org.schabi.newpipe.extractor.MediaFormat.M4A || it.format == org.schabi.newpipe.extractor.MediaFormat.WEBMA }
             .distinctBy { it.url ?: "" }
             .sortedByDescending { it.bitrate }
         

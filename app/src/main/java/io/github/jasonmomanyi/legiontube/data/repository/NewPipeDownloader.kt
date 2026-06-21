@@ -16,12 +16,29 @@ import java.util.concurrent.TimeUnit
  */
 class NewPipeDownloader private constructor(context: Context) : Downloader() {
 
+    @Volatile
+    private var clientHolder: ClientHolder? = null
+
     private val client: OkHttpClient
-        get() = AppProxyManager.applyTo(OkHttpClient.Builder())
-            .readTimeout(30, TimeUnit.SECONDS)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .build()
+        get() {
+            val signature = AppProxyManager.currentSignature()
+            clientHolder?.takeIf { it.proxySignature == signature }?.let { return it.client }
+
+            return synchronized(this) {
+                clientHolder?.takeIf { it.proxySignature == signature }?.client
+                    ?: AppProxyManager.applyTo(OkHttpClient.Builder())
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .connectTimeout(30, TimeUnit.SECONDS)
+                        .writeTimeout(30, TimeUnit.SECONDS)
+                        .build()
+                        .also { clientHolder = ClientHolder(signature, it) }
+            }
+        }
+
+    private data class ClientHolder(
+        val proxySignature: String,
+        val client: OkHttpClient
+    )
 
     companion object {
         private const val USER_AGENT =

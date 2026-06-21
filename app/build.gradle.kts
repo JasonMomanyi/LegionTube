@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
@@ -143,14 +144,16 @@ android {
     }
 
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
-    }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+
+    // Skip PNG optimization — faster builds, negligible APK size difference
+    @Suppress("UnstableApiUsage")
+    androidResources {
+        noCompress += "png"
     }
 
     lint {

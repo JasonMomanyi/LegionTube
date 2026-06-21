@@ -26,7 +26,7 @@ data class FlowDownloadMission(
     val fileName: String,
     
     // User-Agent (important for YouTube streams)
-    val userAgent: String = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0",
+    val userAgent: String = io.github.jasonmomanyi.legiontube.innertube.models.YouTubeClient.USER_AGENT_WEB,
     
     // Progress tracking — AtomicLong for lock-free thread-safe updates
     var totalBytes: Long = 0,

@@ -81,7 +81,7 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
             val country = ContentCountry("US")
             val localization = Localization("en", "US")
             NewPipe.init(NewPipeDownloader.getInstance(this), localization, country)
-            YoutubeStreamExtractor.setPoTokenProvider(NewPipePoTokenProvider)
+            YoutubeStreamExtractor.setPoTokenProvider(io.github.jasonmomanyi.legiontube.utils.potoken.NewPipePoTokenProvider)
             Log.d(TAG, "NewPipe initialized successfully with en-US settings")
         } catch (e: Exception) {
             // Log error but don't crash the app

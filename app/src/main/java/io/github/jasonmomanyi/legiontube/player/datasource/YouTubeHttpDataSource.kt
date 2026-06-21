@@ -31,7 +31,7 @@ class YouTubeHttpDataSource private constructor(
 
     class Factory : HttpDataSource.Factory {
         private val requestProperties = HashMap<String, String>()
-        private var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
+        private var userAgent = io.github.jasonmomanyi.legiontube.innertube.models.YouTubeClient.USER_AGENT_WEB
 
         override fun createDataSource(): HttpDataSource {
             return YouTubeHttpDataSource(userAgent, requestProperties)
@@ -67,32 +67,32 @@ class YouTubeHttpDataSource private constructor(
             dataSpec.uri
         }
         
+        val enhancedHeaders = dataSpec.httpRequestHeaders.toMutableMap()
+        enhancedHeaders.keys.filter { it.equals("User-Agent", ignoreCase = true) }.forEach { enhancedHeaders.remove(it) }
+
         val enhancedDataSpec = dataSpec.buildUpon()
             .setUri(sanitizedUri)
+            .setHttpRequestHeaders(enhancedHeaders)
             .build()
+
+        val requestUserAgent = if (isYouTubeUri(dataSpec.uri)) {
+            resolveYouTubeUserAgent(dataSpec.uri)
+        } else {
+            userAgent
+        }
 
         // Optimized timeouts for YouTube streaming
         // YouTube can have variable latency, especially during peak hours
         // Longer timeouts prevent premature failures on slow networks
         val factory = OkHttpDataSource.Factory(sharedHttpClient)
-        factory.setUserAgent(userAgent)
+        factory.setUserAgent(requestUserAgent)
 
         val mergedProperties = mutableMapOf<String, String>()
         mergedProperties.putAll(defaultRequestProperties)
+        mergedProperties.keys.filter { it.equals("User-Agent", ignoreCase = true) }.forEach { mergedProperties.remove(it) }
 
         if (isYouTubeUri(dataSpec.uri)) {
-            val youtubeHeaders = mapOf(
-                "Origin" to "https://www.youtube.com",
-                "Referer" to "https://www.youtube.com/",
-                "Sec-Fetch-Dest" to "empty",
-                "Sec-Fetch-Mode" to "cors",
-                "Sec-Fetch-Site" to "cross-site",
-                // Accept-Encoding helps with CDN optimization
-                "Accept-Encoding" to "identity",
-                // Accept header for video content
-                "Accept" to "*/*"
-            )
-            mergedProperties.putAll(youtubeHeaders)
+            mergedProperties.putAll(youtubeHeaders())
         }
         
         factory.setDefaultRequestProperties(mergedProperties)
@@ -145,5 +145,24 @@ class YouTubeHttpDataSource private constructor(
         return Uri.parse(cleanedUrl)
     }
 
+    private fun resolveYouTubeUserAgent(uri: Uri): String {
+        return when (uri.getQueryParameter("c")?.uppercase()) {
+            "IOS" -> "com.google.ios.youtube/21.03.3 (iPad7,6; U; CPU iPadOS 17_7_10 like Mac OS X; en-US)"
+            "ANDROID", "ANDROID_CREATOR" -> "com.google.android.youtube/21.03.38 (Linux; U; Android 14) gzip"
+            "ANDROID_VR" -> "com.google.android.apps.youtube.vr.oculus/1.61.48 (Linux; U; Android 12; en_US; Quest 3; Build/SQ3A.220605.009.A1; Cronet/132.0.6808.3)"
+            else -> userAgent
+        }
+    }
 
+    private fun youtubeHeaders(): Map<String, String> {
+        return mapOf(
+            "Origin" to "https://www.youtube.com",
+            "Referer" to "https://www.youtube.com/",
+            "Sec-Fetch-Dest" to "empty",
+            "Sec-Fetch-Mode" to "cors",
+            "Sec-Fetch-Site" to "cross-site",
+            "Accept-Encoding" to "identity",
+            "Accept" to "*/*"
+        )
+    }
 }
