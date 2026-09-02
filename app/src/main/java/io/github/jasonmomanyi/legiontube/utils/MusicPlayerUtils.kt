@@ -334,7 +334,58 @@ object MusicPlayerUtils {
         }
 
         if (response == null || extraction == null || usedClient == null) {
-            Log.w(TAG, "InnerTube clients failed for $videoId, attempting PipedFallbackClient rescue...")
+            Log.w(TAG, "InnerTube clients failed for $videoId, attempting NewPipeExtractor rescue...")
+            try {
+                val newPipeStreams = io.github.jasonmomanyi.legiontube.innertube.pages.NewPipeExtractor.newPipePlayer(videoId)
+                val newPipeAudioUrl = newPipeStreams.firstOrNull()?.second
+                if (newPipeAudioUrl != null) {
+                    Log.i(TAG, "NewPipeExtractor rescue SUCCESS for $videoId")
+                    val mockFormat = PlayerResponse.StreamingData.Format(
+                        itag = 140,
+                        url = newPipeAudioUrl,
+                        mimeType = "audio/mp4",
+                        bitrate = 128000,
+                        width = null,
+                        height = null,
+                        contentLength = null,
+                        quality = "MEDIUM",
+                        fps = null,
+                        qualityLabel = null,
+                        averageBitrate = 128000,
+                        audioQuality = "AUDIO_QUALITY_MEDIUM",
+                        approxDurationMs = "180000",
+                        audioSampleRate = 44100,
+                        audioChannels = 2,
+                        loudnessDb = null,
+                        lastModified = null,
+                        signatureCipher = null,
+                        cipher = null,
+                        audioTrack = null
+                    )
+                    return@runCatching PlaybackData(
+                        audioConfig = null,
+                        videoDetails = PlayerResponse.VideoDetails(
+                            videoId = videoId,
+                            title = videoId,
+                            author = "YouTube",
+                            channelId = "",
+                            lengthSeconds = "180",
+                            musicVideoType = null,
+                            viewCount = "0",
+                            thumbnail = io.github.jasonmomanyi.legiontube.innertube.models.Thumbnails(emptyList())
+                        ),
+                        playbackTracking = null,
+                        format = mockFormat,
+                        streamUrl = newPipeAudioUrl,
+                        streamExpiresInSeconds = 21600,
+                        usedClient = MAIN_CLIENT
+                    )
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "NewPipeExtractor rescue threw: ${e.message}")
+            }
+
+            Log.w(TAG, "InnerTube/NewPipe failed for $videoId, attempting PipedFallbackClient rescue...")
             val pipedData = io.github.jasonmomanyi.legiontube.network.PipedFallbackClient.getStreamInfo(videoId)
             val pipedAudioUrl = pipedData?.audioUrls?.firstOrNull()
             if (pipedAudioUrl != null) {
@@ -380,7 +431,7 @@ object MusicPlayerUtils {
                     usedClient = MAIN_CLIENT
                 )
             }
-            throw IOException("Failed to resolve stream for $videoId after trying all clients including Piped")
+            throw IOException("Failed to resolve stream for $videoId after trying all clients including NewPipe and Piped")
         }
 
         val (format, resolved) = extraction

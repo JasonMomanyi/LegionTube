@@ -215,6 +215,7 @@ class Media3MusicService : MediaLibraryService() {
                 if (reason != Player.MEDIA_ITEM_TRANSITION_REASON_SEEK) {
                     retryCountMap.clear()
                     lastPlaybackErrorAtMap.clear()
+                    mediaItem?.mediaId?.let { recentlyFailedSongs.remove(it) }
                 }
 
                 mediaItem?.let { item ->
@@ -273,13 +274,13 @@ class Media3MusicService : MediaLibraryService() {
         Log.e(TAG, "Playback error for $mediaId: ${error.errorCodeName} (code=${error.errorCode})", error)
         lastPlaybackErrorAtMap[mediaId] = System.currentTimeMillis()
         
-        if (recentlyFailedSongs.contains(mediaId)) {
-            Log.w(TAG, "$mediaId is in recently failed list, skipping to next")
+        val currentRetry = retryCountMap.getOrDefault(mediaId, 0)
+        
+        if (recentlyFailedSongs.contains(mediaId) && currentRetry >= MAX_RETRY_PER_SONG) {
+            Log.w(TAG, "$mediaId is in recently failed list with max retries reached, skipping to next")
             skipToNext()
             return
         }
-        
-        val currentRetry = retryCountMap.getOrDefault(mediaId, 0)
         
         if (currentRetry >= MAX_RETRY_PER_SONG) {
             handleFinalFailure(mediaId)
