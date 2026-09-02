@@ -193,26 +193,18 @@ class DownloadUtil @Inject constructor(
 
     private fun buildPlaybackDataSpec(dataSpec: DataSpec, streamUrl: String, userAgent: String): DataSpec {
         val requestLength = if (dataSpec.length > 0) dataSpec.length else C.LENGTH_UNSET.toLong()
+        val headers = mapOf(
+            "User-Agent" to userAgent,
+            "Referer" to "https://music.youtube.com/",
+            "Origin" to "https://music.youtube.com",
+            "Accept" to "*/*"
+        )
 
         return dataSpec.buildUpon()
-            .setUri(removeRangeParameter(streamUrl).toUri())
-            .setHttpRequestHeaders(mapOf("User-Agent" to userAgent))
+            .setUri(streamUrl.toUri())
+            .setHttpRequestHeaders(headers)
             .setLength(requestLength)
             .build()
-    }
-
-    private fun removeRangeParameter(url: String): String {
-        val withoutRange = URL_RANGE_PARAM_REGEX.replace(url) { match ->
-            val prefix = match.groupValues[1]
-            val hasTrailingParam = match.groupValues[2].isNotEmpty()
-            when {
-                prefix == "?" && hasTrailingParam -> "?"
-                prefix == "?" -> ""
-                hasTrailingParam -> "&"
-                else -> ""
-            }
-        }
-        return withoutRange.trimEnd('?', '&')
     }
 
     /**

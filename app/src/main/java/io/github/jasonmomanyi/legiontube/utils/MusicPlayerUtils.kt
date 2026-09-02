@@ -334,7 +334,53 @@ object MusicPlayerUtils {
         }
 
         if (response == null || extraction == null || usedClient == null) {
-            throw IOException("Failed to resolve stream for $videoId after trying all clients")
+            Log.w(TAG, "InnerTube clients failed for $videoId, attempting PipedFallbackClient rescue...")
+            val pipedData = io.github.jasonmomanyi.legiontube.network.PipedFallbackClient.getStreamInfo(videoId)
+            val pipedAudioUrl = pipedData?.audioUrls?.firstOrNull()
+            if (pipedAudioUrl != null) {
+                Log.i(TAG, "PipedFallbackClient rescue SUCCESS for $videoId")
+                val mockFormat = PlayerResponse.StreamingData.Format(
+                    itag = 140,
+                    url = pipedAudioUrl,
+                    mimeType = "audio/mp4",
+                    bitrate = 128000,
+                    width = null,
+                    height = null,
+                    contentLength = null,
+                    quality = "MEDIUM",
+                    fps = null,
+                    qualityLabel = null,
+                    averageBitrate = 128000,
+                    audioQuality = "AUDIO_QUALITY_MEDIUM",
+                    approxDurationMs = (pipedData.duration * 1000).toString(),
+                    audioSampleRate = 44100,
+                    audioChannels = 2,
+                    loudnessDb = null,
+                    lastModified = null,
+                    signatureCipher = null,
+                    cipher = null,
+                    audioTrack = null
+                )
+                return@runCatching PlaybackData(
+                    audioConfig = null,
+                    videoDetails = PlayerResponse.VideoDetails(
+                        videoId = videoId,
+                        title = pipedData.title,
+                        author = pipedData.uploader,
+                        channelId = "",
+                        lengthSeconds = pipedData.duration.toString(),
+                        musicVideoType = null,
+                        viewCount = "0",
+                        thumbnail = io.github.jasonmomanyi.legiontube.innertube.models.Thumbnails(emptyList())
+                    ),
+                    playbackTracking = null,
+                    format = mockFormat,
+                    streamUrl = pipedAudioUrl,
+                    streamExpiresInSeconds = 21600,
+                    usedClient = MAIN_CLIENT
+                )
+            }
+            throw IOException("Failed to resolve stream for $videoId after trying all clients including Piped")
         }
 
         val (format, resolved) = extraction
@@ -545,10 +591,13 @@ object MusicPlayerUtils {
             val reqBuilder = Request.Builder()
                 .url(url)
                 .header("User-Agent", userAgent)
-                .head()
+                .header("Range", "bytes=0-0")
+                .header("Referer", "https://music.youtube.com/")
+                .header("Origin", "https://music.youtube.com")
+                .get()
             YouTube.cookie?.let { reqBuilder.header("Cookie", it) }
             validationHttpClient.newCall(reqBuilder.build()).execute().use { response ->
-                response.isSuccessful
+                response.code in 200..308
             }
         } catch (e: Exception) {
             Log.d(TAG, "URL validation failed: ${e.message}")

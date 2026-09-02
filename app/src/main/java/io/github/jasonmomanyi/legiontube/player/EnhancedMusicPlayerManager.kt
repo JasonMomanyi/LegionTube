@@ -266,6 +266,9 @@ object EnhancedMusicPlayerManager {
             
             override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
                 Log.e("EnhancedMusicPlayer", "Player error: ${error.errorCodeName} (${error.errorCode})", error)
+                player?.currentMediaItem?.mediaId?.let { mediaId ->
+                    invalidateResolvedStream(mediaId)
+                }
                 if (retryCount < MAX_RETRIES) {
                     retryCount++
                     Log.i("EnhancedMusicPlayer", "Retrying playback (attempt $retryCount/$MAX_RETRIES)...")

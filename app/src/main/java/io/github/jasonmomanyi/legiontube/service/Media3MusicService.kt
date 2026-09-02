@@ -442,7 +442,7 @@ class Media3MusicService : MediaLibraryService() {
         retryCountMap[mediaId] = currentRetry + 1
         retryJobCancel()
         pendingRetryJob = serviceScope.launch {
-            delay(BASE_RETRY_DELAY_MS)
+            delay(500L)
             try {
                 val currentIndex = player.currentMediaItemIndex
                 if (currentIndex != C.INDEX_UNSET) {
