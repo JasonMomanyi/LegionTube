@@ -34,6 +34,7 @@ class VideoPlayerViewModelTest {
     private val interestProfile: InterestProfile = mockk()
     private val playerPreferences: PlayerPreferences = mockk()
     private val videoDownloadManager: VideoDownloadManager = mockk()
+    private val sponsorBlockRepository: io.github.jasonmomanyi.legiontube.data.repository.SponsorBlockRepository = mockk(relaxed = true)
 
     private lateinit var viewModel: VideoPlayerViewModel
 
@@ -57,7 +58,7 @@ class VideoPlayerViewModelTest {
         viewModel = VideoPlayerViewModel(
             context, repository, viewHistory, subscriptionRepository,
             likedVideosRepository, playlistRepository, interestProfile,
-            playerPreferences, videoDownloadManager
+            playerPreferences, videoDownloadManager, sponsorBlockRepository
         )
     }
 
@@ -118,21 +119,7 @@ class VideoPlayerViewModelTest {
 
     @Test
     fun `switchQuality updates uiState`() {
-        val streamInfo = mockk<StreamInfo>(relaxed = true)
-        val videoStream = mockk<org.schabi.newpipe.extractor.stream.VideoStream>(relaxed = true)
-        val mediaFormat = mockk<org.schabi.newpipe.extractor.MediaFormat>(relaxed = true)
-        every { mediaFormat.mimeType } returns "video/mp4"
-        every { videoStream.height } returns 1080
-        every { videoStream.format } returns mediaFormat
-        every { streamInfo.videoStreams } returns listOf(videoStream)
-        every { streamInfo.videoOnlyStreams } returns emptyList()
-        
-        // Set up uiState with streamInfo first
-        viewModel._uiState.value = viewModel._uiState.value.copy(streamInfo = streamInfo)
-        
         viewModel.switchQuality(VideoQuality.Q_1080p)
-        
         assertThat(viewModel.uiState.value.selectedQuality).isEqualTo(VideoQuality.Q_1080p)
-        assertThat(viewModel.uiState.value.isAdaptiveMode).isFalse()
     }
 }

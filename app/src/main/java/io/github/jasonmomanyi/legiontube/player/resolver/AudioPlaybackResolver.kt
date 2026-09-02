@@ -1,13 +1,15 @@
 package io.github.jasonmomanyi.legiontube.player.resolver
 
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.dash.DashMediaSource
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.datasource.DataSource
-import io.github.jasonmomanyi.legiontube.player.datasource.YouTubeHttpDataSource
+import org.schabi.newpipe.extractor.stream.AudioStream
+import org.schabi.newpipe.extractor.stream.StreamInfo
 
 /**
  * Specialized resolver for audio-only playback.
@@ -21,7 +23,7 @@ class AudioPlaybackResolver(
 ) : PlaybackResolver {
 
     override fun resolve(mediaItem: MediaItem, streamInfo: Any): MediaSource? {
-        val audioUrl = extractAudioUrl(streamInfo) ?: return null
+        val audioUrl = extractAudioUrl(streamInfo) ?: mediaItem.localConfiguration?.uri ?: return null
 
         val enhancedMediaItem = MediaItem.Builder()
             .setUri(audioUrl)
@@ -59,18 +61,33 @@ class AudioPlaybackResolver(
 
     // Helper methods
     private fun isAudioOnly(streamInfo: Any): Boolean {
-        // Implementation would check if this is audio-only content
-        return false // Placeholder
+        return when (streamInfo) {
+            is AudioStream -> true
+            is StreamInfo -> streamInfo.audioStreams.isNotEmpty() && streamInfo.videoStreams.isEmpty()
+            is String -> true
+            is Uri -> true
+            else -> false
+        }
     }
 
     private fun hasAudioStream(streamInfo: Any): Boolean {
-        // Implementation would check for available audio streams
-        return true // Placeholder
+        return when (streamInfo) {
+            is AudioStream -> !streamInfo.url.isNullOrBlank()
+            is StreamInfo -> !streamInfo.audioStreams.isNullOrEmpty()
+            is String -> streamInfo.isNotBlank()
+            is Uri -> true
+            else -> false
+        }
     }
 
     private fun extractAudioUrl(streamInfo: Any): Uri? {
-        // Implementation would extract audio URL from stream info
-        return null // Placeholder
+        return when (streamInfo) {
+            is AudioStream -> streamInfo.url?.toUri()
+            is StreamInfo -> streamInfo.audioStreams?.firstOrNull()?.url?.toUri()
+            is String -> streamInfo.toUri()
+            is Uri -> streamInfo
+            else -> null
+        }
     }
 
     private fun isHlsUrl(uri: Uri): Boolean {

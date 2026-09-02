@@ -38,7 +38,7 @@ class HomeViewModelTest {
         
         // Mock default behaviors
         coEvery { LegionTubeNeuroEngine.generateDiscoveryQueries() } returns listOf("test")
-        coEvery { LegionTubeNeuroEngine.rank(any(), any(), any()) } answers { it.invocation.args[0] as List<Video> }
+        coEvery { LegionTubeNeuroEngine.rank(any(), any()) } answers { it.invocation.args[0] as List<Video> }
         
         coEvery { shortsRepository.getHomeFeedShorts() } returns emptyList()
         coEvery { subscriptionRepository.getAllSubscriptionIds() } returns emptySet()

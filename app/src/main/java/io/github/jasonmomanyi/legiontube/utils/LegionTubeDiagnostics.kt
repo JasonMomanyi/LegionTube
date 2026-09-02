@@ -29,7 +29,8 @@ object FlowDiagnostics {
      * @param maxLines Maximum number of log lines to return (default 600).
      */
     fun readSessionLogs(maxLines: Int = 600): String {
-        return try {
+        val internalLogs = LegionTubeLog.getFormattedLogs()
+        val logcatLogs = try {
             val pid = android.os.Process.myPid()
             // --pid restricts output to this process only; *:W = WARN level and above.
             val process = ProcessBuilder(
@@ -39,11 +40,18 @@ object FlowDiagnostics {
                 .start()
             val output = process.inputStream.bufferedReader(Charsets.UTF_8).readText()
             process.waitFor()
-            output.ifBlank { "No warnings or errors found in this session." }
+            output.ifBlank { "" }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to read session logcat", e)
-            "Unable to read session logs: ${e.message}\n\n" +
-                    "This can happen on some heavily customized Android skins."
+            ""
+        }
+
+        return when {
+            internalLogs.isNotBlank() && logcatLogs.isNotBlank() ->
+                "--- INTERNAL APP LOGS ---\n$internalLogs\n\n--- SYSTEM LOGCAT ---\n$logcatLogs"
+            internalLogs.isNotBlank() -> internalLogs
+            logcatLogs.isNotBlank() -> logcatLogs
+            else -> "No warnings or errors recorded in this session."
         }
     }
 

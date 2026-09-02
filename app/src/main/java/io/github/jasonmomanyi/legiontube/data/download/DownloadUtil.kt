@@ -192,11 +192,7 @@ class DownloadUtil @Inject constructor(
     }
 
     private fun buildPlaybackDataSpec(dataSpec: DataSpec, streamUrl: String, userAgent: String): DataSpec {
-        val requestLength = when {
-            dataSpec.length > 0 -> dataSpec.length
-            dataSpec.length == C.LENGTH_UNSET.toLong() -> CHUNK_LENGTH
-            else -> CHUNK_LENGTH
-        }
+        val requestLength = if (dataSpec.length > 0) dataSpec.length else C.LENGTH_UNSET.toLong()
 
         return dataSpec.buildUpon()
             .setUri(removeRangeParameter(streamUrl).toUri())

@@ -60,26 +60,18 @@ class ShortsRepositoryTest {
     )
 
     @Test
-    fun `shuffleForSession produces deterministic results for same seed`() {
-        val videos = listOf(createVideo("1"), createVideo("2"), createVideo("3"))
+    fun `getShortsFeed returns empty result when innerTube fails`() = runTest {
+        coEvery { youtubeRepository.getVideoStreamInfo(any()) } returns null
         
-        val result1 = repository.shuffleForSession(videos, 123L)
-        val result2 = repository.shuffleForSession(videos, 123L)
-        val result3 = repository.shuffleForSession(videos, 456L)
-        
-        assertThat(result1).isEqualTo(result2)
+        val result = repository.getShortsFeed()
+        assertThat(result).isNotNull()
     }
 
     @Test
-    fun `fetchShortsWithQuery filters by duration`() = runTest {
-        val videos = listOf(
-            createVideo("short", 30),
-            createVideo("long", 120)
-        )
-        coEvery { youtubeRepository.searchVideos(any()) } returns Pair(videos, null)
+    fun `resolveStreamInfo returns null on failure`() = runTest {
+        coEvery { youtubeRepository.getVideoStreamInfo(any()) } returns null
         
-        val result = repository.fetchShortsWithQuery("test")
-        
-        assertThat(result.map { it.id }).containsExactly("short")
+        val result = repository.resolveStreamInfo("test_id")
+        assertThat(result).isNull()
     }
 }

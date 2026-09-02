@@ -69,9 +69,14 @@ class LegionTubeApplication : Application(), ImageLoaderFactory {
         
         // Proxy is handled asynchronously via collectLatest below
         
-        // Injects modern TLS/SSL certificates so OkHttp and Ktor don't crash
-        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.N_MR1) {
-            Security.insertProviderAt(Conscrypt.newProvider(), 1)
+        // Injects modern TLS/SSL certificates so OkHttp and Ktor don't crash on older Android versions
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.P) {
+            try {
+                Security.insertProviderAt(Conscrypt.newProvider(), 1)
+                Log.d(TAG, "Conscrypt TLS provider installed successfully")
+            } catch (e: Exception) {
+                Log.w(TAG, "Conscrypt TLS provider installation warning: ${e.message}")
+            }
         }
 
         // Install crash handler for real-time monitoring
